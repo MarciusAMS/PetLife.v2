@@ -1,20 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { initializeApp } from 'firebase/app';
 import { StyleSheet, Text, View } from 'react-native';
+import { TelaEntrar } from './views/screens/TELA_ENTRAR';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Primeiro Build!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
