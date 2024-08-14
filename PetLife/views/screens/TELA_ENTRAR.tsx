@@ -1,32 +1,32 @@
-import { getApp } from 'firebase/app';
 import React from 'react';
 import { View, Text, StyleSheet, Button, Image } from 'react-native';
 import { signIn } from '../../controllers/TELA_LOGIN';
 
-export const TelaEntrar = () => {
+export default function TelaEntrar(){
   const handleSignIn = () => {
     signIn;
   };
 
   const handleSignUp = () => {
-    
+    // Finalizar Cadastro chamado
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.centeredText}>Bem-vindo ao PetLife!</Text>
       <Image
-        source={require('colocar logo aqui')} 
+        source={require('../logos/log_ENTRAR')} 
         style={styles.logo}
       />
-      <Text style={styles.title}>PETLIFE</Text>
+      <Text style={styles.title}>PetLife</Text>
       <View style={styles.buttonContainer}>
         <Button title="ENTRE" onPress={handleSignIn} />
         <Text style={styles.orText}>ou</Text>
         <Button title="CADASTRE-SE" onPress={handleSignUp} />
       </View>
-      <Text style={styles.socialText}>usando</Text>
+      <Text style={styles.socialText}>Usando</Text>
       <View style={styles.socialIcons}>
-        <Button title="f" onPress={() => console.log('Facebook login')} />
+        <Button title="F" onPress={() => console.log('Facebook login')} />
         <Button title="G" onPress={() => console.log('Google login')} />   
         <Button title="M" onPress={() => console.log('Microsoft login')} />  
       </View>
@@ -40,6 +40,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
+  },
+  centeredText: {
+    fontSize: 20,
+    marginBottom: 20,
+    textAlign: 'center', // Garante que o texto seja centralizado
+    color: '#333',
   },
   logo: {
     width: 150,
@@ -69,5 +75,3 @@ const styles = StyleSheet.create({
     width: '60%',
   }
 });
-
-// export default TelaEntrar;
