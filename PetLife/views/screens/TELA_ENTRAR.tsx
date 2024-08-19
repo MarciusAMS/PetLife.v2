@@ -1,30 +1,40 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, Image } from 'react-native';
-import { signIn } from '../../controllers/TELA_LOGIN';
+import { View, Text, Button, Image } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { styles } from '../../styles';
 
-export default function TelaEntrar(){
+// Defina o tipo para o stack do navegador
+type RootStackParamList = {
+  TelaEntrar: undefined;
+  TelaLogin: undefined;
+};
+
+type TelaEntrarProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'TelaEntrar'>;
+};
+
+export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   const handleSignIn = () => {
-    signIn;
+    navigation.navigate('TelaLogin'); // Navega para a tela de login
   };
 
   const handleSignUp = () => {
-    // Finalizar Cadastro chamado
+    // Implementar a lógica de cadastro
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.centeredText}>Bem-vindo ao PetLife!</Text>
       <Image
-        source={require('../logos/log_ENTRAR')} 
+        // source={require('../assets/log_ENTRAR.png')} 
         style={styles.logo}
       />
       <Text style={styles.title}>PetLife</Text>
       <View style={styles.buttonContainer}>
-        <Button title="ENTRE" onPress={handleSignIn} />
+        <Button title="ENTRE" onPress={handleSignIn} color={styles.buttonColor.color} />
         <Text style={styles.orText}>ou</Text>
-        <Button title="CADASTRE-SE" onPress={handleSignUp} />
+        <Button title="CADASTRE-SE" onPress={handleSignUp} color={styles.buttonColor.color} />
       </View>
-      <Text style={styles.socialText}>Usando</Text>
+      <Text style={styles.socialText}>usando</Text>
       <View style={styles.socialIcons}>
         <Button title="F" onPress={() => console.log('Facebook login')} />
         <Button title="G" onPress={() => console.log('Google login')} />   
@@ -32,46 +42,4 @@ export default function TelaEntrar(){
       </View>
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  centeredText: {
-    fontSize: 20,
-    marginBottom: 20,
-    textAlign: 'center', // Garante que o texto seja centralizado
-    color: '#333',
-  },
-  logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 30,
-  },
-  buttonContainer: {
-    width: '80%',
-    marginBottom: 20,
-  },
-  orText: {
-    alignSelf: 'center',
-    fontSize: 16,
-    marginVertical: 10,
-  },
-  socialText: {
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  socialIcons: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    width: '60%',
-  }
-});
+}
