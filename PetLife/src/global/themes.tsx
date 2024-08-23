@@ -8,5 +8,16 @@ export const themas = {
         notification: '#a06948',
         diary: '#cead8e',
         black: '#000000',
-    }
+    },
+    buttonStyles:{
+        roundedButton: {
+            backgroundColor: '#ff8934',
+            padding: 15,
+            borderRadius: 30, // Força a borda arredondada
+            alignItems: 'center',
+        }
+    },
+    fonts:{
+        fontLetras: 'Glacial Indifference',
+    },
 }

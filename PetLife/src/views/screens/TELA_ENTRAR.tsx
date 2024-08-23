@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, Image } from 'react-native';
+import { View, Text, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { styles } from '../../../styles';
 import { themas } from '../../global/themes';
@@ -25,23 +25,31 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   };
 
   return (
+    <ScrollView contentContainerStyle={styles.container}>
     <View style={styles.container}>
-      <Image
+      <Image style={styles.logo}
          source={require('../../../assets/Logo.png')}
       />
       <Text style={styles.title}>PetLife</Text>
       <View style={styles.buttonContainer}>
-        <Button title="ENTRE" onPress={handleSignIn} color={styles.buttonColor.color} />
+        <Button title="ENTRE" onPress={handleSignIn}  color={styles.buttonColor.color}/>
         <Text style={styles.orText}>ou</Text>
         <Button title="CADASTRE-SE" onPress={handleSignUp} color={styles.buttonColor.color} />
       </View>
-      <Text style={styles.socialText}>usando</Text>
+      <Text style={styles.orText}>usando</Text>
       <View style={styles.socialIcons}>
-        <Button title="F" onPress={() => console.log('Facebook login')} /> 
-        <Button title="G" onPress={() => console.log('Google login')} />   
-        <Button title="M" onPress={() => console.log('Microsoft login')} />  
+
+        <TouchableOpacity onPress={() => console.log('Google Login!')} activeOpacity={0.5}>
+          <Image source={require('../../../assets/logo_google.png')} >
+          
+          </Image>
+        </TouchableOpacity>
+        
       </View>
     </View>
+    </ScrollView>
     // Em () se insere a lógica de autenticação de outros meios.
+  //  <Button title="F" onPress={() => console.log('Facebook login')} />  
+  //  <Button title="M" onPress={() => console.log('Microsoft login')} />  
   );
 }
