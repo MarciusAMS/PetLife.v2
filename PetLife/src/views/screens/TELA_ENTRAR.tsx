@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, Button, Image } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { styles } from '../../styles';
+import { styles } from '../../../styles';
+import { themas } from '../../global/themes';
+//import { Logo } from '../../assets/Logo.png';
 
 // Defina o tipo para o stack do navegador
 type RootStackParamList = {
@@ -25,8 +27,7 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   return (
     <View style={styles.container}>
       <Image
-        // source={require('../assets/log_ENTRAR.png')} 
-        style={styles.logo}
+         source={require('../../../assets/Logo.png')}
       />
       <Text style={styles.title}>PetLife</Text>
       <View style={styles.buttonContainer}>
@@ -36,10 +37,11 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
       </View>
       <Text style={styles.socialText}>usando</Text>
       <View style={styles.socialIcons}>
-        <Button title="F" onPress={() => console.log('Facebook login')} />
+        <Button title="F" onPress={() => console.log('Facebook login')} /> 
         <Button title="G" onPress={() => console.log('Google login')} />   
         <Button title="M" onPress={() => console.log('Microsoft login')} />  
       </View>
     </View>
+    // Em () se insere a lógica de autenticação de outros meios.
   );
 }

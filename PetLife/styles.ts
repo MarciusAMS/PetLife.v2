@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { themas } from './src/global/themes';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5', // Cor de fundo padrão
+    backgroundColor: themas.colors.background, // Cor de fundo padrão
   },
   logo: {
     width: 150,
@@ -20,9 +21,10 @@ export const styles = StyleSheet.create({
   buttonContainer: {
     width: '80%',
     marginBottom: 20,
+    borderRadius: 10,
   },
   buttonColor: {
-    color: '#A52A2A', // Exemplo de cor personalizada para o botão
+    color: themas.colors.buttons, // Exemplo de cor personalizada para o botão
   },
   orText: {
     alignSelf: 'center',

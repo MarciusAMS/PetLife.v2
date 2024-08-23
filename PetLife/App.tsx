@@ -4,8 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { initializeApp } from 'firebase/app';
 import { AppRegistry, StyleSheet, Text, View } from 'react-native';
-import  telaEntrar  from './views/screens/TELA_ENTRAR';
-import telaLogin from './views/screens/TELA_LOGIN';
+import  telaEntrar  from './src/views/screens/TELA_ENTRAR';
+import telaLogin from './src/views/screens/TELA_LOGIN';
 
 
 const Stack = createNativeStackNavigator();
