@@ -30,7 +30,9 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
       <Image style={styles.logo}
          source={require('../../../assets/Logo.png')}
       />
-      <Text style={styles.title}>PetLife</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>PetLife</Text>
+      </View>
       <View style={styles.buttonContainer}>
         <Button title="ENTRE" onPress={handleSignIn}  color={styles.buttonColor.color}/>
         <Text style={styles.orText}>ou</Text>
@@ -39,8 +41,20 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
       <Text style={styles.orText}>usando</Text>
       <View style={styles.socialIcons}>
 
+        <TouchableOpacity onPress={() => console.log('Facebook Login!')} activeOpacity={0.5}>
+          <Image source={require('../../../assets/logo_facebook.png')} style={styles.Icon}>
+          
+          </Image>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => console.log('Google Login!')} activeOpacity={0.5}>
-          <Image source={require('../../../assets/logo_google.png')} >
+          <Image source={require('../../../assets/logo_google.png')} style={styles.Icon}>
+          
+          </Image>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => console.log('Windows Login!')} activeOpacity={0.5}>
+          <Image source={require('../../../assets/logo_windows.png')} style={styles.Icon}>
           
           </Image>
         </TouchableOpacity>

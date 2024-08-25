@@ -8,6 +8,7 @@ export const themas = {
         notification: '#a06948',
         diary: '#cead8e',
         black: '#000000',
+        white: '#FFFFFF'
     },
     buttonStyles:{
         roundedButton: {

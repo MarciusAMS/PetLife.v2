@@ -16,11 +16,24 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    marginBottom: 40,
+    marginBottom: 30,
     fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
     fontFamily: themas.fonts.fontLetras,
-    color: themas.colors.black,
-    borderBlockColor: 'black',
+    color: themas.colors.white,
+    textAlign: 'center', // Centraliza o texto dentro do círculo
+    marginTop: 20,
+  },
+  titleContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 200, // Largura do círculo
+    height: 100, // Altura do círculo
+    borderRadius: 60, // Metade da largura e altura para fazer o círculo
+    backgroundColor: themas.colors.buttons, // Cor de fundo do círculo (ajuste conforme necessário)
+    borderColor: themas.colors.black, // Cor da borda do círculo (ajuste conforme necessário)
+    borderWidth: 5, // Largura da borda
+    marginBottom: 50,
+    marginTop: -50,
   },
   buttonContainer: {
     width: '80%',
@@ -36,12 +49,19 @@ export const styles = StyleSheet.create({
     fontFamily: themas.fonts.fontLetras,
     fontWeight: 'bold',
   },
+  Icon: {
+    width: 50,
+    height: 50,
+    marginHorizontal: 30,
+  },
   socialIcons: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: undefined,
-    marginTop: 20,
-    aspectRatio: 1,
+    justifyContent: 'space-between',
+    width: '80%',
+    alignSelf: 'center',
+    //height: 50,
+    marginTop: 5,
+    //aspectRatio: 1,
   },
   socialButton: {
     backgroundColor: '#4285F4',  // Exemplo para botão Google
