@@ -8,6 +8,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: themas.colors.background, // Cor de fundo padrão
   },
+  containerLogin: {
+    flexDirection: 'row', // Alinha os elementos horizontalmente
+    justifyContent: 'center', // Centraliza o conteúdo no eixo principal (horizontal)
+    alignItems: 'center', // Centraliza no eixo cruzado (vertical)
+    paddingHorizontal: 20, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
+},
   logo: {
     width: '60%', 
     height: 500, 
@@ -72,4 +78,19 @@ export const styles = StyleSheet.create({
     width: 50, // Ajustar o tamanho dos botões
     height: 50,
   },
+  inputContainer: {
+    marginVertical: 10,
+    paddingHorizontal: 20,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+  },  
 });
