@@ -18,9 +18,10 @@ const handleSignIn = async () => {
   } catch (error) {
    if (error instanceof Error) {
     Alert.alert('Erro na autenticação', error.message);
-  }else{
-    Alert.alert('Erro de autenticação', 'Ocorreu um erro inesperado.');
   }
+  //else{
+   // Alert.alert('Erro de autenticação', 'Ocorreu um erro inesperado.');
+  //}
  }
 };
 
