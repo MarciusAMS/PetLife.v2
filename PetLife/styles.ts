@@ -8,11 +8,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: themas.colors.background, // Cor de fundo padrão
   },
-  containerLogin: {
+  containerLoginAndCadastro: {
     flexDirection: 'row', // Alinha os elementos horizontalmente
     justifyContent: 'center', // Centraliza o conteúdo no eixo principal (horizontal)
     alignItems: 'center', // Centraliza no eixo cruzado (vertical)
-    paddingHorizontal: 20, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
+    paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
 },
   logo: {
     width: '60%', 

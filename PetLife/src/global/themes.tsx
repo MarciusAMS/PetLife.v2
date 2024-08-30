@@ -1,3 +1,5 @@
+import { TextStyle, ViewStyle } from "react-native";
+
 export const themas = {
     colors:{
         background: '#faddc0',
@@ -16,7 +18,13 @@ export const themas = {
             padding: 15,
             borderRadius: 30, // Força a borda arredondada
             alignItems: 'center',
-        }
+        } as ViewStyle,
+        buttonText: {
+            color: '#FFFFFF', // Cor do texto
+            fontSize: 25,
+            fontWeight: 'bold',
+            paddingHorizontal: 100
+          } as TextStyle,
     },
     fonts:{
         fontLetras: 'Glacial Indifference',

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, Button, Image, ScrollView, TextInput, Alert} from 'react-native';
+import { View, Text, Button, Image, ScrollView, TextInput, Alert, TouchableOpacity} from 'react-native';
 import { styles } from '../../../styles';
 import { signIn } from '../../controllers/TELA_LOGIN';
 //import { CheckBoxCustom } from '../../global/checkbox';
 import { CheckBox } from 'react-native-elements';
+import { themas } from '../../global/themes';
 
 export default function telaLogin() {
   // Estados para gerenciar o estado dos checkboxes
@@ -59,7 +60,14 @@ const handleSignIn = async () => {
           onPress={() => setIsEmailChecked(!isEmailChecked)}
         />
       </View>
-      <Button title="Entrar" onPress={handleSignIn} />
+
+    <View style={styles.containerLoginAndCadastro}>  
+      <View style={themas.buttonStyles.roundedButton}>
+        <TouchableOpacity onPress={handleSignIn} style={styles.title}>
+          <Text style={themas.buttonStyles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
     </ScrollView>
   );
 
