@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Alert, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { signUp } from '../controllers/TELA_CADASTRO';
 import { TextInputMask } from 'react-native-masked-text';
 import { styles } from '../../styles';
@@ -56,47 +56,64 @@ const verificaSenha = () => {
    }
  }
 
+{/* <Text style={styles.label}>Nome</Text>
+<Text style={styles.label}>Email</Text>
+<Text style={styles.label}>Telefone</Text>
+<Text style={styles.label}>Senha</Text>
+<Text style={styles.label}>Confirme a Senha</Text> */}
+
   return (
     <ScrollView>
     <View>
+      
+    <View style={styles.container}>
+        <Image
+          style={styles.logo}
+          source={require('../../assets/Logo.png')}
+        />
+    </View>
 
-      <Text style={styles.label}>Nome</Text>
+      <View style={styles.inputContainer}>
+      
       <TextInput style={styles.input} 
       value={additionalData.nome} 
       onChangeText={(text) => setAdditionalData({ ...additionalData, nome: text})} 
       placeholder="Nome Completo:" />
 
-      <Text style={styles.label}>Email</Text>
+      
       <TextInput style={styles.input}
       value={email} 
       onChangeText={setEmail} 
-      placeholder="Email:" />
+      placeholder="Email:" 
+      />
 
-      <Text style={styles.label}>Telefone</Text>
+      
       <TextInputMask style={styles.input} 
       type={'cel-phone'} 
       options={{maskType: 'BRL', withDDD: true, dddMask: '(55) '}} // maskType serve para definir o país padrão, no caso Brasil
       value={additionalData.telefone} 
-      onChangeText={(text) => setAdditionalData({ ...additionalData, telefone: text })} placeholder="Digite seu telefone" />
+      onChangeText={(text) => setAdditionalData({ ...additionalData, telefone: text })} 
+      placeholder="Digite seu telefone:" />
       
-      <Text style={styles.label}>Senha</Text>
+      
       <TextInput style={styles.input}
       value={senha} 
       onChangeText={setSenha} 
       placeholder="Crie uma Senha:" 
       secureTextEntry />
 
-      <Text style={styles.label}>Confirme a Senha</Text>
+      
       <TextInput style={styles.input} 
       value={confirmarSenha} 
       onChangeText={setConfirmarSenha} 
       placeholder="Confirme a Senha:" 
       secureTextEntry />
+      </View>
   
   <View style={styles.containerLoginAndCadastro}>
     <View style={themas.buttonStyles.roundedButton}>
       <TouchableOpacity onPress={handleSignUp} style={styles.title}>
-        <Text style={themas.buttonStyles.buttonText}>Cadastrar</Text>
+        <Text style={themas.buttonStyles.buttonText}>Prossiga</Text>
       </TouchableOpacity>
     </View>
   </View>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
-import { initializeApp } from 'firebase/app';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+// import { initializeApp } from 'firebase/app';
+// import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 import  telaEntrar  from './src/views/screens/TELA_ENTRAR';
 import telaLogin from './src/views/screens/TELA_LOGIN';
 import TelaCadastro from './src/views/TELA_CADASTRO';
