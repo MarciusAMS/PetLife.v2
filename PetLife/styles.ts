@@ -14,6 +14,13 @@ export const styles = StyleSheet.create({
     alignItems: 'center', // Centraliza no eixo cruzado (vertical)
     paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
 },
+  // containerCadastro: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   marginHorizontal: 100,
+  //   backgroundColor: themas.colors.background,
+  // },
   logo: {
     width: '60%', 
     height: 500, 
@@ -55,6 +62,14 @@ export const styles = StyleSheet.create({
     fontFamily: themas.fonts.fontLetras,
     fontWeight: 'bold',
   },
+  orCheckBox: {
+    alignSelf: 'center',
+    fontSize: 16,
+    marginVertical: 10,
+    width: '20%',
+    fontFamily: themas.fonts.fontLetras,
+    fontWeight: 'bold', 
+  },
   Icon: {
     width: 50,
     height: 50,
@@ -92,6 +107,8 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,
+    width: 290,
+    alignSelf: 'center',
     backgroundColor: themas.colors.white,
     //color: ,
   },  

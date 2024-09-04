@@ -4,6 +4,7 @@ import { signUp } from '../controllers/TELA_CADASTRO';
 import { TextInputMask } from 'react-native-masked-text';
 import { styles } from '../../styles';
 import { themas } from '../global/themes';
+import { CheckBoxCustom } from '../global/checkbox';
 
 export default function TelaCadastro() {
   const [email, setEmail] = useState('');
@@ -64,7 +65,7 @@ const verificaSenha = () => {
 
   return (
     <ScrollView>
-    <View>
+  <View style={styles.container}>
       
     <View style={styles.container}>
         <Image
@@ -74,41 +75,47 @@ const verificaSenha = () => {
     </View>
 
       <View style={styles.inputContainer}>
-      
+
+    <View style={styles.orText}>  
       <TextInput style={styles.input} 
       value={additionalData.nome} 
       onChangeText={(text) => setAdditionalData({ ...additionalData, nome: text})} 
       placeholder="Nome Completo:" />
-
+    </View>
       
+    <View style={styles.orText}>
       <TextInput style={styles.input}
       value={email} 
       onChangeText={setEmail} 
       placeholder="Email:" 
       />
+    </View>
 
-      
+    <View style={styles.orText}>  
       <TextInputMask style={styles.input} 
       type={'cel-phone'} 
       options={{maskType: 'BRL', withDDD: true, dddMask: '(55) '}} // maskType serve para definir o país padrão, no caso Brasil
       value={additionalData.telefone} 
       onChangeText={(text) => setAdditionalData({ ...additionalData, telefone: text })} 
       placeholder="Digite seu telefone:" />
+    </View>  
       
-      
+    <View style={styles.orText}>  
       <TextInput style={styles.input}
       value={senha} 
       onChangeText={setSenha} 
       placeholder="Crie uma Senha:" 
       secureTextEntry />
-
+    </View>
       
+    <View style={styles.orText}>  
       <TextInput style={styles.input} 
       value={confirmarSenha} 
       onChangeText={setConfirmarSenha} 
       placeholder="Confirme a Senha:" 
       secureTextEntry />
-      </View>
+    </View>
+  </View>
   
   <View style={styles.containerLoginAndCadastro}>
     <View style={themas.buttonStyles.roundedButton}>

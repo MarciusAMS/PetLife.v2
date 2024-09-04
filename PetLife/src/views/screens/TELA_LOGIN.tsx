@@ -37,15 +37,16 @@ const handleSignIn = async () => {
       </View>
 
       <View style={styles.inputContainer}>
+        <View style={styles.orText}>
         <Text style={styles.label}>E-mail</Text>
         <TextInput style={styles.input} 
         placeholder="Digite seu e-mail" 
         value={email} 
         onChangeText={setEmail} 
         />
-      </View>
+        </View>
 
-      <View style={styles.inputContainer}>
+        <View style={styles.orText}>
         <Text style={styles.label}>Senha</Text>
         <TextInput
           style={styles.input}
@@ -54,12 +55,16 @@ const handleSignIn = async () => {
           value={senha}
           onChangeText={setSenha}
         />
+        </View>
+
+        <View style={styles.orCheckBox}>
         <CheckBox
           title="Manter-me logado"
           checked={isEmailChecked}
           onPress={() => setIsEmailChecked(!isEmailChecked)}
         />
-      </View>
+        </View>
+      </View>  
 
     <View style={styles.containerLoginAndCadastro}>  
       <View style={themas.buttonStyles.roundedButton}>
