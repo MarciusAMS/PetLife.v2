@@ -4,7 +4,7 @@ import { signUp } from '../controllers/TELA_CADASTRO';
 import { TextInputMask } from 'react-native-masked-text';
 import { styles } from '../../styles';
 import { themas } from '../global/themes';
-import { CheckBoxCustom } from '../global/checkbox';
+//import { CheckBoxCustom } from '../global/checkbox';
 
 export default function TelaCadastro() {
   const [email, setEmail] = useState('');
@@ -66,15 +66,23 @@ const verificaSenha = () => {
   return (
     <ScrollView>
   <View style={styles.container}>
-      
-    <View style={styles.container}>
+
+  <View style={styles.containerHorizontal}>
         <Image
-          style={styles.logo}
+          style={styles.imagemCadastroLogin}
           source={require('../../assets/Logo.png')}
         />
-    </View>
+        <Text style={styles.textoPetlife}>PetLife</Text>
+  </View>
+      
+  <View style={styles.inputContainer}>
 
-      <View style={styles.inputContainer}>
+    <View style={styles.inputContainer}>
+      <Image 
+        style={styles.imagemCadastroLogin}
+        source={require('../../assets/imagemCadastro-removebg-preview.png')}
+      />
+    </View>
 
     <View style={styles.orText}>  
       <TextInput style={styles.input} 

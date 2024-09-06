@@ -111,5 +111,30 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: themas.colors.white,
     //color: ,
+  },
+  imagemCadastroLogin: {
+    width: 250,                // Ajuste conforme necessário para o tamanho da imagem
+    height: 200,               // Ajuste conforme necessário para o tamanho da imagem
+    resizeMode: 'contain',     // Ajusta o tamanho mantendo a proporção
+    
+  },
+  logoCadastro: {
+    width: 100,  // Ajuste de largura do logo
+    height: 100,  // Ajuste de altura do logo
+    marginRight: 10,  // Espaço entre logo e texto
+  },
+  containerHorizontal: {
+    flexDirection: 'row',       // Coloca os itens em linha horizontal
+    alignItems: 'center',       // Alinha verticalmente no centro
+    justifyContent: 'center',   // Centraliza os itens horizontalmente
+    marginBottom: 20,          // Espaçamento abaixo da logo e do texto
+    marginHorizontal: 100,
   },  
+  textoPetlife: {
+    fontSize: 50,  // Tamanho do texto
+    fontWeight: 'bold',  // Negrito para destacar
+    color: themas.colors.black,  // Cor conforme o tema
+    marginLeft: -35,
+    fontFamily: themas.fonts.fontLetras2,
+  },
 });

@@ -12,6 +12,10 @@ export const themas = {
         black: '#000000',
         white: '#FFFFFF'
     },
+    fonts:{
+        fontLetras: 'Glacial Indifference',
+        fontLetras2: 'Chau Philomene',
+    },
     buttonStyles:{
         roundedButton: {
             backgroundColor: '#ff8934',
@@ -25,8 +29,5 @@ export const themas = {
             fontWeight: 'bold',
             paddingHorizontal: 100
           } as TextStyle,
-    },
-    fonts:{
-        fontLetras: 'Glacial Indifference',
     },
 }
