@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 function App() {
 
   useEffect(() => {
-    let fontName = themas.fonts.fontLetras;  // Fonte definida no arquivo de temas
+    let fontName = themas.fonts.fontLetras2;  // Fonte definida no arquivo de temas
     GlobalFont.applyGlobal(fontName);        // Defina a fonte globalmente
   }, []);
 

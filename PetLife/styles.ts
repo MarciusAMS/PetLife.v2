@@ -116,7 +116,6 @@ export const styles = StyleSheet.create({
     width: 250,                // Ajuste conforme necessário para o tamanho da imagem
     height: 200,               // Ajuste conforme necessário para o tamanho da imagem
     resizeMode: 'contain',     // Ajusta o tamanho mantendo a proporção
-    
   },
   logoCadastro: {
     width: 100,  // Ajuste de largura do logo
@@ -127,8 +126,9 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',       // Coloca os itens em linha horizontal
     alignItems: 'center',       // Alinha verticalmente no centro
     justifyContent: 'center',   // Centraliza os itens horizontalmente
-    marginBottom: 20,          // Espaçamento abaixo da logo e do texto
+    marginBottom: -15,          // Espaçamento abaixo da logo e do texto
     marginHorizontal: 100,
+    marginLeft: 35,
   },  
   textoPetlife: {
     fontSize: 50,  // Tamanho do texto
