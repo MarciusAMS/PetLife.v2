@@ -9,6 +9,7 @@ import { themas } from '../../global/themes';
 type RootStackParamList = {
   TelaEntrar: undefined;
   TelaLogin: undefined;
+  TelaCadastroPet: undefined;
 };
 
 type TelaEntrarProps = {
@@ -23,6 +24,9 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   const handleSignUp = () => {
     // Implementar a lógica de cadastro
   };
+  const CadastrarPet = () => {
+    navigation.navigate('TelaCadastroPet');
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -37,6 +41,7 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
         <Button title="ENTRE" onPress={handleSignIn}  color={styles.buttonColor.color}/>
         <Text style={styles.orText}>ou</Text>
         <Button title="CADASTRE-SE" onPress={handleSignUp} color={styles.buttonColor.color} />
+        <Button title="CADASTRe o PET" onPress={CadastrarPet} color={styles.buttonColor.color} />
       </View>
       <Text style={styles.orText}>usando</Text>
       <View style={styles.socialIcons}>
