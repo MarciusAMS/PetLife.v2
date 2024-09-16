@@ -10,24 +10,34 @@ export const themas = {
         notification: '#a06948',
         diary: '#cead8e',
         black: '#000000',
-        white: '#FFFFFF'
+        white: '#FFFFFF',
+        errorColor: '#ff0000', // Cor de erro
+        placeholderColor: '#a9a9a9', // Cor do placeholder
     },
     fonts:{
         fontLetras: 'Glacial Indifference',
         fontLetras2: 'Chau Philomene',
     },
+    textStyles: {
+        errorText: {
+          color: '#ff0000',
+          fontSize: 12,
+          marginTop: 5,
+        },
+      },
     buttonStyles:{
         roundedButton: {
             backgroundColor: '#ff8934',
-            padding: 15,
+            padding: 10,
             borderRadius: 30, // Força a borda arredondada
             alignItems: 'center',
+            flexDirection: 'row',
         } as ViewStyle,
         buttonText: {
             color: '#FFFFFF', // Cor do texto
-            fontSize: 25,
+            fontSize: 35,
             fontWeight: 'bold',
-            paddingHorizontal: 100
+            paddingHorizontal: 30,
           } as TextStyle,
     },
 }

@@ -75,6 +75,12 @@ export const styles = StyleSheet.create({
     height: 50,
     marginHorizontal: 30,
   },
+  iconImage: {
+    width: 30, // Largura do ícone
+    height: 30, // Altura do ícone
+    resizeMode: 'contain', // Para garantir que a imagem não se distorça
+    marginRight: 5,
+  },
   socialIcons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
