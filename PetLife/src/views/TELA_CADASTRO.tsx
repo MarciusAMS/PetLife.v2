@@ -20,11 +20,11 @@ export default function TelaCadastro() {
     confirmarSenha: false,
   });
 
-  const nomeInputRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const telefoneInputRef = useRef(null);
-  const senhaInputRef = useRef(null);
-  const confirmarSenhaInputRef = useRef(null);
+  const nomeInputRef = useRef<TextInput>(null);
+  const emailInputRef = useRef<TextInput>(null);
+  const telefoneInputRef = useRef<any>(null);
+  const senhaInputRef = useRef<TextInput>(null);
+  const confirmarSenhaInputRef = useRef<TextInput>(null);
 
   // // Função de validação
   // const { 
@@ -68,19 +68,19 @@ export default function TelaCadastro() {
     setInputErrors(errors);
 
     // Foco no primeiro campo com erro
-    if (errors.nome) {
+    if (errors.nome && nomeInputRef.current) {
       nomeInputRef.current.focus();
       isValid = false;
-    } else if (errors.email) {
+    } else if (errors.email && emailInputRef.current) {
       emailInputRef.current.focus();
       isValid = false;
-    } else if (errors.telefone) {
+    } else if (errors.telefone && telefoneInputRef.current) {
       telefoneInputRef.current.focus();
       isValid = false;
-    } else if (errors.senha) {
+    } else if (errors.senha && senhaInputRef.current) {
       senhaInputRef.current.focus();
       isValid = false;
-    } else if (errors.confirmarSenha) {
+    } else if (errors.confirmarSenha && confirmarSenhaInputRef.current) {
       confirmarSenhaInputRef.current.focus();
       isValid = false;
     }
