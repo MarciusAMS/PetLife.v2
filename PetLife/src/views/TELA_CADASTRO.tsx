@@ -171,7 +171,13 @@ export default function TelaCadastro() {
         </View>
 
         <View style={styles.inputContainer}>
-
+        
+        <View style={styles.socialIcons}>
+          <Image
+            style={styles.Bolinhas}
+            source={require('../../assets/imgBolinhas.png')}
+          />
+        </View>
           <View style={styles.inputContainer}>
             <Image 
               style={styles.imagemCadastroLogin}

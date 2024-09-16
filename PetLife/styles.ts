@@ -7,12 +7,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: themas.colors.background, // Cor de fundo padrão
+    
   },
   containerLoginAndCadastro: {
     flexDirection: 'row', // Alinha os elementos horizontalmente
     justifyContent: 'center', // Centraliza o conteúdo no eixo principal (horizontal)
     alignItems: 'center', // Centraliza no eixo cruzado (vertical)
     paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
+    bottom: 25,
 },
   // containerCadastro: {
   //   flex: 1,
@@ -75,6 +77,12 @@ export const styles = StyleSheet.create({
     height: 50,
     marginHorizontal: 30,
   },
+  Bolinhas: {
+    width: 60,
+    height: 60,
+    marginHorizontal: 30,
+    bottom: 3,
+  },
   iconImage: {
     width: 30, // Largura do ícone
     height: 30, // Altura do ícone
@@ -102,6 +110,7 @@ export const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 10,
     paddingHorizontal: 20,
+    bottom: 25,
   },
   label: {
     fontSize: 16,
