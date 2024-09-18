@@ -7,7 +7,22 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: themas.colors.background, // Cor de fundo padrão
+    
   },
+  containerLoginAndCadastro: {
+    flexDirection: 'row', // Alinha os elementos horizontalmente
+    justifyContent: 'center', // Centraliza o conteúdo no eixo principal (horizontal)
+    alignItems: 'center', // Centraliza no eixo cruzado (vertical)
+    paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
+    bottom: 25,
+},
+  // containerCadastro: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   marginHorizontal: 100,
+  //   backgroundColor: themas.colors.background,
+  // },
   logo: {
     width: '60%', 
     height: 500, 
@@ -49,10 +64,30 @@ export const styles = StyleSheet.create({
     fontFamily: themas.fonts.fontLetras,
     fontWeight: 'bold',
   },
+  orCheckBox: {
+    alignSelf: 'center',
+    fontSize: 16,
+    marginVertical: 10,
+    width: '20%',
+    fontFamily: themas.fonts.fontLetras,
+    fontWeight: 'bold', 
+  },
   Icon: {
     width: 50,
     height: 50,
     marginHorizontal: 30,
+  },
+  Bolinhas: {
+    width: 60,
+    height: 60,
+    marginHorizontal: 30,
+    bottom: 3,
+  },
+  iconImage: {
+    width: 30, // Largura do ícone
+    height: 30, // Altura do ícone
+    resizeMode: 'contain', // Para garantir que a imagem não se distorça
+    marginRight: 5,
   },
   socialIcons: {
     flexDirection: 'row',
@@ -71,5 +106,50 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 50, // Ajustar o tamanho dos botões
     height: 50,
+  },
+  inputContainer: {
+    marginVertical: 10,
+    paddingHorizontal: 20,
+    bottom: 25,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 10,
+    width: 290,
+    alignSelf: 'center',
+    backgroundColor: themas.colors.white,
+    //color: ,
+  },
+  imagemCadastroLogin: {
+    width: 250,                // Ajuste conforme necessário para o tamanho da imagem
+    height: 200,               // Ajuste conforme necessário para o tamanho da imagem
+    resizeMode: 'contain',     // Ajusta o tamanho mantendo a proporção
+  },
+  logoCadastro: {
+    width: 100,  // Ajuste de largura do logo
+    height: 100,  // Ajuste de altura do logo
+    marginRight: 10,  // Espaço entre logo e texto
+  },
+  containerHorizontal: {
+    flexDirection: 'row',       // Coloca os itens em linha horizontal
+    alignItems: 'center',       // Alinha verticalmente no centro
+    justifyContent: 'center',   // Centraliza os itens horizontalmente
+    marginBottom: -15,          // Espaçamento abaixo da logo e do texto
+    marginHorizontal: 100,
+    marginLeft: 35,
+  },  
+  textoPetlife: {
+    fontSize: 50,  // Tamanho do texto
+    fontWeight: 'bold',  // Negrito para destacar
+    color: themas.colors.black,  // Cor conforme o tema
+    marginLeft: -35,
+    fontFamily: themas.fonts.fontLetras2,
   },
 });

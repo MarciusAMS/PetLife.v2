@@ -1,4 +1,4 @@
-import { auth } from '../firebaseService';
+import { auth } from '../../firebaseService';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
 // Função para autenticação
