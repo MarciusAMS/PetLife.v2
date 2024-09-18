@@ -152,4 +152,13 @@ export const styles = StyleSheet.create({
     marginLeft: -35,
     fontFamily: themas.fonts.fontLetras2,
   },
+  linkContainer: {
+    marginTop: 10, // Espaçamento em relação aos outros elementos
+    alignItems: 'center', // Centraliza o link
+  },
+  linkText: {
+    color: '#3498db', // Cor do link
+    textDecorationLine: 'underline', // Linha sublinhada para parecer um link
+    fontSize: 16,
+  },
 });
