@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CheckBox } from "react-native-elements";
-import { View, Text, StyleSheet } from "react-native";
+//import { View, Text, StyleSheet } from "react-native";
 import { styles } from "../../styles";
 import { themas } from "./themes";
 

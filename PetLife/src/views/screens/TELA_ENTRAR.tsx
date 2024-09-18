@@ -9,6 +9,7 @@ import { themas } from '../../global/themes';
 type RootStackParamList = {
   TelaEntrar: undefined;
   TelaLogin: undefined;
+  TelaCadastro: undefined;
 };
 
 type TelaEntrarProps = {
@@ -21,7 +22,7 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   };
 
   const handleSignUp = () => {
-    // Implementar a lógica de cadastro
+    navigation.navigate('TelaCadastro'); // Navega para a tela de cadastro
   };
 
   return (
