@@ -1,5 +1,5 @@
 // Definindo o Modelo de Usuário
-export interface User {
+export interface usuarios {
     id: string;
     nome: string;
     email: string;
