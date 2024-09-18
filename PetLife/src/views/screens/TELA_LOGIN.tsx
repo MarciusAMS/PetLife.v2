@@ -22,17 +22,38 @@ const handleSignIn = async () => {
     Alert.alert('Erro de autenticação', 'Ocorreu um erro inesperado.');
   }
  }
+
+ const [inputErrors, setInputErrors] = useState({
+  email: false,
+  senha: false,
+});
 };
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={require('../../../assets/Logo.png')}
-        />
-        <Text style={styles.title}>PETLIFE</Text>
-      </View>
+      <View style={styles.containerHorizontal}>
+          <Image
+            style={styles.imagemCadastroLogin}
+            source={require('../../../assets/Logo.png')}
+          />
+          <Text style={styles.textoPetlife}>Entre</Text>
+        </View>
+
+        {/* Campo Email */}
+        <View style={styles.orText}>
+            <TextInput
+              style={[
+                styles.input, 
+                inputErrors.email && { borderColor: themas.colors.errorColor }
+              ]}
+              ref={emailInputRef}
+              value={email} 
+              onChangeText={handleEmailChange} 
+              placeholder="Email:" 
+              placeholderTextColor={themas.colors.placeholderColor}
+            />
+            {inputErrors.email && <Text style={themas.textStyles.errorText}>Email inválido ou vazio.</Text>}
+          </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>E-mail</Text>
