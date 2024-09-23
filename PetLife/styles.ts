@@ -157,7 +157,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center', // Centraliza o link
   },
   linkText: {
-    color: '#3498db', // Cor do link
+    color: 'red', // Cor do link
+    fontWeight: 'bold',
     textDecorationLine: 'underline', // Linha sublinhada para parecer um link
     fontSize: 16,
   },

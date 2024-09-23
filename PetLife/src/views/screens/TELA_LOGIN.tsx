@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, Button, Image, ScrollView, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; 
 import { styles } from '../../../styles';
 import { signIn } from '../../controllers/TELA_LOGIN';
 //import { CheckBoxCustom } from '../../global/checkbox';
@@ -7,6 +8,9 @@ import { CheckBox } from 'react-native-elements';
 import { themas } from '../../global/themes';
 
 export default function telaLogin() {
+
+  const navigation = useNavigation(); // Hook para obter o objeto navigation
+
   // Estados para gerenciar o estado dos checkboxes
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -103,14 +107,17 @@ export default function telaLogin() {
               onPress={() => setIsEmailChecked(!isEmailChecked)}
             />
           </View>
-        </View>
+        
 
         {/* Link para Esqueci Minha Senha */}
         <View style={styles.linkContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity> 
             <Text style={styles.linkText}>Esqueci minha senha</Text>
           </TouchableOpacity>
         </View>
+        </View>
+
+        {/* onPress={() => navigation.navigate('')} */}
 
         <View style={styles.containerLoginAndCadastro}>
           <View style={themas.buttonStyles.roundedButton}>
