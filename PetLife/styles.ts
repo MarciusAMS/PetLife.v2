@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
     backgroundColor: themas.colors.background, // Cor de fundo padrão  
   },
   containerCheckBox: {
-    flex: 1,
+    //flex: 1,
+    margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -158,6 +159,7 @@ export const styles = StyleSheet.create({
   },
   linkContainer: {
     marginTop: 10, // Espaçamento em relação aos outros elementos
+    marginBottom: 20,
     alignItems: 'center', // Centraliza o link
   },
   linkText: {

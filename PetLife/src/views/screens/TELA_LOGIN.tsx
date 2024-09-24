@@ -73,7 +73,7 @@ export default function telaLogin() {
             style={styles.imagemCadastroLogin}
             source={require('../../../assets/Logo.png')}
           />
-          <Text style={styles.textoPetlife}>Entre</Text>
+          <Text style={styles.textoPetlife}>PetLife</Text>
         </View>
 
         <View style={styles.inputContainer}>
@@ -117,6 +117,7 @@ export default function telaLogin() {
 
           <View style={styles.containerCheckBox}>
             <CheckBox
+              style={styles.orCheckBox}
               title="Manter-me logado"
               checked={isEmailChecked}
               onPress={() => setIsEmailChecked(!isEmailChecked)}
