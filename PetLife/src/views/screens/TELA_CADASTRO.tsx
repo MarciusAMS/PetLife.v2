@@ -4,7 +4,7 @@ import { signUp } from '../../controllers/TELA_CADASTRO';
 import { TextInputMask } from 'react-native-masked-text';
 import { styles } from '../../../styles';
 import { themas } from '../../global/themes';
-import { useFormValidation } from '../../global/validarCampos';
+//import { useFormValidation } from '../../global/validarCampos';
 //import { CheckBoxCustom } from '../global/checkbox';
 
 export default function TelaCadastro() {
@@ -181,7 +181,7 @@ export default function TelaCadastro() {
           <View style={styles.inputContainer}>
             <Image 
               style={styles.imagemCadastroLogin}
-              source={require('../../../assets/imagemCadastro-removebg-preview.png')}
+              source={require('../../../assets/logoCadastro.png')}
             />
           </View>
 

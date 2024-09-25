@@ -6,8 +6,13 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: themas.colors.background, // Cor de fundo padrão
-    
+    backgroundColor: themas.colors.background, // Cor de fundo padrão  
+  },
+  containerCheckBox: {
+    //flex: 1,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   containerLoginAndCadastro: {
     flexDirection: 'row', // Alinha os elementos horizontalmente
@@ -151,5 +156,16 @@ export const styles = StyleSheet.create({
     color: themas.colors.black,  // Cor conforme o tema
     marginLeft: -35,
     fontFamily: themas.fonts.fontLetras2,
+  },
+  linkContainer: {
+    marginTop: 10, // Espaçamento em relação aos outros elementos
+    marginBottom: 20,
+    alignItems: 'center', // Centraliza o link
+  },
+  linkText: {
+    color: 'red', // Cor do link
+    fontWeight: 'bold',
+    textDecorationLine: 'underline', // Linha sublinhada para parecer um link
+    fontSize: 16,
   },
 });
