@@ -4,8 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { StatusBar } from 'expo-status-bar';
 // import { initializeApp } from 'firebase/app';
 // import { AppRegistry, StyleSheet, Text, View } from 'react-native';
-import  telaEntrar  from './src/views/screens/TELA_ENTRAR';
+import telaEntrar from './src/views/screens/TELA_ENTRAR';
 import telaLogin from './src/views/screens/TELA_LOGIN';
+import telaEsqueciSenha from './src/views/screens/TELA_ESQUECI_SENHA';
 import TelaCadastro from './src/views/screens/TELA_CADASTRO';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
@@ -22,13 +23,13 @@ function App() {
 
   return (
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="TelaEntrar">
-      <Stack.Screen name="TelaEntrar" component={telaEntrar} options={{ headerShown: false }} />
-      <Stack.Screen name="TelaLogin" component={telaLogin} options={{ title: 'Login' }} />
-      <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
-    </Stack.Navigator>
-  </NavigationContainer>
+      <Stack.Navigator initialRouteName="TelaEntrar">
+        <Stack.Screen name="TelaEntrar" component={telaEntrar} options={{ headerShown: false }} />
+        <Stack.Screen name="TelaLogin" component={telaLogin} options={{ title: 'Login' }} />
+        <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
+        <Stack.Screen name="telaEsqueciSenha" component={telaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
- }
- export default App;
- 
+}
+export default App;

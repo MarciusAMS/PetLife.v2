@@ -20,7 +20,30 @@ export const styles = StyleSheet.create({
     alignItems: 'center', // Centraliza no eixo cruzado (vertical)
     paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
     bottom: 25,
-},
+  },
+  containerHorizontal: {
+    flexDirection: 'row',       // Coloca os itens em linha horizontal
+    alignItems: 'center',       // Alinha verticalmente no centro
+    justifyContent: 'center',   // Centraliza os itens horizontalmente
+    marginBottom: -15,          // Espaçamento abaixo da logo e do texto
+    marginHorizontal: 100,
+    marginLeft: 35,
+  },
+  containerEsqSenhaGeral: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: themas.colors.background, // Cor de fundo padrão  
+    width: 'auto',
+    height: 500,
+  },
+  containerEsqueciSenha: {
+    flexDirection: 'row', // Alinha os elementos horizontalmente
+    justifyContent: 'center', // Centraliza o conteúdo no eixo principal (horizontal)
+    alignItems: 'center', // Centraliza no eixo cruzado (vertical)
+    paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
+    bottom: 10,
+  },
   // containerCadastro: {
   //   flex: 1,
   //   justifyContent: 'center',
@@ -29,8 +52,8 @@ export const styles = StyleSheet.create({
   //   backgroundColor: themas.colors.background,
   // },
   logo: {
-    width: '60%', 
-    height: 500, 
+    width: '60%',
+    height: 500,
     aspectRatio: 1, // Mantém a proporção da imagem
     marginBottom: 10,
   },
@@ -75,7 +98,7 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
     width: '20%',
     fontFamily: themas.fonts.fontLetras,
-    fontWeight: 'bold', 
+    fontWeight: 'bold',
   },
   Icon: {
     width: 50,
@@ -142,14 +165,6 @@ export const styles = StyleSheet.create({
     height: 100,  // Ajuste de altura do logo
     marginRight: 10,  // Espaço entre logo e texto
   },
-  containerHorizontal: {
-    flexDirection: 'row',       // Coloca os itens em linha horizontal
-    alignItems: 'center',       // Alinha verticalmente no centro
-    justifyContent: 'center',   // Centraliza os itens horizontalmente
-    marginBottom: -15,          // Espaçamento abaixo da logo e do texto
-    marginHorizontal: 100,
-    marginLeft: 35,
-  },  
   textoPetlife: {
     fontSize: 50,  // Tamanho do texto
     fontWeight: 'bold',  // Negrito para destacar
