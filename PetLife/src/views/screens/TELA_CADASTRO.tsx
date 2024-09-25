@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, TextInput, Button, Alert, ScrollView, TouchableOpacity, Image } from 'react-native';
-import { signUp } from '../controllers/TELA_CADASTRO';
+import { signUp } from '../../controllers/TELA_CADASTRO';
 import { TextInputMask } from 'react-native-masked-text';
-import { styles } from '../../styles';
-import { themas } from '../global/themes';
-import { useFormValidation } from '../global/validarCampos';
+import { styles } from '../../../styles';
+import { themas } from '../../global/themes';
+//import { useFormValidation } from '../../global/validarCampos';
 //import { CheckBoxCustom } from '../global/checkbox';
 
 export default function TelaCadastro() {
@@ -165,7 +165,7 @@ export default function TelaCadastro() {
         <View style={styles.containerHorizontal}>
           <Image
             style={styles.imagemCadastroLogin}
-            source={require('../../assets/Logo.png')}
+            source={require('../../../assets/Logo.png')}
           />
           <Text style={styles.textoPetlife}>PetLife</Text>
         </View>
@@ -175,13 +175,13 @@ export default function TelaCadastro() {
         <View style={styles.socialIcons}>
           <Image
             style={styles.Bolinhas}
-            source={require('../../assets/imgBolinhas.png')}
+            source={require('../../../assets/imgBolinhas.png')}
           />
         </View>
           <View style={styles.inputContainer}>
             <Image 
               style={styles.imagemCadastroLogin}
-              source={require('../../assets/imagemCadastro-removebg-preview.png')}
+              source={require('../../../assets/logoCadastro.png')}
             />
           </View>
 
@@ -274,7 +274,7 @@ export default function TelaCadastro() {
           <TouchableOpacity onPress={handleSignUp} style={themas.buttonStyles.roundedButton}>
             <Text style={themas.buttonStyles.buttonText}>Prossiga</Text>
             <Image
-              source={require('../../assets/setas-direitas.png')}
+              source={require('../../../assets/setas-direitas.png')}
               style={styles.iconImage}
             />
           </TouchableOpacity>

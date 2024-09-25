@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import  telaEntrar  from './src/views/screens/TELA_ENTRAR';
 import telaLogin from './src/views/screens/TELA_LOGIN';
 import TelaCadastroPet from './src/views/screens/TELA_CADASTRO_PET';
-import TelaCadastro from './src/views/TELA_CADASTRO';
+import TelaCadastro from './src/views/screens/TELA_CADASTRO';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 
