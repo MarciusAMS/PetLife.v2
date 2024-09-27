@@ -124,6 +124,7 @@ export const styles = StyleSheet.create({
     width: 50, // Ajustar o tamanho dos botões
     height: 50,
   },
+  
   inputContainer: {
     marginVertical: 10,
     paddingHorizontal: 20,
@@ -143,6 +144,11 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: themas.colors.white,
     //color: ,
+  },
+  imagemAdicionarFotoPet:{
+    width: 150,                // Ajuste conforme necessário para o tamanho da imagem
+    height: 200,               // Ajuste conforme necessário para o tamanho da imagem
+    resizeMode: 'contain',
   },
   imagemCadastroLogin: {
     width: 250,                // Ajuste conforme necessário para o tamanho da imagem

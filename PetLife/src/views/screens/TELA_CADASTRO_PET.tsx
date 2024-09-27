@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { styles } from '../../../styles';
 import { View, Text,TextInput, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { themas } from '../../global/themes';
-
+import * as ImagePicker from 'expo-image-picker';
 
 export default function TelaCadastroPet(){
 
@@ -127,9 +127,18 @@ export default function TelaCadastroPet(){
 
 
 return(
-    <ScrollView contentContainerStyle={styles.container}> 
-    
-    <View style={styles.container}>
+    <ScrollView> 
+      <View style={styles.container}>
+
+        <View style={styles.containerHorizontal}>
+          <Image
+            style={styles.imagemCadastroLogin}
+            source={require('../../../assets/Logo.png')}
+          />
+          <Text style={styles.textoPetlife}>PetLife</Text>
+        </View>
+        
+
 
 <View style={styles.inputContainer}>
 
@@ -145,8 +154,17 @@ return(
       source={require('../../../assets/cadastro_de_pet-legenda.png')}
     />
   </View>
+
+  <View style={styles.inputContainer}>
+    <TouchableOpacity>
+    <Image 
+      style={styles.imagemAdicionarFotoPet}
+      source={require('../../../assets/cadastro_de_pet-fotoPET.png')}
+    />
+          </TouchableOpacity>
+          
   </View>
-  </View>
+
 
 
       {/* Campo de Nome */}
@@ -224,7 +242,17 @@ return(
               placeholderTextColor={themas.colors.placeholderColor}
             />
          </View>
+         </View>
 
+         <View style={styles.containerLoginAndCadastro}>
+          <TouchableOpacity style={themas.buttonStyles.roundedButton}>
+            <Text style={themas.buttonStyles.buttonText}>Confirmar</Text>
+          </TouchableOpacity>
+        </View>
+        
+        </View>
+         
+        {/* onPress={handleCadastrarPet} */}
 </ScrollView>
 )
 }
