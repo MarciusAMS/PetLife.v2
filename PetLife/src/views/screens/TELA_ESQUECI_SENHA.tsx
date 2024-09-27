@@ -27,21 +27,17 @@ export default function telaEsqueciSenha() {
     };
 
     const handleResetPassword = () => {
-        console.log('Entrou na função!!!');
-
         if (validarCampo()) {
             console.log('Entrou aqui no IF!');
             const auth = getAuth(); // Obtém a instância do Firebase Auth
             sendPasswordResetEmail(auth, email)
                 .then(() => {
-                    console.log('Quase no Alert!!');
                     Alert.alert(
                         "E-mail enviado!",
                         "Verifique sua caixa de entrada para redefinir a senha."
                     );
                 })
                 .catch((error) => {
-                    console.log("Aqui eu não tô!!");
                     // Tratar possíveis erros
                     console.error(error);
                     Alert.alert(
