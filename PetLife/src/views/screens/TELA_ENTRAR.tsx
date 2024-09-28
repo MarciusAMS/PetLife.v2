@@ -76,6 +76,11 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
         
       </View>
     </View>
+    {/* Fazer Logout */}
+    <View>
+      <Button title="Logout" onPress={() => auth.signOut()} />
+    </View>
+
     </ScrollView>
     // Em () se insere a lógica de autenticação de outros meios.
   //  <Button title="F" onPress={() => console.log('Facebook login')} />  

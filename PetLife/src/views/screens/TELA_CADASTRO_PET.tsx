@@ -6,6 +6,11 @@ import { View, Text,TextInput, Alert, Button, Image, ScrollView, TouchableOpacit
 import { themas } from '../../global/themes';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { User } from 'firebase/auth';
+import { launchImageLibrary, Asset } from 'react-native-image-picker';
+
+
+
+
 export type AppRootParamList = {
   TelaCadastro:undefined;
 };
@@ -19,13 +24,29 @@ export default function TelaCadastroPet(){
   const navigation = useNavigation();
   const [user, setUser] = useState<User | null>(null);
   const [navigatedAway, setNavigatedAway] = useState(false);
+  const [imageUri, setImageUri] = useState<string | null>(null);
 
+
+
+  const escolherImagem = () => {
+    launchImageLibrary({ mediaType: 'photo' }, (response) => {
+      if (response.didCancel) {
+        console.log('Usuário cancelou a seleção de imagem');
+      } else if (response.errorCode) {
+        console.log('Erro ao escolher a imagem: ', response.errorMessage);
+      } else if (response.assets) {
+        const source: string = response.assets[0].uri || '';
+        setImageUri(source); // Atualiza o estado com a nova imagem
+      }
+    });
+  };
+  
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         // Se o usuário está logado, define o estado com o usuário
         setUser(user);
-        // console.log(user.uid);
+        console.log(user.uid);
         setNavigatedAway(false);
       } else if (!navigatedAway){
         // Se o usuário não está logado, redireciona para a tela de login
@@ -41,8 +62,8 @@ export default function TelaCadastroPet(){
 
 
   const [additionalData, setAdditionalData] = useState({ nome: '', raca: '' });
-  const [idade, setIdade] = useState<number| null>(null);
-  const [peso, setPeso] = useState<number| null>(null);
+  const [idade, setIdade] = useState<string>('');
+  const [peso, setPeso] = useState<string>('');
   const [sexo, setSexo] = useState<string>('');
   const [inputErrors, setInputErrors] = useState({
     nome: false,
@@ -53,7 +74,7 @@ export default function TelaCadastroPet(){
   });
   const nomeInputRef = useRef<TextInput>(null);
   const idadeInputRef = useRef<TextInput>(null);
-  const pesoInputRef = useRef<any>(null);
+  const pesoInputRef = useRef<TextInput>(null);
   const sexoInputRef = useRef<TextInput>(null);
   const racaInputRef = useRef<TextInput>(null);
 
@@ -64,13 +85,11 @@ export default function TelaCadastroPet(){
     // Validação antes de tentar o cadastro
     const isValid = validarCampos();
 
-    const idadeFinal = idade ?? 0; 
-    const pesoFinal = peso ?? 0;
 
      if (!isValid) return;
 
      try {
-      const user = await cadastrarPet(additionalData.nome, additionalData.raca, idadeFinal, sexo, pesoFinal);
+      const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso);
       console.log('cadastro de pet funcionou');
       Alert.alert('Cadastro de pet realizado com sucesso!');
 
@@ -126,43 +145,42 @@ export default function TelaCadastroPet(){
   // ---------------------------------------------------- //
 
   const handleNomeChange = (text: string) => {
+    setAdditionalData({ ...additionalData, nome: text.charAt(0).toUpperCase() + text.slice(1) });
+
     if (text.trim() === "") {
       setInputErrors({ ...inputErrors, nome: true });
-    } else {
-      setAdditionalData({ ...additionalData, nome: text });
     }
   };
 
   const handleIdadeChange = (text: string) => {
-    
+    setIdade(text);
+
     if (text.trim() === "") {
       setInputErrors({ ...inputErrors, idade: true });
-    } else{
-    setIdade(parseFloat(text));
     }
   };
 
   const handlePesoChange = (text: string) => {
+    setPeso(text);
+
     if (text.trim() === "") {
       setInputErrors({ ...inputErrors, peso: true });
-    } else{
-    setPeso(parseFloat(text));
     }
   };
 
   const handleSexoChange = (text: string) => {
+    setSexo(text.toLowerCase());
+
     if (text.trim() === "") {
       setInputErrors({ ...inputErrors, sexo: true });
-    } else{
-    setSexo(text.toLowerCase());
     }
   };
 
   const handleRacaChange = (text: string) => {
+    setAdditionalData({ ...additionalData,raca: text.toLowerCase()});
+
     if (text.trim() === "") {
       setInputErrors({ ...inputErrors, raca: true });
-    } else {
-      setAdditionalData({ ...additionalData,raca: text.toLowerCase()});
     }
   };
 
@@ -198,10 +216,15 @@ return(
 
   <View style={styles.inputContainer}>
     <TouchableOpacity>
-    <Image 
+    {imageUri ? (
+      <Image
       style={styles.imagemAdicionarFotoPet}
-      source={require('../../../assets/cadastro_de_pet-fotoPET.png')}
-    />
+      source={{ uri: imageUri }} />
+    ) : (
+      <Image 
+      style={styles.imagemAdicionarFotoPet}
+      source={require('../../../assets/cadastro_de_pet-fotoPET.png')} />
+    )}
           </TouchableOpacity>
           
   </View>
@@ -221,6 +244,7 @@ return(
               placeholder="Nome:"  
               placeholderTextColor={themas.colors.placeholderColor}
             />
+           {inputErrors.nome && <Text style={themas.textStyles.errorText}>Nome é obrigatorio.</Text>}
          </View>
 
           {/* Campo Idade  */}
@@ -231,12 +255,13 @@ return(
                 inputErrors.idade && { borderColor: themas.colors.errorColor }
               ]}
               ref={idadeInputRef}
-              value={idade !== null ? String(idade) : ''}
+              value={idade || ''}
               onChangeText={handleIdadeChange} 
               placeholder="Idade (Ex. 1.2):" 
               keyboardType="decimal-pad"
               placeholderTextColor={themas.colors.placeholderColor}
             />
+             {inputErrors.idade && <Text style={themas.textStyles.errorText}>Idade é obrigatorio.</Text>}
          </View>
 
           {/* Campo Peso */}
@@ -247,12 +272,13 @@ return(
                 inputErrors.peso && { borderColor: themas.colors.errorColor }
               ]}
               ref={pesoInputRef}
-              value={peso !== null ? String(peso) : ''} 
+              value={peso || ''} 
               onChangeText={handlePesoChange} 
               placeholder="Peso:" 
               keyboardType="decimal-pad"
               placeholderTextColor={themas.colors.placeholderColor}
             />
+             {inputErrors.peso && <Text style={themas.textStyles.errorText}>Peso é obrigatorio.</Text>}
          </View> 
 
           {/* Campo Sexo */}
@@ -268,6 +294,7 @@ return(
               placeholder="Sexo:" 
               placeholderTextColor={themas.colors.placeholderColor}
             />
+             {inputErrors.sexo && <Text style={themas.textStyles.errorText}>O sexo do animal é obrigatorio.</Text>}
          </View>
 
          <View style={styles.orText}>  
@@ -282,6 +309,7 @@ return(
               placeholder="Raça:"
               placeholderTextColor={themas.colors.placeholderColor}
             />
+             {inputErrors.raca && <Text style={themas.textStyles.errorText}>Raça é obrigatorio.</Text>}
          </View>
          </View>
 

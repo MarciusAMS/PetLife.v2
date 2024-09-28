@@ -2,7 +2,7 @@ import { firestore } from '../../firebaseService';
 import { collection, addDoc } from 'firebase/firestore';
 import { auth }  from '../../firebaseService';
 
-export const cadastrarPet = async (nome: string, raca: string, idade: number, sexo: string, peso: number, ) => {
+export const cadastrarPet = async (nome: string, raca: string, idade: string, sexo: string, peso: string, ) => {
   try {
     // Obtém o UID do usuário logado
     const userUID = auth.currentUser?.uid;
