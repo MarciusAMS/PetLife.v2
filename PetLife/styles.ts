@@ -33,9 +33,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: themas.colors.background, // Cor de fundo padrão  
-    width: 'auto',
-    height: 500,
+   // backgroundColor: themas.colors.background, 
   },
   containerEsqueciSenha: {
     flexDirection: 'row', // Alinha os elementos horizontalmente
@@ -166,11 +164,10 @@ export const styles = StyleSheet.create({
     marginRight: 10,  // Espaço entre logo e texto
   },
   textoPetlife: {
-    fontSize: 50,  // Tamanho do texto
+    fontSize: 40,  // Tamanho do texto
     fontWeight: 'bold',  // Negrito para destacar
     color: themas.colors.black,  // Cor conforme o tema
-    marginLeft: -35,
-    fontFamily: themas.fonts.fontLetras2,
+    fontFamily: themas.fonts.fontLetras2, 
   },
   linkContainer: {
     marginTop: 10, // Espaçamento em relação aos outros elementos

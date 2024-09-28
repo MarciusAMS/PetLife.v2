@@ -58,18 +58,16 @@ export default function telaEsqueciSenha() {
     // };
 
     return (
-        <ScrollView>
+        <View style={styles.container}>
+
             <View style={styles.containerEsqSenhaGeral}>
+                <Text style={styles.textoPetlife}>Esqueceu a Senha?</Text>
 
-                <View style={styles.container}>
-                    <Text style={styles.textoPetlife}>Esqueceu a Senha?</Text>
-                </View>
 
-                <View style={styles.container}>
-                    <Text style={styles.orText}>
-                        Para redefinir sua senha insira seu E-mail de recuperação abaixo.
-                    </Text>
-                </View>
+                <Text style={styles.orText}>
+                    Para redefinir sua senha insira seu E-mail de recuperação abaixo.
+                </Text>
+
 
                 <View style={styles.orText}>
                     <Text style={styles.label}>E-mail</Text>
@@ -86,6 +84,7 @@ export default function telaEsqueciSenha() {
                     {inputError.email && <Text style={themas.textStyles.errorText}>Email inválido ou vazio.</Text>}
                 </View>
 
+
                 <View style={styles.containerEsqueciSenha}>
                     <View style={themas.buttonStyles.roundedButton}>
                         <TouchableOpacity onPress={handleResetPassword}>
@@ -94,7 +93,7 @@ export default function telaEsqueciSenha() {
                     </View>
                 </View>
             </View>
-        </ScrollView>
+        </View>
     );
 
 } 
