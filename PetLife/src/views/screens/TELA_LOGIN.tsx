@@ -6,10 +6,24 @@ import { signIn } from '../../controllers/TELA_LOGIN';
 //import { CheckBoxCustom } from '../../global/checkbox';
 import { CheckBox } from 'react-native-elements';
 import { themas } from '../../global/themes';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-export default function telaLogin() {
+export type RootStackParamList = {
+  telaLogin: undefined,
+  telaEsqueciSenha: undefined; // Adicione todas as suas telas aqui
+};
 
-  const navigation = useNavigation(); // Hook para obter o objeto navigation
+type TelaEntrarProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'telaLogin'>;
+};
+
+export default function telaLogin( { navigation }: TelaEntrarProps ) {
+
+  // const navigation = useNavigation(); // Hook para obter o objeto navigation
+
+  const handleEsqueciSenha = () => {
+    navigation.navigate('telaEsqueciSenha'); // Navega para a tela de login
+  };
 
   // Estados para gerenciar o estado dos checkboxes
   const [email, setEmail] = useState('');
@@ -126,7 +140,7 @@ export default function telaLogin() {
 
         {/* Link para Esqueci Minha Senha */}
         <View style={styles.linkContainer}>
-          <TouchableOpacity> 
+          <TouchableOpacity onPress={(handleEsqueciSenha)}> 
             <Text style={styles.linkText}>Esqueci minha senha</Text>
           </TouchableOpacity>
         </View>

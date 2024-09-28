@@ -225,7 +225,7 @@ export default function TelaCadastro() {
               ]}
               ref={telefoneInputRef}
               type={'cel-phone'} 
-              options={{ maskType: 'BRL', withDDD: true, dddMask: '(55) ' }} 
+              options={{ maskType: 'BRL', withDDD: true, dddMask: '(19) ' }} 
               value={additionalData.telefone} 
               onChangeText={handleTelefoneChange} 
               placeholder="Digite seu telefone:" 
