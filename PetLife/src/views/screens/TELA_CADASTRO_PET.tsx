@@ -1,10 +1,44 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { auth, firestore } from '../../../firebaseService';
 import { styles } from '../../../styles';
-import { View, Text,TextInput, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { cadastrarPet } from '../../controllers/TELA_CADASTRO_PET';
+import { View, Text,TextInput, Alert, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { themas } from '../../global/themes';
-import * as ImagePicker from 'expo-image-picker';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { User } from 'firebase/auth';
+export type AppRootParamList = {
+  TelaCadastro:undefined;
+};
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends AppRootParamList {}
+  }
+}
 
 export default function TelaCadastroPet(){
+  const navigation = useNavigation();
+  const [user, setUser] = useState<User | null>(null);
+  const [navigatedAway, setNavigatedAway] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // Se o usuário está logado, define o estado com o usuário
+        setUser(user);
+        // console.log(user.uid);
+        setNavigatedAway(false);
+      } else if (!navigatedAway){
+        // Se o usuário não está logado, redireciona para a tela de login
+        navigation.navigate('TelaCadastro');
+        setNavigatedAway(true);
+      }
+    });
+
+    // Limpa o listener ao desmontar o componente
+    return () => unsubscribe();
+  }, [navigatedAway]);
+
+
 
   const [additionalData, setAdditionalData] = useState({ nome: '', raca: '' });
   const [idade, setIdade] = useState<number| null>(null);
@@ -25,62 +59,69 @@ export default function TelaCadastroPet(){
 
   // Validar os campos antes de cadastrar o pet ao usuario
 
-  // const handleCadastrarPet = async () => {
+   const handleCadastrarPet = async () => {
 
     // Validação antes de tentar o cadastro
+    const isValid = validarCampos();
 
-    // const isValid = validarCampos();
-    
-    // if (!isValid) return;
+    const idadeFinal = idade ?? 0; 
+    const pesoFinal = peso ?? 0;
 
-  //   try {
-  //     const user = await signUp(email, senha, additionalData);
-  //     Alert.alert('Cadastro realizado com sucesso!', `Bem-vindo, ${user.email}`);
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       Alert.alert('Erro', error.message);
-  //     }
-  //   }
-  // };
+     if (!isValid) return;
+
+     try {
+      const user = await cadastrarPet(additionalData.nome, additionalData.raca, idadeFinal, sexo, pesoFinal);
+      console.log('cadastro de pet funcionou');
+      Alert.alert('Cadastro de pet realizado com sucesso!');
+
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert('Erro', error.message);
+      }
+    }
+
+   };
+
+   
 
   // ---------------------------------------------------- //
 
   // Função de validar os campos
 
-  // const validarCampos = () => {
-  //   let isValid = true;
+  const validarCampos = () => {
+    let isValid = true;
 
-  // const errors = {
-  //   nome: !additionalData.nome,
-  //   idade: !idade,
-  //   peso: !peso,
-  //   sexo:!sexo,
-  //   raca: !additionalData.raca,
-  // };
+  const errors = {
+    nome: !additionalData.nome,
+    idade: !idade,
+    peso: !peso,
+    sexo:!sexo,
+    raca: !additionalData.raca,
+  };
 
-  // setInputErrors(errors);
+  setInputErrors(errors);
 
   
-  //   // Foco no primeiro campo com erro
-  //   if (errors.nome && nomeInputRef.current) {
-  //     nomeInputRef.current.focus();
-  //     isValid = false;
-  //   } else if (errors.idade && idadeInputRef.current) {
-  //     idadeInputRef.current.focus();
-  //     isValid = false;
-  //   } else if (errors.peso && pesoInputRef.current) {
-  //     pesoInputRef.current.focus();
-  //     isValid = false;
-  //   } else if (errors.sexo && sexoInputRef.current) {
-  //     sexoInputRef.current.focus();
-  //     isValid = false;
-  //   } else if (errors.raca && racaInputRef.current) {
-  //     racaInputRef.current.focus();
-  //     isValid = false;
-  //   }
+    // Foco no primeiro campo com erro
+    if (errors.nome && nomeInputRef.current) {
+      nomeInputRef.current.focus();
+      isValid = false;
+    } else if (errors.idade && idadeInputRef.current) {
+      idadeInputRef.current.focus();
+      isValid = false;
+    } else if (errors.peso && pesoInputRef.current) {
+      pesoInputRef.current.focus();
+      isValid = false;
+    } else if (errors.sexo && sexoInputRef.current) {
+      sexoInputRef.current.focus();
+      isValid = false;
+    } else if (errors.raca && racaInputRef.current) {
+      racaInputRef.current.focus();
+      isValid = false;
+    }
 
-  //   return isValid;
-  // };
+    return isValid;
+  };
 
   // ---------------------------------------------------- //
 
@@ -175,7 +216,7 @@ return(
                 inputErrors.nome && { borderColor: themas.colors.errorColor }
               ]}
               ref={nomeInputRef}
-              value={additionalData.nome} 
+              value={additionalData.nome || ''}
               onChangeText={handleNomeChange} 
               placeholder="Nome:"  
               placeholderTextColor={themas.colors.placeholderColor}
@@ -222,7 +263,7 @@ return(
                 inputErrors.sexo && { borderColor: themas.colors.errorColor }
               ]}
               ref={sexoInputRef}
-              value={sexo} 
+              value={sexo || ''} 
               onChangeText={handleSexoChange} 
               placeholder="Sexo:" 
               placeholderTextColor={themas.colors.placeholderColor}
@@ -236,7 +277,7 @@ return(
                 inputErrors.raca && { borderColor: themas.colors.errorColor }
               ]}
               ref={racaInputRef}
-              value={additionalData.raca} 
+              value={additionalData.raca || ''} 
               onChangeText={handleRacaChange} 
               placeholder="Raça:"
               placeholderTextColor={themas.colors.placeholderColor}
@@ -245,14 +286,19 @@ return(
          </View>
 
          <View style={styles.containerLoginAndCadastro}>
-          <TouchableOpacity style={themas.buttonStyles.roundedButton}>
+          <TouchableOpacity onPress={handleCadastrarPet} style={themas.buttonStyles.roundedButton}>
             <Text style={themas.buttonStyles.buttonText}>Confirmar</Text>
           </TouchableOpacity>
         </View>
         
         </View>
-         
-        {/* onPress={handleCadastrarPet} */}
+
+
+{/* Fazer Logout 
+    <View>
+      <Button title="Logout" onPress={() => auth.signOut()} />
+    </View>
+*/}
 </ScrollView>
 )
 }

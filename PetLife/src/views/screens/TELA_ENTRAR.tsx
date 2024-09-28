@@ -4,6 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { styles } from '../../../styles';
 import { themas } from '../../global/themes';
 //import { Logo } from '../../assets/Logo.png';
+import { auth } from '../../../firebaseService';
 
 // Defina o tipo para o stack do navegador
 type RootStackParamList = {
@@ -18,6 +19,12 @@ type TelaEntrarProps = {
 };
 
 export default function TelaEntrar({ navigation }: TelaEntrarProps) {
+  
+  const user = auth.currentUser;
+  const userId = user?.uid;
+
+  console.log(userId);
+
   const handleSignIn = () => {
     navigation.navigate('TelaLogin'); // Navega para a tela de login
   };
@@ -28,6 +35,8 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   const CadastrarPet = () => {
     navigation.navigate('TelaCadastroPet');
   }
+
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

@@ -1,11 +1,26 @@
-import React, { useRef, useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import { View, Text, TextInput, Button, Alert, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { signUp } from '../../controllers/TELA_CADASTRO';
 import { TextInputMask } from 'react-native-masked-text';
 import { styles } from '../../../styles';
 import { themas } from '../../global/themes';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 //import { useFormValidation } from '../../global/validarCampos';
 //import { CheckBoxCustom } from '../global/checkbox';
+
+// Este appRootParamList está servindo para definir o tipo da TelaCadastroPet
+export type AppRootParamList = {
+  TelaCadastroPet:undefined;
+};
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends AppRootParamList {}
+  }
+}
+
+// ---------------------------------------------------------- //
+
 
 export default function TelaCadastro() {
   const [email, setEmail] = useState('');
@@ -36,6 +51,7 @@ export default function TelaCadastro() {
   //   confirmarSenhaInputRef, 
   //   validarCampos 
   // } = useFormValidation();
+  const navigation = useNavigation();
 
   const handleSignUp = async () => {
     // Validação antes de tentar o cadastro
@@ -46,6 +62,8 @@ export default function TelaCadastro() {
     try {
       const user = await signUp(email, senha, additionalData);
       Alert.alert('Cadastro realizado com sucesso!', `Bem-vindo, ${user.email}`);
+      console.log('deu certo o cadastro de usuario');
+      navigation.navigate('TelaCadastroPet');
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro', error.message);

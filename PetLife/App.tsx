@@ -12,9 +12,13 @@ import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 
 
-const Stack = createNativeStackNavigator();
 
+
+
+// Cria o Stack Navigator
+const Stack = createNativeStackNavigator();
 function App() {
+
 
   useEffect(() => {
     let fontName = themas.fonts.fontLetras2;  // Fonte definida no arquivo de temas
