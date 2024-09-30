@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Alert, Image } from "react-native";
+import { View, Text, Alert, Image, ScrollView } from "react-native";
 import { styles } from "../../../styles";
 import MenuGlobal from "../../global/menuGlobal";
 
@@ -7,13 +7,18 @@ export default function telaPet() {
 
 
     return (
-        <View style={styles.container}>
-            <View style={styles.containerHorizontal}>
-                <Image
-                style={styles.containerLoginAndCadastro}
-                    source={require('../../../assets/Logo.png')}
-                />
+        <ScrollView>
+            <View style={styles.container}>
+                <View style={styles.containerHorizontal}>
+                    <Image
+                        source={require('../../../assets/Logo.png')}
+                    />
+                    <Text style={styles.orText}>PETS</Text>
+                    <Image
+                        source={require('../../../assets/imgPet.png')}
+                    />
+                </View>
             </View>
-        </View>
+        </ScrollView>
     );
 }

@@ -16,7 +16,7 @@ import telaPet from './src/views/screens/TELA_PET';
 import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+//const Tab = createBottomTabNavigator();
 
 function App() {
 
