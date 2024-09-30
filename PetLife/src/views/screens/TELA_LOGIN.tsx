@@ -11,6 +11,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 export type RootStackParamList = {
   telaLogin: undefined,
   telaEsqueciSenha: undefined; // Adicione todas as suas telas aqui
+  telaPet: undefined;
 };
 
 type TelaEntrarProps = {
@@ -22,7 +23,11 @@ export default function telaLogin( { navigation }: TelaEntrarProps ) {
   // const navigation = useNavigation(); // Hook para obter o objeto navigation
 
   const handleEsqueciSenha = () => {
-    navigation.navigate('telaEsqueciSenha'); // Navega para a tela de login
+    navigation.navigate('telaEsqueciSenha'); 
+  };
+
+  const handlePet = () => {
+    navigation.navigate('telaPet');
   };
 
   // Estados para gerenciar o estado dos checkboxes
@@ -46,13 +51,11 @@ export default function telaLogin( { navigation }: TelaEntrarProps ) {
 
     try {
       const usuario = await signIn(email, senha);
+      handlePet();
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro na autenticação', error.message);
       }
-      //else{
-      // Alert.alert('Erro de autenticação', 'Ocorreu um erro inesperado.');
-      //}
     }
   };
 

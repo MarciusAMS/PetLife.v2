@@ -7,7 +7,7 @@ import { themas } from '../../global/themes';
 //import { useFormValidation } from '../../global/validarCampos';
 //import { CheckBoxCustom } from '../global/checkbox';
 
-export default function TelaCadastro() {
+export default function telaCadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
