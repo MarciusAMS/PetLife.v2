@@ -7,6 +7,7 @@ import { themas } from '../../global/themes';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { User } from 'firebase/auth';
 import { launchImageLibrary, Asset } from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 
 
@@ -177,7 +178,7 @@ export default function TelaCadastroPet(){
   };
 
   const handleRacaChange = (text: string) => {
-    setAdditionalData({ ...additionalData,raca: text.toLowerCase()});
+    setAdditionalData({ ...additionalData, raca: text.toLowerCase()});
 
     if (text.trim() === "") {
       setInputErrors({ ...inputErrors, raca: true });
@@ -214,7 +215,7 @@ return(
     />
   </View>
 
-  <View style={styles.inputContainer}>
+  <View style={styles.inputContainerFoto}>
     <TouchableOpacity>
     {imageUri ? (
       <Image

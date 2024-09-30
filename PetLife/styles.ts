@@ -130,6 +130,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     bottom: 25,
   },
+  inputContainerFoto: {
+    marginVertical: 10,
+    paddingHorizontal: 20,
+    bottom: 25,
+    justifyContent: 'center',
+    alignItems: 'center', 
+  },
   label: {
     fontSize: 16,
     marginBottom: 5,
