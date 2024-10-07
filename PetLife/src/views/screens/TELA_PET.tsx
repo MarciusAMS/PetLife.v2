@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, Alert, Image, ScrollView } from "react-native";
 import { styles } from "../../../styles";
-import MenuGlobal from "../../global/menuGlobal";
 
 export default function telaPet() {
 

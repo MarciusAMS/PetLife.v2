@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TelaPet from '../views/screens/TELA_ESQUECI_SENHA';  // Exemplo de uma tela
-import TelaPerfil from '../views/screens/TELA_LOGIN';  // Exemplo de outra tela
+import TelaPet from '../views/screens/TELA_PET';
+import TelaPerfil from '../views/screens/TELA_LOGIN';
 import { Icon } from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
@@ -16,23 +16,23 @@ export default function MenuGlobal() {
       }}
     >
       <Tab.Screen 
-        name="Início" 
+        name="Inicio" 
         component={TelaPet} 
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={size} />
+            <Icon name="home" type="font-awesome" color={color} size={size} />
           ),
         }}
       />
-      <Tab.Screen 
+      {/* <Tab.Screen 
         name="Saúde" 
-        component={TelaPerfil} 
+        component={TelaPet} 
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="heartbeat" color={color} size={size} />
+            <Icon name="heartbeat" type="font-awesome" color={color} size={size} />
           ),
         }}
-      />
+      /> */}
       {/* Adicione mais telas conforme necessário */}
     </Tab.Navigator>
   );

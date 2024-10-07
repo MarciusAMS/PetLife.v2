@@ -11,14 +11,14 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 export type RootStackParamList = {
   telaLogin: undefined,
   telaEsqueciSenha: undefined; // Adicione todas as suas telas aqui
-  telaPet: undefined;
+  telaPet: undefined; //Rever está parte
 };
 
 type TelaEntrarProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'telaLogin'>;
 };
 
-export default function telaLogin( { navigation }: TelaEntrarProps ) {
+export default function TelaLogin( { navigation }: TelaEntrarProps ) {
 
   // const navigation = useNavigation(); // Hook para obter o objeto navigation
 
