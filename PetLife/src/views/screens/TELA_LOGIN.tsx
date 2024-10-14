@@ -10,8 +10,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   telaLogin: undefined,
-  telaEsqueciSenha: undefined; // Adicione todas as suas telas aqui
-  telaPet: undefined; //Rever está parte
+  telaEsqueciSenha: undefined; 
+  AppMenu: undefined; // Observação: Por estar dentro do Container do Menu Global, precisa ser importado o container e não a tela diretamente
 };
 
 type TelaEntrarProps = {
@@ -20,14 +20,12 @@ type TelaEntrarProps = {
 
 export default function TelaLogin( { navigation }: TelaEntrarProps ) {
 
-  // const navigation = useNavigation(); // Hook para obter o objeto navigation
-
   const handleEsqueciSenha = () => {
     navigation.navigate('telaEsqueciSenha'); 
   };
 
   const handlePet = () => {
-    navigation.navigate('telaPet');
+    navigation.navigate('AppMenu');
   };
 
   // Estados para gerenciar o estado dos checkboxes
