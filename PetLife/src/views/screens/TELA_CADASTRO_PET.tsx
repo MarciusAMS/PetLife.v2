@@ -21,26 +21,33 @@ declare global {
   }
 }
 
+
 export default function TelaCadastroPet(){
   const navigation = useNavigation();
   const [user, setUser] = useState<User | null>(null);
   const [navigatedAway, setNavigatedAway] = useState(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
 
+  const abrirGaleria = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permissão necessária', 'Precisamos de acesso à galeria para continuar.');
+      return;
+    }
 
-
-  const escolherImagem = () => {
-    launchImageLibrary({ mediaType: 'photo' }, (response) => {
-      if (response.didCancel) {
-        console.log('Usuário cancelou a seleção de imagem');
-      } else if (response.errorCode) {
-        console.log('Erro ao escolher a imagem: ', response.errorMessage);
-      } else if (response.assets) {
-        const source: string = response.assets[0].uri || '';
-        setImageUri(source); // Atualiza o estado com a nova imagem
-      }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
     });
-  };
+
+    // Verificando se o usuário não cancelou
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setImageUri(result.assets[0].uri); // Definindo a URI da imagem
+    } else {
+      Alert.alert('Operação cancelada', 'Nenhuma imagem foi selecionada.');
+    }
+  };  
   
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -216,17 +223,16 @@ return(
   </View>
 
   <View style={styles.inputContainerFoto}>
-    <TouchableOpacity>
-    {imageUri ? (
-      <Image
-      style={styles.imagemAdicionarFotoPet}
-      source={{ uri: imageUri }} />
-    ) : (
-      <Image 
-      style={styles.imagemAdicionarFotoPet}
-      source={require('../../../assets/cadastro_de_pet-fotoPET.png')} />
-    )}
-          </TouchableOpacity>
+  <TouchableOpacity onPress={abrirGaleria}>
+        {imageUri ? (
+          <Image style={styles.imagemAdicionarFotoPet} source={{ uri: imageUri }} />
+        ) : (
+          <Image
+            style={styles.imagemAdicionarFotoPet}
+            source={require('../../../assets/cadastro_de_pet-fotoPET.png')}
+          />
+        )}
+      </TouchableOpacity>
           
   </View>
 
@@ -329,5 +335,4 @@ return(
     </View>
 */}
 </ScrollView>
-)
-}
+)}
