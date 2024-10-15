@@ -95,9 +95,14 @@ export default function TelaCadastroPet(){
 
 
      if (!isValid) return;
+     
+     if (!imageUri) {
+      Alert.alert('Erro', 'É necessário selecionar uma imagem para continuar.');
+      return;
+    }
 
      try {
-      const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso);
+      const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
       console.log('cadastro de pet funcionou');
       Alert.alert('Cadastro de pet realizado com sucesso!');
 

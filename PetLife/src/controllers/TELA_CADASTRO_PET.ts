@@ -1,8 +1,10 @@
 import { firestore } from '../../firebaseService';
 import { collection, addDoc } from 'firebase/firestore';
 import { auth }  from '../../firebaseService';
+import storage from '@react-native-firebase/storage'; // Importando Firebase Storage
+import { Alert } from 'react-native';
 
-export const cadastrarPet = async (nome: string, raca: string, idade: string, sexo: string, peso: string, ) => {
+export const cadastrarPet = async (nome: string, raca: string, idade: string, sexo: string, peso: string, imageUri: string ) => {
   try {
     // Obtém o UID do usuário logado
     const userUID = auth.currentUser?.uid;
@@ -10,6 +12,13 @@ export const cadastrarPet = async (nome: string, raca: string, idade: string, se
     if (!userUID) {
       throw new Error('Usuário não está autenticado');
     }
+    const filename = imageUri.substring(imageUri.lastIndexOf('/') + 1);
+    const reference = storage().ref(`pets/${filename}`);
+
+    // Fazendo o upload da imagem
+    await reference.putFile(imageUri);
+    const url = await reference.getDownloadURL();
+
 
     // Referência à coleção 'pets' no Firestore
     const petsCollection = collection(firestore, 'pets');
@@ -21,7 +30,8 @@ export const cadastrarPet = async (nome: string, raca: string, idade: string, se
       idade,
       sexo,
       peso,
-      userUID,  // Vinculando o pet ao UID do usuário
+      userUID,
+      imagemUrl: url,  // Vinculando o pet ao UID do usuário
       criadoEm: new Date(),  // Timestamp da criação
     };
 
