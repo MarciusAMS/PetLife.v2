@@ -3,6 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { getDatabase } from 'firebase/database'
+
 const firebaseConfig = {
   apiKey: "AIzaSyAD_qh39kHsegvfNH81aaA8OOkAAolsiLs",
   authDomain: "petlife-34f47.firebaseapp.com",

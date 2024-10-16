@@ -6,7 +6,7 @@ export const signUp = async (email: string, password: string, additionalData: an
     try {
       // Cria o usuário no Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const user = userCredential.user; 
   
       // Salva os dados adicionais no Firestore
       await setDoc(doc(firestore, 'usuarios', user.uid), {
@@ -15,7 +15,7 @@ export const signUp = async (email: string, password: string, additionalData: an
         uid: user.uid, 
         ...additionalData
       });
-  
+
       console.log('Usuário cadastrado com sucesso:', user);
       return user; // Retorna o usuário criado
     } catch (error: any) {

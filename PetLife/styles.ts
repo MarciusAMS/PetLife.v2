@@ -76,6 +76,18 @@ export const styles = StyleSheet.create({
     marginBottom: 50,
     marginTop: -50,
   },
+  titleContainerText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 200, // Largura do círculo
+    height: 100, // Altura do círculo
+    borderRadius: 60, // Metade da largura e altura para fazer o círculo
+    backgroundColor: themas.colors.buttons, // Cor de fundo do círculo (ajuste conforme necessário)
+    borderColor: themas.colors.black, // Cor da borda do círculo (ajuste conforme necessário)
+    borderWidth: 5, // Largura da borda
+    marginBottom: 10,
+    marginTop: 30,
+  },
   buttonContainer: {
     width: '80%',
     marginBottom: 20,
@@ -133,10 +145,18 @@ export const styles = StyleSheet.create({
     width: 50, // Ajustar o tamanho dos botões
     height: 50,
   },
+  
   inputContainer: {
     marginVertical: 10,
     paddingHorizontal: 20,
     bottom: 25,
+  },
+  inputContainerFoto: {
+    marginVertical: 10,
+    paddingHorizontal: 20,
+    bottom: 25,
+    justifyContent: 'center',
+    alignItems: 'center', 
   },
   label: {
     fontSize: 16,
@@ -152,6 +172,11 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: themas.colors.white,
     //color: ,
+  },
+  imagemAdicionarFotoPet:{
+    width: 150,                // Ajuste conforme necessário para o tamanho da imagem
+    height: 200,               // Ajuste conforme necessário para o tamanho da imagem
+    resizeMode: 'contain',
   },
   imagemCadastroLogin: {
     width: 250,                // Ajuste conforme necessário para o tamanho da imagem

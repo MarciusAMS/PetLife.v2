@@ -11,7 +11,7 @@ import TelaCadastro from './src/views/screens/TELA_CADASTRO';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import MenuGlobal from './src/global/menuGlobal';
-
+import TelaCadastroPet from './src/views/screens/TELA_CADASTRO_PET'
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +29,7 @@ function App() {
         <Stack.Screen name="TelaEntrar" component={telaEntrar} options={{ headerShown: false }} />
         <Stack.Screen name="TelaLogin" component={telaLogin} options={{ title: 'Login' }} />
         <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
+        <Stack.Screen name="TelaCadastroPet" component={TelaCadastroPet} options={{ title: 'Cadastro do pet' }} />
         <Stack.Screen name="telaEsqueciSenha" component={telaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
 
         {/* Menu Global com as abas principais */}
