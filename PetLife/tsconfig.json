@@ -1,6 +1,8 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,
+    "jsx": "react-jsx"  // ou "react" se estiver usando uma versão anterior ao React 17
+  },
+  "include": ["src"]
 }
