@@ -8,6 +8,7 @@ import telaEntrar from './src/views/screens/TELA_ENTRAR';
 import telaLogin from './src/views/screens/TELA_LOGIN';
 import telaEsqueciSenha from './src/views/screens/TELA_ESQUECI_SENHA';
 import TelaCadastro from './src/views/screens/TELA_CADASTRO';
+import TelaInicio from './src/views/screens/TELA_INICIO';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import MenuGlobal from './src/global/menuGlobal';
@@ -31,7 +32,7 @@ function App() {
         <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
         <Stack.Screen name="TelaCadastroPet" component={TelaCadastroPet} options={{ title: 'Cadastro do pet' }} />
         <Stack.Screen name="telaEsqueciSenha" component={telaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
-
+        <Stack.Screen name="TelaInicio" component={TelaInicio} options={{ title: 'Tela Inicial' }} />
         {/* Menu Global com as abas principais */}
         <Stack.Screen name="MainApp" component={MenuGlobal} options={{ headerShown: false }} />
       </Stack.Navigator>

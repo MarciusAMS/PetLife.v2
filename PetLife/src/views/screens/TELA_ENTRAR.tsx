@@ -1,17 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { styles } from '../../../styles';
 import { themas } from '../../global/themes';
 //import { Logo } from '../../assets/Logo.png';
 import { auth } from '../../../firebaseService';
+import { onAuthStateChanged } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Defina o tipo para o stack do navegador
 type RootStackParamList = {
   TelaEntrar: undefined;
   TelaLogin: undefined;
-  TelaCadastroPet: undefined;
   TelaCadastro: undefined;
+  TelaInicio: undefined;
 };
 
 type TelaEntrarProps = {
@@ -25,6 +27,31 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
 
   console.log(userId);
 
+  useEffect(() => {
+    const checkAuthState = async () => {
+      const userToken = await AsyncStorage.getItem('userToken');
+      console.log("Token encontrado:", userToken);
+  
+      if (userToken != null) {
+        navigation.navigate('TelaInicio'); // Navega diretamente para a tela inicial.
+        return;
+      }
+  
+      // Caso não haja token, verifica com o Firebase.
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          navigation.navigate('TelaInicio');
+        } else {
+          navigation.navigate('TelaEntrar');
+        }
+      });
+  
+      return () => unsubscribe(); // Cleanup da inscrição.
+    };
+  
+    checkAuthState();
+  }, [navigation]);
+
   const handleSignIn = () => {
     navigation.navigate('TelaLogin'); // Navega para a tela de login
   };
@@ -32,9 +59,7 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   const handleSignUp = () => {
     navigation.navigate('TelaCadastro'); // Navega para a tela de cadastro
   };
-  const CadastrarPet = () => {
-    navigation.navigate('TelaCadastroPet');
-  }
+
 
 
 
