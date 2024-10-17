@@ -4,7 +4,7 @@ import { styles } from '../../../styles';
 import { cadastrarPet } from '../../controllers/TELA_CADASTRO_PET';
 import { View, Text, TextInput, Alert, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { themas } from '../../global/themes';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { useNavigation, NavigationProp, RouteProp } from '@react-navigation/native';
 import { User } from 'firebase/auth';
 import { launchImageLibrary, Asset } from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker';
@@ -13,12 +13,11 @@ import * as ImagePicker from 'expo-image-picker';
 
 // Este appRootParamList está servindo para definir o tipo da TelaCadastroPet
 
-
-
-
 export type AppRootParamList = {
   TelaCadastro: undefined;
   TelaLogin: undefined;
+  TelaPet: undefined;
+  TelaCadastroPet: { fromPet?: boolean }; // Adicionando um parâmetro opcional
 };
 declare global {
   namespace ReactNavigation {
@@ -27,8 +26,9 @@ declare global {
 }
 
 
-export default function TelaCadastroPet() {
+export default function TelaCadastroPet({ route }: { route: RouteProp<AppRootParamList, 'TelaCadastroPet'> }) {
   const navigation = useNavigation();
+  const { fromPet } = route.params || {}; // Verificando se veio da TelaPet
   const [user, setUser] = useState<User | null>(null);
   const [navigatedAway, setNavigatedAway] = useState(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
@@ -110,7 +110,12 @@ export default function TelaCadastroPet() {
       const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
       console.log('cadastro de pet funcionou');
       Alert.alert('Cadastro de pet realizado com sucesso!');
-      navigation.navigate('TelaLogin');
+       // Redirecionar para a tela correta com base na origem
+       if (fromPet) {
+        navigation.navigate('TelaPet'); // Se veio da TelaPet, volta para TelaPet
+      } else {
+        navigation.navigate('TelaLogin'); // Caso contrário, vai para TelaLogin
+      }
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro', error.message);

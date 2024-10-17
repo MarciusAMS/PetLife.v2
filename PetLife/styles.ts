@@ -205,4 +205,36 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline', // Linha sublinhada para parecer um link
     fontSize: 16,
   },
+  petContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  petCard: {
+    width: 100,
+    height: 120,
+    margin: 10,
+    alignItems: "center",
+  },
+  petImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: 5,
+  },
+  petName: {
+    fontSize: 16,
+  },
+  addPetButton: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: "#ddd",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 10,
+  },
+  addPetIcon: {
+    fontSize: 40,
+    color: "#000",
+  },
 });
