@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, StatusBar } from 'react-native';
 import { themas } from './src/global/themes';
 
 export const styles = StyleSheet.create({
@@ -21,6 +21,49 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
     bottom: 25,
   },
+  //------------------------------------------
+  containerInicioHorizontal: {
+    position: 'absolute', 
+    top: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row', 
+    justifyContent: 'space-between', // Espaço entre a parte esquerda (imagem + nome) e o botão
+    alignItems: 'center', 
+    paddingHorizontal: 20,
+    height: 80,
+    paddingTop: StatusBar.currentHeight || 20, 
+    zIndex: 1, 
+  },
+  
+  conteudoEsquerda: {
+    flexDirection: 'row', // Alinha imagem e nome horizontalmente
+    alignItems: 'center', // Centraliza verticalmente
+  },
+  
+  imagensTopo: {
+    width: 100,
+    height: 100,
+    borderRadius: 25, 
+    marginRight: 10, // Espaço entre a imagem e o nome do pet
+  },
+  
+  nomeDoPet: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  
+  verPets: {
+    width: 40,
+    height: 40,
+    borderRadius: 20, 
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
+
+//------------------------------
   containerHorizontal: {
     flexDirection: 'row',       // Coloca os itens em linha horizontal
     alignItems: 'center',       // Alinha verticalmente no centro

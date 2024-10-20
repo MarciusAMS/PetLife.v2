@@ -38,8 +38,20 @@ export default function TelaInicio( { navigation }: TelaEntrarProps ){
 
 return (
     <ScrollView  contentContainerStyle={styles.container}>
-      <View style={styles.container}></View>
       
+      <View style={styles.containerInicioHorizontal}>
+
+  <View style={styles.conteudoEsquerda}>
+    <Image source={require('../../../assets/logo_facebook.png')} style={styles.imagensTopo} />
+    <Text style={styles.nomeDoPet}>PetLife</Text>
+  </View>
+
+  <TouchableOpacity>
+  <Image source={require('../../../assets/Inicio-verPetsCadastrados.png')} style={styles.imagensTopo} />
+  </TouchableOpacity>
+</View>
+
+
       <TouchableOpacity onPress={signOutUser} activeOpacity={0.5}>
       <Image source={require('../../../assets/logo_windows.png')} style={styles.Icon}>
           
@@ -47,7 +59,7 @@ return (
         </TouchableOpacity>
 
 
-
+        
       </ScrollView>
       )
 
