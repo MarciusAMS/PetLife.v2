@@ -6,9 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Função para autenticação
 export const signIn = async (email: string, password: string, manterLogado: boolean) => {
   try {
-    // Define a persistência da sessão com base no checkbox "Manter-me logado".
-    const persistence = manterLogado ? browserLocalPersistence : inMemoryPersistence;
-    await setPersistence(auth, persistence);
 
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -29,7 +26,7 @@ export const signIn = async (email: string, password: string, manterLogado: bool
   }
 };
 
-// export const signOut = async () => {
-//   await auth.signOut();
-//   await AsyncStorage.removeItem('userToken'); // Limpa o AsyncStorage ao sair
-// };
+export const signOut = async () => {
+  await auth.signOut();
+  await AsyncStorage.removeItem('userToken'); // Limpa o AsyncStorage ao sair
+};
