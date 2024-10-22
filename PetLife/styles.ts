@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',   // Centraliza os itens horizontalmente
     marginBottom: -15,          // Espaçamento abaixo da logo e do texto
     marginHorizontal: 100,
-    marginLeft: 35,
+    marginLeft: 90,
   },
   containerEsqSenhaGeral: {
     flex: 1,
@@ -61,6 +61,15 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
     fontFamily: themas.fonts.fontLetras,
     color: themas.colors.white,
+    textAlign: 'center', // Centraliza o texto dentro do círculo
+    marginTop: 20,
+  },
+  titlePet: {
+    fontSize: 30,
+    marginBottom: 30,
+    fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
+    fontFamily: themas.fonts.fontLetras,
+    color: themas.colors.black,
     textAlign: 'center', // Centraliza o texto dentro do círculo
     marginTop: 20,
   },
@@ -228,7 +237,7 @@ export const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: "#ddd",
+    backgroundColor: themas.colors.buttons,
     alignItems: "center",
     justifyContent: "center",
     margin: 10,

@@ -18,14 +18,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function AppMenu() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
-      {/* Aqui você pode adicionar mais telas que devem aparecer com o Menu Global */}
-    </Tab.Navigator>
-  );
-}
+// function AppMenu() {
+//   return (
+//     <Tab.Navigator>
+//       {/* Aqui você pode adicionar mais telas que devem aparecer com o Menu Global */}
+//     </Tab.Navigator>
+//   );
+// }
 
 function App() {
 
@@ -41,11 +40,11 @@ function App() {
         <Stack.Screen name="TelaEntrar" component={TelaEntrar} options={{ headerShown: false }} />
         <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ title: 'Login' }} />
         <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
-        <Stack.Screen name="TelaCadastroPet" component={(props) => <TelaCadastroPet {...props} />} options={{ title: 'Cadastro do pet' }} />
+        <Stack.Screen name="TelaCadastroPet" component={TelaCadastroPet} options={{ title: 'Cadastro do pet' }} />
         <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
-
+        <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
         {/* Menu Global com as abas principais */}
-        <Stack.Screen name="AppMenu" component={AppMenu} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="AppMenu" component={AppMenu} options={{ headerShown: false }} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

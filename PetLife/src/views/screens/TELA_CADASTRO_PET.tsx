@@ -4,10 +4,11 @@ import { styles } from '../../../styles';
 import { cadastrarPet } from '../../controllers/TELA_CADASTRO_PET';
 import { View, Text, TextInput, Alert, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { themas } from '../../global/themes';
-import { useNavigation, NavigationProp, RouteProp } from '@react-navigation/native';
+import { useNavigation, NavigationProp, RouteProp, useRoute } from '@react-navigation/native';
 import { User } from 'firebase/auth';
 import { launchImageLibrary, Asset } from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker';
+import TelaPet from './TELA_PET';
 
 
 
@@ -24,11 +25,14 @@ declare global {
     interface RootParamList extends AppRootParamList { }
   }
 }
+// type TelaCadastroPetProps = {
+//   route: RouteProp<AppRootParamList, 'TelaCadastroPet'>; // Adiciona o tipo para as props
+// };
 
 
-export default function TelaCadastroPet({ route }: { route: RouteProp<AppRootParamList, 'TelaCadastroPet'> }) {
+export default function TelaCadastroPet() {
   const navigation = useNavigation();
-  const { fromPet } = route.params || {}; // Verificando se veio da TelaPet
+  //const { fromPet } = route.params || {}; // Verificando se veio da TelaPet
   const [user, setUser] = useState<User | null>(null);
   const [navigatedAway, setNavigatedAway] = useState(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
@@ -94,7 +98,7 @@ export default function TelaCadastroPet({ route }: { route: RouteProp<AppRootPar
   // Validar os campos antes de cadastrar o pet ao usuario
 
   const handleCadastrarPet = async () => {
- 
+
     // Validação antes de tentar o cadastro
     const isValid = validarCampos();
 
@@ -108,14 +112,9 @@ export default function TelaCadastroPet({ route }: { route: RouteProp<AppRootPar
 
     try {
       const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
-      console.log('cadastro de pet funcionou');
+      //console.log('cadastro de pet funcionou');
       Alert.alert('Cadastro de pet realizado com sucesso!');
-       // Redirecionar para a tela correta com base na origem
-       if (fromPet) {
-        navigation.navigate('TelaPet'); // Se veio da TelaPet, volta para TelaPet
-      } else {
-        navigation.navigate('TelaLogin'); // Caso contrário, vai para TelaLogin
-      }
+      navigation.navigate('TelaLogin'); // Caso contrário, vai para TelaLogin
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro', error.message);
@@ -123,7 +122,6 @@ export default function TelaCadastroPet({ route }: { route: RouteProp<AppRootPar
     }
 
   };
-
 
 
   // ---------------------------------------------------- //
