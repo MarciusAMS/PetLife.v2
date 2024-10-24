@@ -23,6 +23,7 @@ export default function TelaPet() {
     const auth = getAuth();
     const user = auth.currentUser;
 
+
     useEffect(() => {
 
         const fetchPets = async () => {
@@ -47,7 +48,6 @@ export default function TelaPet() {
             }
         };
 
-
         // const fetchPets = async () => {
         //     try {
         //         const querySnapshot = await getDocs(collection(db, "pets")); // Buscando todos os pets
@@ -65,39 +65,38 @@ export default function TelaPet() {
     }, []);
 
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <View style={styles.containerHorizontal}>
-                    <Text style={styles.titlePet}>PETS</Text>
-                </View>
-
-                {/* Exibe os pets cadastrados */}
-                <View style={styles.petContainer}>
-                    {pets.map((pet, index) => {
-                        console.log('Pet:', pet); // Verifica o objeto pet
-                        console.log('Imagem URL:', pet.imagemUrl); // Verifica a URL da imagem
-
-                        return (
-                            <View key={index} style={styles.petCard}>
-                                {pet.imagemUrl ? (
-                                    <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
-                                ) : (
-                                    <Text style={styles.petName}>Imagem não disponível</Text>
-                                )}
-                                <Text style={styles.petName}>{pet.nome}</Text>
-                            </View>
-                        );
-                    })}
-
-                    {/* Ícone de "+" para adicionar um novo pet */}
-                    <TouchableOpacity
-                        style={styles.addPetButton}
-                        onPress={() => navigation.navigate('TelaCadastroPet')}
-                    >
-                        <Text style={styles.addPetIcon}>+</Text>
-                    </TouchableOpacity>
-                </View>
+        <View style={styles.container}>
+            <View style={styles.headerContainer}>
+                <Image source={require('../../../assets/Logo.png')} style={styles.logo} />
+                <Text style={styles.titlePet}>PETS</Text>
+                {/* <Image source={require('')} style={styles.pawIcon} /> */}
             </View>
-        </ScrollView>
+
+            <View style={styles.separator} />
+
+            {/* Exibe os pets cadastrados */}
+            <View style={styles.petContainer}>
+                {pets.map((pet, index) => {
+                    return (
+                        <View key={index} style={styles.petCard}>
+                            {pet.imagemUrl ? (
+                                <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
+                            ) : (
+                                <Text style={styles.petName}>Imagem não disponível</Text>
+                            )}
+                            <Text style={styles.petName}>{pet.nome}</Text>
+                        </View>
+                    );
+                })}
+
+                {/* Ícone de "+" para adicionar um novo pet */}
+                <TouchableOpacity
+                    style={styles.addPetButton}
+                    onPress={(handlePet) => navigation.navigate('TelaCadastroPet', { userUID: user?.uid })}
+                >
+                    <Text style={styles.addPetIcon}>+</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
     );
 }

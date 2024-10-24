@@ -42,6 +42,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
     bottom: 10,
   },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+},
   // containerCadastro: {
   //   flex: 1,
   //   justifyContent: 'center',
@@ -214,36 +220,57 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline', // Linha sublinhada para parecer um link
     fontSize: 16,
   },
-  petContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  petCard: {
-    width: 100,
-    height: 120,
-    margin: 10,
-    alignItems: "center",
-  },
-  petImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginBottom: 5,
-  },
-  petName: {
-    fontSize: 16,
-  },
-  addPetButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: themas.colors.buttons,
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 10,
-  },
-  addPetIcon: {
-    fontSize: 40,
-    color: "#000",
-  },
+  // Tela Pet
+  pawIcon: {
+    width: 24,
+    height: 24,
+    marginLeft: 10,
+},
+petContainer: {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  justifyContent: 'space-around',
+},
+petCard: {
+  alignItems: 'center',
+  marginBottom: 20,
+  padding: 5,
+},
+petImage: {
+  width: 100,
+  height: 100,
+  borderRadius: 50,
+  borderWidth: 2,
+  borderColor: '#D2A24C',
+  marginBottom: 5,
+},
+petName: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  color: '#000',
+  backgroundColor: '#D2A24C',
+  paddingVertical: 5,
+  paddingHorizontal: 10,
+  borderRadius: 10,
+},
+addPetButton: {
+  backgroundColor: '#D2A24C',
+  width: 100,
+  height: 100,
+  borderRadius: 50,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+addPetIcon: {
+  fontSize: 50,
+  color: '#FFF',
+},
+separator: {
+  height: 3,             // Altura da linha
+  backgroundColor: '#D2A24C',  // Cor da linha (você pode ajustar conforme o tema)
+  marginVertical: 10,    // Espaçamento vertical para separar o título e os ícones
+  width: '100%',          // Largura da linha para ficar centralizada
+  alignSelf: 'center',   // Centraliza a linha no container
+  top: -70,
+},
 });

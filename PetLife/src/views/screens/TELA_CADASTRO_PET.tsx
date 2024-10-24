@@ -13,25 +13,25 @@ import TelaPet from './TELA_PET';
 
 
 // Este appRootParamList está servindo para definir o tipo da TelaCadastroPet
+type CadastroPetRouteProp = RouteProp<AppRootParamList, 'TelaCadastroPet'>;
 
 export type AppRootParamList = {
   TelaCadastro: undefined;
   TelaLogin: undefined;
   TelaPet: undefined;
-  TelaCadastroPet: { fromPet?: boolean }; // Adicionando um parâmetro opcional
+  TelaCadastroPet: { userUID?: string | undefined }; // Adicionando um parâmetro opcional
 };
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends AppRootParamList { }
   }
 }
-// type TelaCadastroPetProps = {
-//   route: RouteProp<AppRootParamList, 'TelaCadastroPet'>; // Adiciona o tipo para as props
-// };
-
 
 export default function TelaCadastroPet() {
   const navigation = useNavigation();
+  const route = useRoute<CadastroPetRouteProp>();
+  const userUID = route.params.userUID;
+  console.log('UID do usuario: ', userUID);
   //const { fromPet } = route.params || {}; // Verificando se veio da TelaPet
   const [user, setUser] = useState<User | null>(null);
   const [navigatedAway, setNavigatedAway] = useState(false);

@@ -7,7 +7,7 @@ export const cadastrarPet = async (nome: string, raca: string, idade: string, se
   try {
     // Obtém o UID do usuário logado
     const userUID = auth.currentUser?.uid;
-
+    
     if (!userUID) {
       throw new Error('Usuário não está autenticado');
     }
@@ -21,7 +21,7 @@ export const cadastrarPet = async (nome: string, raca: string, idade: string, se
     await uploadBytes(storageRef, bytes);
     const url = await getDownloadURL(storageRef);
     console.log(`Image uploaded at URL: ${url}`);
-    
+
     // Referência à coleção 'pets' no Firestore
     const petsCollection = collection(firestore, 'pets');
 
