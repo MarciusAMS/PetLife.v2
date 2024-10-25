@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet, StatusBar } from 'react-native';
 import { themas } from './src/global/themes';
+import { ScreenWidth } from 'react-native-elements/dist/helpers';
 
 export const styles = StyleSheet.create({
   container: {
@@ -22,46 +23,47 @@ export const styles = StyleSheet.create({
     bottom: 25,
   },
   //------------------------------------------
-  containerInicioHorizontal: {
-    position: 'absolute', 
-    top: 0,
-    left: 0,
-    right: 0,
-    flexDirection: 'row', 
-    justifyContent: 'space-between', // Espaço entre a parte esquerda (imagem + nome) e o botão
-    alignItems: 'center', 
-    paddingHorizontal: 20,
-    height: 80,
-    paddingTop: StatusBar.currentHeight || 20, 
-    zIndex: 1, 
-  },
-  
-  conteudoEsquerda: {
-    flexDirection: 'row', // Alinha imagem e nome horizontalmente
-    alignItems: 'center', // Centraliza verticalmente
-  },
-  
-  imagensTopo: {
-    width: 100,
-    height: 100,
-    borderRadius: 25, 
-    marginRight: 10, // Espaço entre a imagem e o nome do pet
-  },
-  
-  nomeDoPet: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  
-  verPets: {
-    width: 40,
-    height: 40,
-    borderRadius: 20, 
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  
+//------------------------------------------
+containerInicioHorizontal: {
+  position: 'absolute', 
+  top: 0,
+  left: 0,
+  right: 0,
+  flexDirection: 'row', 
+  justifyContent: 'space-between', // Espaço entre a parte esquerda (imagem + nome) e o botão
+  alignItems: 'center', 
+  paddingHorizontal: 20,
+  height: 80,
+  paddingTop: StatusBar.currentHeight || 20, 
+  zIndex: 1, 
+},
+
+conteudoEsquerda: {
+  flexDirection: 'row', // Alinha imagem e nome horizontalmente
+  alignItems: 'center', // Centraliza verticalmente
+},
+
+imagensTopo: {
+  width: 75,
+  height: 75,
+  borderRadius: 25, 
+  marginRight: 10, // Espaço entre a imagem e o nome do pet
+},
+
+nomeDoPet: {
+  fontSize: 40,
+  fontWeight: 'bold',
+  color: '#000',
+},
+
+verPets: {
+  width: 40,
+  height: 40,
+  borderRadius: 20, 
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
 
 //------------------------------
   containerHorizontal: {
@@ -248,4 +250,31 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline', // Linha sublinhada para parecer um link
     fontSize: 16,
   },
+  carouselContainer:{
+    flex: 1,
+    justifyContent: 'center',
+  },
+  carousel: {
+    width: Dimensions.get('screen').width * 0.8,
+    alignItems: 'center',
+    height: 180,
+    borderRadius: 30,
+    marginHorizontal: (Dimensions.get('screen').width * 0.1) / 2, // Centraliza horizontalmente
+    overflow: 'hidden', // Evita imagens cortadas
+  },
+  carouselImage: {
+    width: '100%',
+    height: '100%',
+    alignSelf: 'center',
+    borderRadius: 30
+  },
+  flatListCarousel: {
+    paddingTop:20,
+    height: 200,
+  },
+  flatListBolinhasCarousel: {
+    paddingTop: 20,
+    alignSelf: 'center',
+    bottom: 100,
+  }
 });

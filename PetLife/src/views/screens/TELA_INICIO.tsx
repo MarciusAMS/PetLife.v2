@@ -4,6 +4,7 @@ import { styles } from '../../../styles';
 import { auth } from '../../../firebaseService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Carousel } from '../../global/carousel';
 
 export type RootStackParamList = {
     TelaLogin: undefined,
@@ -50,17 +51,14 @@ return (
   <Image source={require('../../../assets/Inicio-verPetsCadastrados.png')} style={styles.imagensTopo} />
   </TouchableOpacity>
 </View>
-
-
+<Carousel />
       <TouchableOpacity onPress={signOutUser} activeOpacity={0.5}>
       <Image source={require('../../../assets/logo_windows.png')} style={styles.Icon}>
-          
           </Image>
         </TouchableOpacity>
-
-
         
       </ScrollView>
       )
 
     }
+
