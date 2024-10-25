@@ -19,7 +19,7 @@ export type AppRootParamList = {
   TelaCadastro: undefined;
   TelaLogin: undefined;
   TelaPet: undefined;
-  TelaCadastroPet: { userUID?: string | undefined }; // Adicionando um parâmetro opcional
+  TelaCadastroPet: undefined;
 };
 declare global {
   namespace ReactNavigation {
@@ -30,8 +30,8 @@ declare global {
 export default function TelaCadastroPet() {
   const navigation = useNavigation();
   const route = useRoute<CadastroPetRouteProp>();
-  const userUID = route.params.userUID;
-  console.log('UID do usuario: ', userUID);
+  //const userUID = route.params.userUID;
+  //console.log('UID do usuario: ', userUID);
   //const { fromPet } = route.params || {}; // Verificando se veio da TelaPet
   const [user, setUser] = useState<User | null>(null);
   const [navigatedAway, setNavigatedAway] = useState(false);
@@ -66,7 +66,7 @@ export default function TelaCadastroPet() {
         console.log(user.uid);
         setNavigatedAway(false);
       } else if (!navigatedAway) {
-        // Se o usuário não está logado, redireciona para a tela de login
+        // Se o usuário não está logado, redireciona para a tela de cadastro
         navigation.navigate('TelaCadastro');
         setNavigatedAway(true);
       }
@@ -99,6 +99,8 @@ export default function TelaCadastroPet() {
 
   const handleCadastrarPet = async () => {
 
+
+
     // Validação antes de tentar o cadastro
     const isValid = validarCampos();
 
@@ -114,7 +116,7 @@ export default function TelaCadastroPet() {
       const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
       //console.log('cadastro de pet funcionou');
       Alert.alert('Cadastro de pet realizado com sucesso!');
-      navigation.navigate('TelaLogin'); // Caso contrário, vai para TelaLogin
+      navigation.navigate('TelaLogin');
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro', error.message);

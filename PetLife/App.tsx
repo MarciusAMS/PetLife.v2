@@ -8,11 +8,12 @@ import TelaEntrar from './src/views/screens/TELA_ENTRAR';
 import TelaLogin from './src/views/screens/TELA_LOGIN';
 import TelaEsqueciSenha from './src/views/screens/TELA_ESQUECI_SENHA';
 import TelaCadastro from './src/views/screens/TELA_CADASTRO';
+import TelaCadastroPet from './src/views/screens/TELA_CADASTRO_PET'
+import TelaCadastroPet2 from './src/views/screens/TELA_CADASTRO_PET2';
 import TelaPet from './src/views/screens/TELA_PET';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import MenuGlobal from './src/global/menuGlobal';
-import TelaCadastroPet from './src/views/screens/TELA_CADASTRO_PET'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Stack = createNativeStackNavigator();
@@ -27,8 +28,13 @@ const Tab = createBottomTabNavigator();
 // }
 
 export type AppRootParamList = {
+  TelaEntrar: undefined;
+  TelaLogin: undefined;
+  TelaCadastro: undefined;
+  TelaCadastroPet: undefined;
+  TelaCadastroPet2: undefined; 
+  telaEsqueciSenha: undefined;
   TelaPet: undefined;
-  TelaCadastroPet: { userUID: string | undefined };
 };
 
 
@@ -46,7 +52,8 @@ function App() {
         <Stack.Screen name="TelaEntrar" component={TelaEntrar} options={{ headerShown: false }} />
         <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ title: 'Login' }} />
         <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
-        <Stack.Screen name="TelaCadastroPet" component={(props) => <TelaCadastroPet {...props} />} options={{ title: 'Cadastro do pet' }} />
+        <Stack.Screen name="TelaCadastroPet" component={TelaCadastroPet} options={{ title: 'Cadastro do pet' }} />
+        <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
         <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
         <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
         {/* Menu Global com as abas principais */}

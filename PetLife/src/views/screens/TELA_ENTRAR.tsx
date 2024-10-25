@@ -11,6 +11,7 @@ type RootStackParamList = {
   TelaEntrar: undefined;
   TelaLogin: undefined;
   TelaCadastroPet: undefined;
+  TelaCadastroPet2: undefined;
   TelaCadastro: undefined;
 };
 
@@ -32,9 +33,9 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   const handleSignUp = () => {
     navigation.navigate('TelaCadastro'); // Navega para a tela de cadastro
   };
-  const CadastrarPet = () => {
-    navigation.navigate('TelaCadastroPet');
-  }
+  // const CadastrarPet = () => {
+  //   navigation.navigate('TelaCadastroPet');
+  // }
 
 
 

@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-   // backgroundColor: themas.colors.background, 
+    // backgroundColor: themas.colors.background, 
   },
   containerEsqueciSenha: {
     flexDirection: 'row', // Alinha os elementos horizontalmente
@@ -44,10 +44,12 @@ export const styles = StyleSheet.create({
   },
   headerContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start', 
     alignItems: 'center',
     marginBottom: 10,
-},
+    marginTop: -420, // Ajuste para mais ou menos espaço do topo
+    paddingVertical: 3, // Adiciona padding vertical, se necessário
+  },
   // containerCadastro: {
   //   flex: 1,
   //   justifyContent: 'center',
@@ -160,7 +162,7 @@ export const styles = StyleSheet.create({
     width: 50, // Ajustar o tamanho dos botões
     height: 50,
   },
-  
+
   inputContainer: {
     marginVertical: 10,
     paddingHorizontal: 20,
@@ -171,7 +173,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     bottom: 25,
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   label: {
     fontSize: 16,
@@ -188,7 +190,7 @@ export const styles = StyleSheet.create({
     backgroundColor: themas.colors.white,
     //color: ,
   },
-  imagemAdicionarFotoPet:{
+  imagemAdicionarFotoPet: {
     width: 150,                // Ajuste conforme necessário para o tamanho da imagem
     height: 200,               // Ajuste conforme necessário para o tamanho da imagem
     resizeMode: 'contain',
@@ -207,7 +209,7 @@ export const styles = StyleSheet.create({
     fontSize: 40,  // Tamanho do texto
     fontWeight: 'bold',  // Negrito para destacar
     color: themas.colors.black,  // Cor conforme o tema
-    fontFamily: themas.fonts.fontLetras2, 
+    fontFamily: themas.fonts.fontLetras2,
   },
   linkContainer: {
     marginTop: 10, // Espaçamento em relação aos outros elementos
@@ -225,52 +227,52 @@ export const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginLeft: 10,
-},
-petContainer: {
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  justifyContent: 'space-around',
-},
-petCard: {
-  alignItems: 'center',
-  marginBottom: 20,
-  padding: 5,
-},
-petImage: {
-  width: 100,
-  height: 100,
-  borderRadius: 50,
-  borderWidth: 2,
-  borderColor: '#D2A24C',
-  marginBottom: 5,
-},
-petName: {
-  fontSize: 18,
-  fontWeight: 'bold',
-  color: '#000',
-  backgroundColor: '#D2A24C',
-  paddingVertical: 5,
-  paddingHorizontal: 10,
-  borderRadius: 10,
-},
-addPetButton: {
-  backgroundColor: '#D2A24C',
-  width: 100,
-  height: 100,
-  borderRadius: 50,
-  justifyContent: 'center',
-  alignItems: 'center',
-},
-addPetIcon: {
-  fontSize: 50,
-  color: '#FFF',
-},
-separator: {
-  height: 3,             // Altura da linha
-  backgroundColor: '#D2A24C',  // Cor da linha (você pode ajustar conforme o tema)
-  marginVertical: 10,    // Espaçamento vertical para separar o título e os ícones
-  width: '100%',          // Largura da linha para ficar centralizada
-  alignSelf: 'center',   // Centraliza a linha no container
-  top: -70,
-},
+  },
+  petContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  petCard: {
+    alignItems: 'center',
+    marginBottom: 20,
+    padding: 10,
+  },
+  petImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: '#D2A24C',
+    marginBottom: 5,
+  },
+  petName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    backgroundColor: '#D2A24C',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+  addPetButton: {
+    backgroundColor: '#D2A24C',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addPetIcon: {
+    fontSize: 50,
+    color: '#FFF',
+  },
+  separator: {
+    height: 3,             // Altura da linha
+    backgroundColor: '#D2A24C',  // Cor da linha (você pode ajustar conforme o tema)
+    marginVertical: 10,    // Espaçamento vertical para separar o título e os ícones
+    width: '100%',          // Largura da linha para ficar centralizada
+    alignSelf: 'center',   // Centraliza a linha no container
+    top: -70,
+  },
 });

@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { useState, useEffect } from "react";
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { styles } from "../../../styles";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-export type AppRootParamList = {
-    TelaCadastroPet: { userUID: string } // Adicionando um parâmetro opcional
-};
+export type RootStackParamList = {
+    TelaPet: undefined;
+    TelaCadastroPet2: undefined;
+  };
+
+type TelaEntrarProps = {
+    navigation: NativeStackNavigationProp<RootStackParamList, 'TelaPet'>;
+  };
 
 // Definir um tipo para os pets
 interface Pet {
@@ -16,9 +22,8 @@ interface Pet {
     userUID: string;
 }
 
-export default function TelaPet() {
+export default function TelaPet( { navigation } : TelaEntrarProps) {
     const [pets, setPets] = useState<Pet[]>([]);
-    const navigation = useNavigation();
     const db = getFirestore();
     const auth = getAuth();
     const user = auth.currentUser;
@@ -92,7 +97,7 @@ export default function TelaPet() {
                 {/* Ícone de "+" para adicionar um novo pet */}
                 <TouchableOpacity
                     style={styles.addPetButton}
-                    onPress={(handlePet) => navigation.navigate('TelaCadastroPet', { userUID: user?.uid })}
+                    onPress={() => navigation.navigate('TelaCadastroPet2')}
                 >
                     <Text style={styles.addPetIcon}>+</Text>
                 </TouchableOpacity>
