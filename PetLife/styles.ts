@@ -43,12 +43,17 @@ export const styles = StyleSheet.create({
     bottom: 10,
   },
   headerContainer: {
+    position: 'absolute',
+    top: -30,                // Fixa no topo da tela
+    left: -15,               // Alinha à esquerda da tela
+    right: 0,              // Alinha à direita da tela para ocupar a largura completa
     flexDirection: 'row',
     justifyContent: 'flex-start', 
     alignItems: 'center',
-    marginBottom: 10,
-    marginTop: -420, // Ajuste para mais ou menos espaço do topo
+    marginBottom: 20,
+    marginTop: 10, // Ajuste para mais ou menos espaço do topo
     paddingVertical: 3, // Adiciona padding vertical, se necessário
+    padding: 10,
   },
   // containerCadastro: {
   //   flex: 1,
@@ -73,13 +78,14 @@ export const styles = StyleSheet.create({
     marginTop: 20,
   },
   titlePet: {
-    fontSize: 30,
+    fontSize: 60,
     marginBottom: 30,
     fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
-    fontFamily: themas.fonts.fontLetras,
+    fontFamily: themas.fonts.fontLetras2,
     color: themas.colors.black,
     textAlign: 'center', // Centraliza o texto dentro do círculo
     marginTop: 20,
+    left: -30,
   },
   titleContainer: {
     justifyContent: 'center',
@@ -223,20 +229,29 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   // Tela Pet
+  logoPet: {
+    width: '50%',
+    height: 500,
+    aspectRatio: 1, // Mantém a proporção da imagem
+    marginBottom: 10,
+    left: -10,
+  },
   pawIcon: {
-    width: 24,
-    height: 24,
-    marginLeft: 10,
+    width: 45,
+    height: 45,
+    marginLeft: 1,
   },
   petContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    top: -60,
   },
   petCard: {
     alignItems: 'center',
     marginBottom: 20,
-    padding: 10,
+    padding: 15,
+    marginTop: 56,
   },
   petImage: {
     width: 100,
@@ -262,17 +277,19 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 70,
   },
   addPetIcon: {
     fontSize: 50,
     color: '#FFF',
   },
   separator: {
-    height: 3,             // Altura da linha
-    backgroundColor: '#D2A24C',  // Cor da linha (você pode ajustar conforme o tema)
-    marginVertical: 10,    // Espaçamento vertical para separar o título e os ícones
-    width: '100%',          // Largura da linha para ficar centralizada
-    alignSelf: 'center',   // Centraliza a linha no container
-    top: -70,
-  },
+    position: 'absolute',
+    height: 3,               // Altura da linha
+    backgroundColor: '#D2A24C', // Cor da linha
+    width: '90%',             // Ajuste a largura para centralizar visualmente
+    alignSelf: 'center',      // Centraliza a linha horizontalmente
+    marginTop: -250,            // Espaçamento para ficar logo abaixo do título
+    marginBottom: 20,         // Espaçamento inferior para o conteúdo a seguir
+},
 });

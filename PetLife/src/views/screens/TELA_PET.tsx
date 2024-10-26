@@ -1,88 +1,79 @@
-import { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useState, useCallback } from "react";
+import { View, Text, Image, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
     TelaPet: undefined;
     TelaCadastroPet2: undefined;
-  };
+};
 
 type TelaEntrarProps = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'TelaPet'>;
-  };
+};
 
-// Definir um tipo para os pets
 interface Pet {
     nome: string;
-    imagemUrl: string; // URL da imagem no Storage
+    imagemUrl: string;
     userUID: string;
 }
 
-export default function TelaPet( { navigation } : TelaEntrarProps) {
+export default function TelaPet({ navigation }: TelaEntrarProps) {
     const [pets, setPets] = useState<Pet[]>([]);
+    const [loading, setLoading] = useState(false);
     const db = getFirestore();
     const auth = getAuth();
     const user = auth.currentUser;
 
+    const fetchPets = async () => {
+        setLoading(true);
+        try {
+            if (user) {
+                console.log('UID do usuário:', user.uid);
+                const q = query(
+                    collection(db, "pets"),
+                    where("userUID", "==", user.uid)
+                );
+                const querySnapshot = await getDocs(q);
 
-    useEffect(() => {
-
-        const fetchPets = async () => {
-            try {
-                if (user) {  // Certifica-se de que o usuário está autenticado
-                    console.log('UID do usuário:', user.uid);
-                    const q = query(
-                        collection(db, "pets"),
-                        where("userUID", "==", user.uid) // Certifique-se de que é 'userUID' no filtro
-                    );
-                    const querySnapshot = await getDocs(q);
-
-                    const petList: Pet[] = querySnapshot.docs.map(doc => doc.data() as Pet);
-                    setPets(petList);
-                    console.log('Pets recuperados:', petList);
-                } else {
-                    Alert.alert("Erro", "Usuário não autenticado.");
-                }
-            } catch (error) {
-                console.error('Erro ao buscar pets:', error);
-                Alert.alert("Erro", "Erro ao buscar pets.");
+                const petList: Pet[] = querySnapshot.docs.map(doc => doc.data() as Pet);
+                setPets(petList);
+                console.log('Pets recuperados:', petList);
+            } else {
+                Alert.alert("Erro", "Usuário não autenticado.");
             }
-        };
+        } catch (error) {
+            console.error('Erro ao buscar pets:', error);
+            Alert.alert("Erro", "Erro ao buscar pets.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        // const fetchPets = async () => {
-        //     try {
-        //         const querySnapshot = await getDocs(collection(db, "pets")); // Buscando todos os pets
-        //         const petList: Pet[] = querySnapshot.docs.map(doc => doc.data() as Pet);
-        //         console.log('Todos os pets:', petList); // Verifica todos os pets
-        //         setPets(petList); 
-        //         console.log('Pets recuperados', petList);
-        //     } catch (error) {
-        //         console.error('Erro ao buscar pets:', error);
-        //         Alert.alert("Erro", "Erro ao buscar pets.");
-        //     }
-        // };
-
-        fetchPets();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            fetchPets(); // Chama fetchPets quando a tela ganha foco
+        }, [])
+    );
 
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Image source={require('../../../assets/Logo.png')} style={styles.logo} />
+                <Image source={require('../../../assets/Logo.png')} style={styles.logoPet} />
                 <Text style={styles.titlePet}>PETS</Text>
-                {/* <Image source={require('')} style={styles.pawIcon} /> */}
+                <Image source={require('../../../assets/patas.png')} style={styles.pawIcon} />
             </View>
 
             <View style={styles.separator} />
 
-            {/* Exibe os pets cadastrados */}
             <View style={styles.petContainer}>
-                {pets.map((pet, index) => {
-                    return (
+                {loading ? (
+                    <ActivityIndicator size="large" color="#0000ff" />
+                ) : (
+                    pets.map((pet, index) => (
                         <View key={index} style={styles.petCard}>
                             {pet.imagemUrl ? (
                                 <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
@@ -91,10 +82,9 @@ export default function TelaPet( { navigation } : TelaEntrarProps) {
                             )}
                             <Text style={styles.petName}>{pet.nome}</Text>
                         </View>
-                    );
-                })}
+                    ))
+                )}
 
-                {/* Ícone de "+" para adicionar um novo pet */}
                 <TouchableOpacity
                     style={styles.addPetButton}
                     onPress={() => navigation.navigate('TelaCadastroPet2')}
