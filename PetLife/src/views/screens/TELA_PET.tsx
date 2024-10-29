@@ -9,6 +9,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 export type RootStackParamList = {
     TelaPet: undefined;
     TelaCadastroPet2: undefined;
+   // TelaInicio: string | undefined;
 };
 
 type TelaEntrarProps = {
@@ -74,17 +75,20 @@ export default function TelaPet({ navigation }: TelaEntrarProps) {
                     <ActivityIndicator size="large" color="#0000ff" />
                 ) : (
                     pets.map((pet, index) => (
-                        <View key={index} style={styles.petCard}>
-                            {pet.imagemUrl ? (
-                                <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
-                            ) : (
-                                <Text style={styles.petName}>Imagem não disponível</Text>
-                            )}
-                            <Text style={styles.petName}>{pet.nome}</Text>
-                        </View>
+                        <TouchableOpacity 
+                        key={index} 
+                        style={styles.petCard} 
+                        // onPress={() => navigation.navigate('TelaInicio')}
+                    >
+                        {pet.imagemUrl ? (
+                            <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
+                        ) : (
+                            <Text style={styles.petName}>Imagem não disponível</Text>
+                        )}
+                        <Text style={styles.petName}>{pet.nome}</Text>
+                    </TouchableOpacity>
                     ))
                 )}
-
                 <TouchableOpacity
                     style={styles.addPetButton}
                     onPress={() => navigation.navigate('TelaCadastroPet2')}

@@ -287,9 +287,9 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     height: 3,               // Altura da linha
     backgroundColor: '#D2A24C', // Cor da linha
-    width: '90%',             // Ajuste a largura para centralizar visualmente
+    width: '95%',             // Ajuste a largura para centralizar visualmente
     alignSelf: 'center',      // Centraliza a linha horizontalmente
-    marginTop: -250,            // Espaçamento para ficar logo abaixo do título
+    top: 150,            // Espaçamento para ficar logo abaixo do título
     marginBottom: 20,         // Espaçamento inferior para o conteúdo a seguir
 },
 });
