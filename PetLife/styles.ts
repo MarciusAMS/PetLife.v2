@@ -250,31 +250,4 @@ verPets: {
     textDecorationLine: 'underline', // Linha sublinhada para parecer um link
     fontSize: 16,
   },
-  carouselContainer:{
-    flex: 1,
-    justifyContent: 'center',
-  },
-  carousel: {
-    width: Dimensions.get('screen').width * 0.8,
-    alignItems: 'center',
-    height: 180,
-    borderRadius: 30,
-    marginHorizontal: (Dimensions.get('screen').width * 0.1) / 2, // Centraliza horizontalmente
-    overflow: 'hidden', // Evita imagens cortadas
-  },
-  carouselImage: {
-    width: '100%',
-    height: '100%',
-    alignSelf: 'center',
-    borderRadius: 30
-  },
-  flatListCarousel: {
-    paddingTop:20,
-    height: 200,
-  },
-  flatListBolinhasCarousel: {
-    paddingTop: 20,
-    alignSelf: 'center',
-    bottom: 100,
-  }
 });

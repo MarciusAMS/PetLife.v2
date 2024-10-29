@@ -1,101 +1,63 @@
-import { FlatList, View, Image } from 'react-native';
-import Animated, { LinearTransition, FadeInLeft, FadeOutRight } from 'react-native-reanimated'; 
-import { useState, useEffect, useRef } from 'react';
-import { styles } from '../../styles';
+import React from 'react';
+import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
+import Carousel from 'react-native-reanimated-carousel';
 
-const DATA= [
-{
- image: require('../../assets/RobloxScreenShot20230903_215929369.png')
-},
-{
-    image: require('../../assets/RobloxScreenShot20230903_215929369.png')
-   },
-]
-export const Carousel = () => {
-    const [activeBanner, setActiveBanner] = useState<number>(0);
-   
-    const FlatListRef = useRef<FlatList>(null);
+interface CarouselItem {
+  title: string;
+  imageSource: any;
+}
 
-    const onViewableItemsChanged = ({ viewableItems }:any ) => {
-        if(viewableItems[0] != undefined){
-            setActiveBanner(viewableItems[0] ?.index);
-        }
-    };
+const { width } = Dimensions.get('window');
 
-    const viewabilityConfigCallbackPairs = useRef([
-    {
-        viewabilityConfig: {
-            itemVisiblePercentThreshold: 50,
-        },
-        onViewableItemsChanged,
-    },
-    ]);
+const data: CarouselItem[] = [
+  { title: 'Foto 1', imageSource: require('../../assets/cuidadosGerais.png') },
+  { title: 'Foto 2', imageSource: require('../../assets/plantasToxicas.png') },
+  { title: 'Foto 3', imageSource: require('../../assets/parasitasExternos.png') },
+];
 
-    useEffect(() => {
-        if(activeBanner == DATA.length - 1){
-            return;
-        }
-        const timeId = setTimeout(() => {
-            FlatListRef.current?.scrollToIndex({
-                index: activeBanner + 1,
-                animated: true
-            })
-            setActiveBanner(old => old + 1);
-        },3000);
-        return () => clearTimeout(timeId);
-    },[activeBanner])
-
-
-    return(
-   <>
-   <View style={styles.carouselContainer}>
-    <FlatList
-    ref={FlatListRef}
-     data={DATA} renderItem={({ item, index}) => (
-        <View style={styles.carousel}>
-            <Image source={item.image} style={styles.carouselImage} resizeMode="cover"/>
+const CustomCarousel = () => {
+  return (
+    <Carousel
+      loop
+      width={width * 0.8}
+      height={width * 0.6}
+      autoPlay={true}
+      autoPlayInterval={3000}
+      scrollAnimationDuration={1000} // Duração da animação para a rotação automática
+      data={data}
+      renderItem={({ item }: { item: CarouselItem }) => (
+        <View style={styles.itemContainer}>
+          <Image source={item.imageSource} style={styles.image} />
+          <Text style={styles.title}>{item.title}</Text>
         </View>
-
-    )}
-    style={styles.flatListCarousel}
-
-    contentContainerStyle={{
-    justifyContent: 'center',
-    flexDirection: 'row',
-    }}
-    pagingEnabled
-    viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
-    horizontal
-    keyExtractor={(item,index) => String(index)}
-    showsHorizontalScrollIndicator={false}
+      )}
+      panGestureHandlerProps={{
+        activeOffsetX: [-10, 10], // Configura sensibilidade para arraste lateral
+      }}
     />
-   
-     <FlatList data={DATA} renderItem={({ item, index}) => (
-        <Animated.View
-        layout={LinearTransition}
-        entering={FadeInLeft}
-        exiting={FadeOutRight}
-        style={{
-// Este é o unico style que é estilizado dentro do codigo porque precisei usar o active banner
-            width:  activeBanner == index ? 12 : 8,
-            height: 8,
-            borderRadius: 4,
-            backgroundColor: activeBanner == index ? 'black' : 'gray',
-            marginHorizontal: 2,
-        }}
-        />
-    )}
-    style={styles.flatListBolinhasCarousel}
-    contentContainerStyle={{
-        marginTop: 10,
-        justifyContent: 'center',
-        flexDirection: 'row',
-    }}
-    scrollEnabled={false}
-    horizontal
-    keyExtractor={(item,index) => String(index)}
-    />
-    </View>
-   </>
-);
+  );
 };
+
+const styles = StyleSheet.create({
+  itemContainer: {
+    flex: 1,
+    borderRadius: 10,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#D2A679',
+  },
+  image: {
+    width: '100%',
+    height: '80%',
+    resizeMode: 'cover',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 10,
+  },
+});
+
+export default CustomCarousel;
