@@ -19,11 +19,11 @@ const CustomCarousel = () => {
   return (
     <Carousel
       loop
-      width={width * 0.8}
-      height={width * 0.6}
+      width={width * 0.9} // Aumentando a largura para 90% da tela
+      height={width * 0.7} // Aumentando a altura do carrossel
       autoPlay={true}
       autoPlayInterval={3000}
-      scrollAnimationDuration={1000} // Duração da animação para a rotação automática
+      scrollAnimationDuration={1000}
       data={data}
       renderItem={({ item }: { item: CarouselItem }) => (
         <View style={styles.itemContainer}>
@@ -32,7 +32,7 @@ const CustomCarousel = () => {
         </View>
       )}
       panGestureHandlerProps={{
-        activeOffsetX: [-10, 10], // Configura sensibilidade para arraste lateral
+        activeOffsetX: [-10, 10],
       }}
     />
   );
@@ -46,10 +46,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#D2A679',
+    marginTop: 20, // Margem para espaçar o carrossel da parte superior
   },
   image: {
     width: '100%',
-    height: '80%',
+    height: '100%', // A imagem agora ocupa todo o espaço disponível no container
     resizeMode: 'cover',
   },
   title: {
