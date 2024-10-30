@@ -20,7 +20,7 @@ const CustomCarousel = () => {
     <Carousel
       loop
       width={width * 0.9} // Aumentando para ocupar quase toda a largura da tela
-      height={width * 0.5} // Mantendo uma altura mais compacta
+      height={width * 0.6} // Mantendo uma altura mais compacta
       autoPlay={true}
       autoPlayInterval={3000}
       scrollAnimationDuration={1000}
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: '85%', // Ajustando altura da imagem dentro do container
+    height: '100%', // Ajustando altura da imagem dentro do container
     resizeMode: 'cover',
   },
   title: {
