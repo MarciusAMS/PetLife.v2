@@ -28,7 +28,6 @@ const CustomCarousel = () => {
       renderItem={({ item }: { item: CarouselItem }) => (
         <View style={styles.itemContainer}>
           <Image source={item.imageSource} style={styles.image} />
-          <Text style={styles.title}>{item.title}</Text>
         </View>
       )}
       panGestureHandlerProps={{
