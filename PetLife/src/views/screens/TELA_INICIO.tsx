@@ -48,8 +48,8 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
         <Image source={require('../../../assets/logo_windows.png')} style={styles.Icon} />
       </TouchableOpacity>
 
-      {/* Adiciona uma margem ao carrossel para deixá-lo mais para baixo */}
-      <View style={{ marginTop: 20 }}>
+      {/* Aumenta a margem superior para dar mais espaço acima do carrossel */}
+      <View style={{ marginTop: 40 }}>
         <CustomCarousel />
       </View>
     </ScrollView>
