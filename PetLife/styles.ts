@@ -27,13 +27,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',   // Centraliza os itens horizontalmente
     marginBottom: -15,          // Espaçamento abaixo da logo e do texto
     marginHorizontal: 100,
-    marginLeft: 35,
+    marginLeft: 90,
   },
   containerEsqSenhaGeral: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-   // backgroundColor: themas.colors.background, 
+    // backgroundColor: themas.colors.background, 
   },
   containerEsqueciSenha: {
     flexDirection: 'row', // Alinha os elementos horizontalmente
@@ -41,6 +41,19 @@ export const styles = StyleSheet.create({
     alignItems: 'center', // Centraliza no eixo cruzado (vertical)
     paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
     bottom: 10,
+  },
+  headerContainer: {
+    position: 'absolute',
+    top: -30,                // Fixa no topo da tela
+    left: -15,               // Alinha à esquerda da tela
+    right: 0,              // Alinha à direita da tela para ocupar a largura completa
+    flexDirection: 'row',
+    justifyContent: 'flex-start', 
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 10, // Ajuste para mais ou menos espaço do topo
+    paddingVertical: 3, // Adiciona padding vertical, se necessário
+    padding: 10,
   },
   // containerCadastro: {
   //   flex: 1,
@@ -63,6 +76,16 @@ export const styles = StyleSheet.create({
     color: themas.colors.white,
     textAlign: 'center', // Centraliza o texto dentro do círculo
     marginTop: 20,
+  },
+  titlePet: {
+    fontSize: 60,
+    marginBottom: 30,
+    fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
+    fontFamily: themas.fonts.fontLetras2,
+    color: themas.colors.black,
+    textAlign: 'center', // Centraliza o texto dentro do círculo
+    marginTop: 20,
+    left: -30,
   },
   titleContainer: {
     justifyContent: 'center',
@@ -145,7 +168,7 @@ export const styles = StyleSheet.create({
     width: 50, // Ajustar o tamanho dos botões
     height: 50,
   },
-  
+
   inputContainer: {
     marginVertical: 10,
     paddingHorizontal: 20,
@@ -156,7 +179,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     bottom: 25,
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   label: {
     fontSize: 16,
@@ -173,7 +196,7 @@ export const styles = StyleSheet.create({
     backgroundColor: themas.colors.white,
     //color: ,
   },
-  imagemAdicionarFotoPet:{
+  imagemAdicionarFotoPet: {
     width: 150,                // Ajuste conforme necessário para o tamanho da imagem
     height: 200,               // Ajuste conforme necessário para o tamanho da imagem
     resizeMode: 'contain',
@@ -192,7 +215,7 @@ export const styles = StyleSheet.create({
     fontSize: 40,  // Tamanho do texto
     fontWeight: 'bold',  // Negrito para destacar
     color: themas.colors.black,  // Cor conforme o tema
-    fontFamily: themas.fonts.fontLetras2, 
+    fontFamily: themas.fonts.fontLetras2,
   },
   linkContainer: {
     marginTop: 10, // Espaçamento em relação aos outros elementos
@@ -205,4 +228,68 @@ export const styles = StyleSheet.create({
     textDecorationLine: 'underline', // Linha sublinhada para parecer um link
     fontSize: 16,
   },
+  // Tela Pet
+  logoPet: {
+    width: '50%',
+    height: 500,
+    aspectRatio: 1, // Mantém a proporção da imagem
+    marginBottom: 10,
+    left: -10,
+  },
+  pawIcon: {
+    width: 45,
+    height: 45,
+    marginLeft: 1,
+  },
+  petContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    top: -60,
+  },
+  petCard: {
+    alignItems: 'center',
+    marginBottom: 20,
+    padding: 15,
+    marginTop: 56,
+  },
+  petImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: '#D2A24C',
+    marginBottom: 5,
+  },
+  petName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    backgroundColor: '#D2A24C',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+  addPetButton: {
+    backgroundColor: '#D2A24C',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 70,
+  },
+  addPetIcon: {
+    fontSize: 50,
+    color: '#FFF',
+  },
+  separator: {
+    position: 'absolute',
+    height: 3,               // Altura da linha
+    backgroundColor: '#D2A24C', // Cor da linha
+    width: '95%',             // Ajuste a largura para centralizar visualmente
+    alignSelf: 'center',      // Centraliza a linha horizontalmente
+    top: 150,            // Espaçamento para ficar logo abaixo do título
+    marginBottom: 20,         // Espaçamento inferior para o conteúdo a seguir
+},
 });
