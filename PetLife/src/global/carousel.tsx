@@ -7,7 +7,7 @@ interface CarouselItem {
   imageSource: any;
 }
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const data: CarouselItem[] = [
   { title: 'Foto 1', imageSource: require('../../assets/cuidadosGerais.png') },
@@ -19,8 +19,8 @@ const CustomCarousel = () => {
   return (
     <Carousel
       loop
-      width={width * 0.95} // Largura próxima ao total da tela
-      height={height * 0.5} // Aumentando a altura do carrossel
+      width={width * 0.9} // Aumentando para ocupar quase toda a largura da tela
+      height={width * 0.5} // Mantendo uma altura mais compacta
       autoPlay={true}
       autoPlayInterval={3000}
       scrollAnimationDuration={1000}
@@ -46,12 +46,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#D2A679',
-    marginVertical: 15, // Espaço acima e abaixo do carrossel
-    padding: 10,
+    marginVertical: 20, // Espaço acima e abaixo do carrossel
   },
   image: {
     width: '100%',
-    height: '90%', // Ajustando para ocupar quase todo o container
+    height: '85%', // Ajustando altura da imagem dentro do container
     resizeMode: 'cover',
   },
   title: {

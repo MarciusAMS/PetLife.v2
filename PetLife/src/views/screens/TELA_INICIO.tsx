@@ -49,7 +49,7 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
       </TouchableOpacity>
 
       {/* Aumenta a margem superior para dar mais espaço acima do carrossel */}
-      <View style={{ marginTop: 40 }}>
+      <View style={{ marginTop: 60 }}> {/* Aumentado para 60 para mais espaço */}
         <CustomCarousel />
       </View>
     </ScrollView>
