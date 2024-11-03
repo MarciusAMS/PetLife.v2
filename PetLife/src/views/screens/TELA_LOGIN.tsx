@@ -13,6 +13,7 @@ export type RootStackParamList = {
   telaEsqueciSenha: undefined; 
   // AppMenu: undefined; // Observação: Por estar dentro do Container do Menu Global, precisa ser importado o container e não a tela diretamente
   TelaPet: undefined;
+  AppMenu: undefined;
 };
 
 type TelaEntrarProps = {
@@ -156,6 +157,9 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
               <Text style={themas.buttonStyles.buttonText}>Entrar</Text>
             </TouchableOpacity>
           </View>
+          <TouchableOpacity onPress={() => navigation.navigate('AppMenu')}>
+              <Text style={themas.buttonStyles.buttonText}>Atalho</Text>
+            </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
