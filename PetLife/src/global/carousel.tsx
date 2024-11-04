@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Image, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Image, Dimensions, StyleSheet } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
 interface CarouselItem {
@@ -21,53 +21,43 @@ const CustomCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
-    <View style={styles.container}> {/* View principal controlando a posição geral */}
-      <View style={styles.carouselWrapper}> {/* Envolvendo o carrossel e bolinhas */}
-        <Carousel
-          loop
-          width={width * 0.9}
-          height={width * 0.6}
-          autoPlay={true}
-          autoPlayInterval={3000}
-          scrollAnimationDuration={1000}
-          data={data}
-          onSnapToItem={(index) => setCurrentIndex(index)}
-          renderItem={({ item }: { item: CarouselItem }) => (
-            <View style={styles.itemContainer}>
-              <Image source={item.imageSource} style={styles.image} />
-            </View>
-          )}
-          panGestureHandlerProps={{
-            activeOffsetX: [-10, 10],
-          }}
-        />
-        
-        {/* Bolinhas de indicação do índice atual */}
-        <View style={styles.dotsContainer}>
-          {data.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.dot,
-                currentIndex === index && styles.activeDot, // Estilo para a bolinha ativa
-              ]}
-            />
-          ))}
-        </View>
+    <View style={{ alignItems: 'center' }}>
+      <Carousel
+        loop
+        width={width * 0.9} // Aumentando para ocupar quase toda a largura da tela
+        height={width * 0.6} // Mantendo uma altura mais compacta
+        autoPlay={true}
+        autoPlayInterval={3000}
+        scrollAnimationDuration={1000}
+        data={data}
+        onSnapToItem={(index) => setCurrentIndex(index)} // Atualiza o índice atual
+        renderItem={({ item }: { item: CarouselItem }) => (
+          <View style={styles.itemContainer}>
+            <Image source={item.imageSource} style={styles.image} />
+          </View>
+        )}
+        panGestureHandlerProps={{
+          activeOffsetX: [-10, 10],
+        }}
+      />
+
+      {/* Bolinhas de indicação do índice atual */}
+      <View style={styles.dotsContainer}>
+        {data.map((_, index) => (
+          <View
+            key={index}
+            style={[
+              styles.dot,
+              currentIndex === index && styles.activeDot, // Estilo para a bolinha ativa
+            ]}
+          />
+        ))}
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  carouselWrapper: {
-    alignItems: 'center',
-  },
   itemContainer: {
     flex: 1,
     borderRadius: 15,
@@ -75,10 +65,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#D2A679',
+    marginVertical: 20, // Espaço acima e abaixo do carrossel
   },
   image: {
     width: '100%',
-    height: '100%',
+    height: '100%', // Ajustando altura da imagem dentro do container
     resizeMode: 'cover',
   },
   dotsContainer: {
@@ -94,7 +85,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   activeDot: {
-    backgroundColor: 'black',
+    backgroundColor: 'black', // Cor da bolinha ativa
   },
 });
 
