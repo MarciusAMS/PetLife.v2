@@ -44,14 +44,20 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
         </TouchableOpacity>
       </View>
 
+
       <TouchableOpacity onPress={signOutUser} activeOpacity={0.5}>
         <Image source={require('../../../assets/logo_windows.png')} style={styles.Icon} />
       </TouchableOpacity>
 
       {/* Certifique-se de que o CustomCarousel está dentro de uma View sem strings */}
-      <View style={{ marginTop: 60 }}> 
+      <View style={{ marginTop: 70 }}> 
         <CustomCarousel />
       </View>
+
+
+      <TouchableOpacity>
+        <Image source={require('../../../assets/pertoDeVoce.png')}/>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
