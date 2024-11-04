@@ -44,19 +44,15 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
         </TouchableOpacity>
       </View>
 
-
-      <TouchableOpacity onPress={signOutUser} activeOpacity={0.5}>
-        <Image source={require('../../../assets/logo_windows.png')} style={styles.Icon} />
-      </TouchableOpacity>
-
       {/* Certifique-se de que o CustomCarousel está dentro de uma View sem strings */}
       <View style={{ marginTop: 130 }}> 
         <CustomCarousel />
       </View>
 
-      <TouchableOpacity>
+      <TouchableOpacity style={{position:'absolute', bottom: 100}}>
         <Image source={require('../../../assets/pertoDeVoce.png')}
-         style={{ width: 100, height: 100, marginBottom: 20}}
+         style={{ width: 350, height: 300}}
+         resizeMode='contain'
         />
       </TouchableOpacity>
     </View>
