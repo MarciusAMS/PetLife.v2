@@ -44,11 +44,12 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
         </TouchableOpacity>
       </View>
 
-      {/* Certifique-se de que o CustomCarousel está dentro de uma View sem strings */}
+      
       <View style={{ marginTop: 130 }}> 
         <CustomCarousel />
       </View>
 
+      {/* ARREDONDAR AS BORDAS DA IMAGEM DO PETSHOP PERTO DE VOCÊ!!!!! */}
       <TouchableOpacity style={{position:'absolute', bottom: 110}}>
         <Image source={require('../../../assets/pertoDeVoce.png')}
          style={{ width: 350, height: 300}}
