@@ -49,7 +49,7 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
         <CustomCarousel />
       </View>
 
-      <TouchableOpacity style={{position:'absolute', bottom: 100}}>
+      <TouchableOpacity style={{position:'absolute', bottom: 110}}>
         <Image source={require('../../../assets/pertoDeVoce.png')}
          style={{ width: 350, height: 300}}
          resizeMode='contain'

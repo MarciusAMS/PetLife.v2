@@ -34,15 +34,8 @@ const CustomCarousel = () => {
         renderItem={({ item }: { item: CarouselItem }) => (
           <View style={styles.itemContainer}>
             <Image source={item.imageSource} style={styles.image} />
-          </View>
-        )}
-        panGestureHandlerProps={{
-          activeOffsetX: [-10, 10],
-        }}
-      />
 
-      {/* Bolinhas de indicação do índice atual */}
-      <View style={styles.dotsContainer}>
+            <View style={styles.dotsContainer}>
         {data.map((_, index) => (
           <View
             key={index}
@@ -53,6 +46,15 @@ const CustomCarousel = () => {
           />
         ))}
       </View>
+      
+          </View>
+        )}
+        panGestureHandlerProps={{
+          activeOffsetX: [-10, 10],
+        }}
+      />
+
+      {/* Bolinhas de indicação do índice atual */}
     </View>
   );
 };
@@ -75,7 +77,9 @@ const styles = StyleSheet.create({
   dotsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 10,
+    position:'absolute',
+    top: 0,
+    width: '100%',
   },
   dot: {
     width: 10,
