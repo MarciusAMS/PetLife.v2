@@ -32,7 +32,7 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <View style={styles.containerInicioHorizontal}>
         <View style={styles.conteudoEsquerda}>
           <Image source={require('../../../assets/logo_facebook.png')} style={styles.imagensTopo} />
@@ -50,16 +50,15 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
       </TouchableOpacity>
 
       {/* Certifique-se de que o CustomCarousel está dentro de uma View sem strings */}
-      <View style={{ marginTop: 70 }}> 
+      <View style={{ marginTop: 95 }}> 
         <CustomCarousel />
       </View>
-
 
       <TouchableOpacity>
         <Image source={require('../../../assets/pertoDeVoce.png')}
          style={{ width: 100, height: 100 }}
         />
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 }
