@@ -56,7 +56,9 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
 
 
       <TouchableOpacity>
-        <Image source={require('../../../assets/pertoDeVoce.png')}/>
+        <Image source={require('../../../assets/pertoDeVoce.png')}
+         style={{ width: 100, height: 100 }}
+        />
       </TouchableOpacity>
     </ScrollView>
   );
