@@ -50,7 +50,7 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
       </TouchableOpacity>
 
       {/* Certifique-se de que o CustomCarousel está dentro de uma View sem strings */}
-      <View style={{ marginTop: 95 }}> 
+      <View style={{ marginTop: 130 }}> 
         <CustomCarousel />
       </View>
 
