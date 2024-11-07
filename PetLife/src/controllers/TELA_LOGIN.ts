@@ -17,7 +17,7 @@ export const signIn = async (email: string, password: string, manterLogado: bool
     }
     
     console.log('Usuário autenticado com sucesso:', user);
-    Alert.alert('Autenticado com sucesso!!!');
+    Alert.alert('Autenticado com sucesso!');
     return user; // Retorna o usuário autenticado
   } catch (error: any) {
     console.error('Erro ao autenticar usuário:', error.message);

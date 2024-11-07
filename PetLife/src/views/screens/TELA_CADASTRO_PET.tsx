@@ -4,22 +4,21 @@ import { styles } from '../../../styles';
 import { cadastrarPet } from '../../controllers/TELA_CADASTRO_PET';
 import { View, Text, TextInput, Alert, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { themas } from '../../global/themes';
-import { useNavigation, NavigationProp, RouteProp, useRoute } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { User } from 'firebase/auth';
 import { launchImageLibrary, Asset } from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker';
-import TelaPet from './TELA_PET';
 
 
 
 // Este appRootParamList está servindo para definir o tipo da TelaCadastroPet
-type CadastroPetRouteProp = RouteProp<AppRootParamList, 'TelaCadastroPet'>;
+
+
+
 
 export type AppRootParamList = {
   TelaCadastro: undefined;
   TelaLogin: undefined;
-  TelaPet: undefined;
-  TelaCadastroPet: undefined;
 };
 declare global {
   namespace ReactNavigation {
@@ -27,12 +26,9 @@ declare global {
   }
 }
 
+
 export default function TelaCadastroPet() {
   const navigation = useNavigation();
-  const route = useRoute<CadastroPetRouteProp>();
-  //const userUID = route.params.userUID;
-  //console.log('UID do usuario: ', userUID);
-  //const { fromPet } = route.params || {}; // Verificando se veio da TelaPet
   const [user, setUser] = useState<User | null>(null);
   const [navigatedAway, setNavigatedAway] = useState(false);
   const [imageUri, setImageUri] = useState<string | null>(null);
@@ -66,7 +62,7 @@ export default function TelaCadastroPet() {
         console.log(user.uid);
         setNavigatedAway(false);
       } else if (!navigatedAway) {
-        // Se o usuário não está logado, redireciona para a tela de cadastro
+        // Se o usuário não está logado, redireciona para a tela de login
         navigation.navigate('TelaCadastro');
         setNavigatedAway(true);
       }
@@ -98,9 +94,7 @@ export default function TelaCadastroPet() {
   // Validar os campos antes de cadastrar o pet ao usuario
 
   const handleCadastrarPet = async () => {
-
-
-
+ 
     // Validação antes de tentar o cadastro
     const isValid = validarCampos();
 
@@ -114,7 +108,7 @@ export default function TelaCadastroPet() {
 
     try {
       const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
-      //console.log('cadastro de pet funcionou');
+      console.log('cadastro de pet funcionou');
       Alert.alert('Cadastro de pet realizado com sucesso!');
       navigation.navigate('TelaLogin');
     } catch (error) {
@@ -124,6 +118,7 @@ export default function TelaCadastroPet() {
     }
 
   };
+
 
 
   // ---------------------------------------------------- //
