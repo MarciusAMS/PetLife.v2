@@ -72,13 +72,13 @@ verPets: {
     justifyContent: 'center',   // Centraliza os itens horizontalmente
     marginBottom: -15,          // Espaçamento abaixo da logo e do texto
     marginHorizontal: 100,
-    marginLeft: 35,
+    marginLeft: 90,
   },
   containerEsqSenhaGeral: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-   // backgroundColor: themas.colors.background, 
+    // backgroundColor: themas.colors.background, 
   },
   containerEsqueciSenha: {
     flexDirection: 'row', // Alinha os elementos horizontalmente
@@ -86,6 +86,19 @@ verPets: {
     alignItems: 'center', // Centraliza no eixo cruzado (vertical)
     paddingHorizontal: 10, // Adiciona um pouco de padding para evitar que os elementos fiquem muito nas bordas
     bottom: 10,
+  },
+  headerContainer: {
+    position: 'absolute',
+    top: -30,                // Fixa no topo da tela
+    left: -15,               // Alinha à esquerda da tela
+    right: 0,              // Alinha à direita da tela para ocupar a largura completa
+    flexDirection: 'row',
+    justifyContent: 'flex-start', 
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 10, // Ajuste para mais ou menos espaço do topo
+    paddingVertical: 3, // Adiciona padding vertical, se necessário
+    padding: 10,
   },
   // containerCadastro: {
   //   flex: 1,
@@ -108,6 +121,16 @@ verPets: {
     color: themas.colors.white,
     textAlign: 'center', // Centraliza o texto dentro do círculo
     marginTop: 20,
+  },
+  titlePet: {
+    fontSize: 60,
+    marginBottom: 30,
+    fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
+    fontFamily: themas.fonts.fontLetras2,
+    color: themas.colors.black,
+    textAlign: 'center', // Centraliza o texto dentro do círculo
+    marginTop: 20,
+    left: -30,
   },
   titleContainer: {
     justifyContent: 'center',
@@ -190,7 +213,7 @@ verPets: {
     width: 50, // Ajustar o tamanho dos botões
     height: 50,
   },
-  
+
   inputContainer: {
     marginVertical: 10,
     paddingHorizontal: 20,
@@ -201,7 +224,7 @@ verPets: {
     paddingHorizontal: 20,
     bottom: 25,
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   label: {
     fontSize: 16,
@@ -218,7 +241,7 @@ verPets: {
     backgroundColor: themas.colors.white,
     //color: ,
   },
-  imagemAdicionarFotoPet:{
+  imagemAdicionarFotoPet: {
     width: 150,                // Ajuste conforme necessário para o tamanho da imagem
     height: 200,               // Ajuste conforme necessário para o tamanho da imagem
     resizeMode: 'contain',
@@ -237,7 +260,7 @@ verPets: {
     fontSize: 40,  // Tamanho do texto
     fontWeight: 'bold',  // Negrito para destacar
     color: themas.colors.black,  // Cor conforme o tema
-    fontFamily: themas.fonts.fontLetras2, 
+    fontFamily: themas.fonts.fontLetras2,
   },
   linkContainer: {
     marginTop: 10, // Espaçamento em relação aos outros elementos
