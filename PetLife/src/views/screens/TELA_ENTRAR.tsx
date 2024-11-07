@@ -12,6 +12,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 type RootStackParamList = {
   TelaEntrar: undefined;
   TelaLogin: undefined;
+  TelaCadastroPet: undefined;
+  TelaCadastroPet2: undefined;
   TelaCadastro: undefined;
   TelaInicio: undefined;
 };
@@ -59,7 +61,6 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   const handleSignUp = () => {
     navigation.navigate('TelaCadastro'); // Navega para a tela de cadastro
   };
-
 
 
 

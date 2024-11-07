@@ -12,6 +12,8 @@ import { auth } from '../../../firebaseService';
 
 export type RootStackParamList = {
   telaLogin: undefined,
+  // AppMenu: undefined; // Observação: Por estar dentro do Container do Menu Global, precisa ser importado o container e não a tela diretamente
+  TelaPet: undefined;
   telaEsqueciSenha: undefined, // Adicione todas as suas telas aqui
   TelaInicio: undefined;
 };
@@ -20,12 +22,14 @@ type TelaEntrarProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'telaLogin'>;
 };
 
-export default function telaLogin( { navigation }: TelaEntrarProps ) {
-
-  // const navigation = useNavigation(); // Hook para obter o objeto navigation
+export default function TelaLogin( { navigation }: TelaEntrarProps ) {
 
   const handleEsqueciSenha = () => {
-    navigation.navigate('telaEsqueciSenha'); // Navega para a tela de login
+    navigation.navigate('telaEsqueciSenha'); 
+  };
+
+  const handlePet = () => {
+    navigation.navigate('TelaPet');
   };
 
    const signOutUser = async () => {
@@ -59,16 +63,16 @@ export default function telaLogin( { navigation }: TelaEntrarProps ) {
     if (!isValid) return;
 
     try {
+      
+     
       const usuario = await signIn(email, senha, manterLogado);
       console.log(manterLogado);
+      handlePet();
       navigation.navigate('TelaInicio');
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro na autenticação', error.message);
       }
-      //else{
-      // Alert.alert('Erro de autenticação', 'Ocorreu um erro inesperado.');
-      //}
     }
   };
 
