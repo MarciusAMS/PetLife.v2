@@ -5,7 +5,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import { styles } from '../../../styles';
 import { themas } from '../../global/themes';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
-//import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 //import { useFormValidation } from '../../global/validarCampos';
 //import { CheckBoxCustom } from '../global/checkbox';
 
