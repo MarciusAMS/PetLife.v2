@@ -346,4 +346,27 @@ export const styles = StyleSheet.create({
     alignItems: 'center',   // Centraliza o conteúdo horizontalmente
     paddingBottom: 10,      // Espaço extra para evitar que fique muito próximo do final da tela
   },
+  registroContainer: {
+    flexDirection: 'row',        // Para exibir os elementos horizontalmente
+    justifyContent: 'center',    // Centraliza os elementos horizontalmente
+    alignItems: 'center',        // Alinha verticalmente no centro
+    paddingVertical: 15,         // Espaçamento vertical
+    marginHorizontal: 20,        // Espaçamento nas laterais
+    flexWrap: 'wrap',            // Permite que elementos que não cabem na linha atual "quebrem" para a próxima linha
+  },
+  registroItem: {
+    width: 100,               // Largura fixa para cada item (ajuste conforme necessário)
+    height: 100,              // Altura fixa para cada item
+    backgroundColor: '#FFF',  // Cor de fundo (ajuste para se alinhar ao tema)
+    borderRadius: 8,          // Bordas arredondadas
+    justifyContent: 'center', // Centraliza o conteúdo verticalmente
+    alignItems: 'center',     // Centraliza o conteúdo horizontalmente
+    margin: 8,                // Espaçamento entre os itens
+    shadowColor: '#000',      // Sombra para dar destaque
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,             // Sombra no Android
+  },
+  
 });
