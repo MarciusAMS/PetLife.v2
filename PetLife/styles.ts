@@ -382,41 +382,45 @@ export const styles = StyleSheet.create({
     backgroundColor: '#4CAF50',
     justifyContent: 'center',
     alignItems: 'center',
-},
-addButtonText: {
+  },
+  addButtonText: {
     color: '#FFF',
     fontSize: 30,
     fontWeight: 'bold',
-},
-modalOverlay: {
+  },
+  modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-},
-modalContent: {
+  },
+  modalContent: {
     width: '85%',
     backgroundColor: '#FFE5CC',
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
-},
-headerContaineAddVacina: {
+  },
+  headerContaineAddVacina: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-},
-modalTitle: {
+  },
+  modalTitle: {
+    position: 'absolute',
     fontSize: 18,
     fontWeight: 'bold',
     color: '#D2A24C',
-},
-closeButtonText: {
+    textAlign: 'center',
+    marginLeft: 85,
+  },
+  closeButtonText: {
     fontSize: 20,
     color: 'red',
-},
-fileSelector: {
+    marginLeft: 292,
+  },
+  fileSelector: {
     width: '100%',
     backgroundColor: '#FFF',
     borderRadius: 10,
@@ -425,28 +429,28 @@ fileSelector: {
     marginVertical: 20,
     borderWidth: 1,
     borderColor: '#D2A24C',
-},
-fileInput: {
+  },
+  fileInput: {
     width: '100%',
     padding: 8,
     borderRadius: 5,
     backgroundColor: '#FFF',
     textAlign: 'center',
-},
-filePlaceholder: {
+  },
+  filePlaceholder: {
     color: '#7A7A7A',
     fontSize: 12,
-},
-addFileButton: {
+  },
+  addFileButton: {
     width: '100%',
     padding: 12,
     borderRadius: 10,
     backgroundColor: '#4CAF50',
     alignItems: 'center',
-},
-addFileButtonText: {
+  },
+  addFileButtonText: {
     color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
-},
+  },
 });

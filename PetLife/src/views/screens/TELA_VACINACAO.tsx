@@ -115,7 +115,7 @@ return (
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
-          <View style={styles.headerContainer}>
+          <View style={styles.headerContaineAddVacina}>
             <Text style={styles.modalTitle}>Escolher Arquivo</Text>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
               <Text style={styles.closeButtonText}>✕</Text>
