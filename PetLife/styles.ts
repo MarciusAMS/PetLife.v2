@@ -368,5 +368,85 @@ export const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,             // Sombra no Android
   },
-  
+  registroText: {
+    fontSize: 16,          // Tamanho da fonte para ser legível
+    color: '#333',         // Cor do texto
+    marginBottom: 4,       // Espaço entre as linhas de texto
+    fontWeight: '500',     // Peso da fonte para destaque
+  },
+  addButton: {
+    marginTop: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#4CAF50',
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+addButtonText: {
+    color: '#FFF',
+    fontSize: 30,
+    fontWeight: 'bold',
+},
+modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+modalContent: {
+    width: '85%',
+    backgroundColor: '#FFE5CC',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+},
+headerContaineAddVacina: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+},
+modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#D2A24C',
+},
+closeButtonText: {
+    fontSize: 20,
+    color: 'red',
+},
+fileSelector: {
+    width: '100%',
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    padding: 10,
+    alignItems: 'center',
+    marginVertical: 20,
+    borderWidth: 1,
+    borderColor: '#D2A24C',
+},
+fileInput: {
+    width: '100%',
+    padding: 8,
+    borderRadius: 5,
+    backgroundColor: '#FFF',
+    textAlign: 'center',
+},
+filePlaceholder: {
+    color: '#7A7A7A',
+    fontSize: 12,
+},
+addFileButton: {
+    width: '100%',
+    padding: 12,
+    borderRadius: 10,
+    backgroundColor: '#4CAF50',
+    alignItems: 'center',
+},
+addFileButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+},
 });

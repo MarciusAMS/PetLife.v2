@@ -11,7 +11,7 @@ import TelaCadastro from './src/views/screens/TELA_CADASTRO';
 import TelaCadastroPet from './src/views/screens/TELA_CADASTRO_PET'
 import TelaCadastroPet2 from './src/views/screens/TELA_CADASTRO_PET2';
 import TelaPet from './src/views/screens/TELA_PET';
-import TelaVacinacao from './src/views/screens/TELA_VACINACAO'
+import TelaVacinacao from './src/views/screens/TELA_VACINACAO';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import MenuGlobal from './src/global/menuGlobal';

@@ -1,4 +1,4 @@
-export type RegistroVacina = {
+export interface RegistroVacina {
     id: string;
     nome: string;
     data: string;
