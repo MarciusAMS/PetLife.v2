@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from "react";
-import { View, Text, Alert, ActivityIndicator, TouchableOpacity, Modal, TextInput } from "react-native";
+import React, { useState, useCallback, useEffect } from "react";
+import { View, Text, Alert, ActivityIndicator, TouchableOpacity, Modal, TextInput, Image } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getFirestore, collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RegistroVacina } from "../../models/Vacina";
@@ -20,34 +21,99 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
   const [registros, setRegistros] = useState<RegistroVacina[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [fileName, setFileName] = useState("Nenhum arquivo escolhido");
   const db = getFirestore();
   const auth = getAuth();
-  const user = auth.currentUser;
+  const [user, setUser] = useState<User | null>(null);
   const [documentUri, setDocumentUri] = useState<string | null>(null);
+
+  // Verificar se o usuário está autenticado
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return unsubscribe;
+  }, [auth]);
 
   const abrirDocumento = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        type: '*/*', // Permite todos os tipos de documentos, ou especifique 'application/pdf' para PDFs
+        type: '*/*', // Permitir todos os tipos para testar
+        copyToCacheDirectory: true,
       });
-  
-      if (result.type === 'success') {
-        setDocumentUri(result.uri); // Definindo a URI do documento
-        Alert.alert('Documento selecionado', `Você selecionou: ${result.name}`);
+
+      console.log('Resultado do DocumentPicker:', result);
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const { uri, name } = result.assets[0];
+        setFileName(name);
+        setDocumentUri(uri);
       } else {
         Alert.alert('Operação cancelada', 'Nenhum documento foi selecionado.');
       }
     } catch (error) {
       console.error('Erro ao selecionar documento:', error);
-      Alert.alert('Erro', 'Não foi possível acessar os documentos.');
+      Alert.alert('Erro', 'Não foi possível selecionar o documento.');
     }
   };
 
-const fetchRegistros = async () => {
-  setLoading(true);
-  try {
-    if (user) {
-      console.log("UID do usuário:", user.uid);
+  const enviarArquivo = async () => {
+
+    if (!documentUri) {
+      Alert.alert("Nenhum arquivo selecionado", "Por favor, escolha um arquivo antes de enviar.");
+      return;
+    }
+
+    setLoading(true); // Ativar um indicador de carregamento
+    const storage = getStorage();
+
+    try {
+      const fileRef = ref(storage, `documentos_vacina/${fileName}`);
+      const response = await fetch(documentUri);
+      const blob = await response.blob();
+
+      // Upload do arquivo
+      await uploadBytes(fileRef, blob);
+      const downloadURL = await getDownloadURL(fileRef);
+
+      // Salvar o registro no Firestore
+      if (user) {
+        await addDoc(collection(db, "registrosVacina"), {
+          nome: fileName,
+          data: new Date().toISOString(),
+          userUID: user.uid,
+          fileURL: downloadURL,
+        });
+
+        Alert.alert("Sucesso", "Arquivo enviado e salvo com sucesso!");
+        setFileName("Nenhum arquivo escolhido");
+        setDocumentUri(null);
+        setModalVisible(false);
+      } else {
+        Alert.alert("Erro", "Usuário não autenticado.");
+      }
+    } catch (error) {
+      console.error("Erro ao enviar arquivo:", error);
+      Alert.alert("Erro", "Não foi possível enviar o arquivo.");
+    } finally {
+      setLoading(false);
+    }
+    if (!user) {
+      Alert.alert("Erro", "Usuário não autenticado.");
+      return;
+    };
+  };
+
+  const fetchRegistros = async () => {
+    if (!user) {
+      Alert.alert("Erro", "Usuário não autenticado.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
       const q = query(
         collection(db, "registrosVacina"),
         where("userUID", "==", user.uid)
@@ -60,79 +126,82 @@ const fetchRegistros = async () => {
       } as RegistroVacina));
 
       setRegistros(registrosList);
-      console.log("Registros de vacinação recuperados:", registrosList);
-    } else {
-      Alert.alert("Erro", "Usuário não autenticado.");
+      if (registrosList.length === 0) {
+        Alert.alert("Nenhum registro", "Você não tem registros de vacinação.");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar registros de vacinação:", error);
+      Alert.alert("Erro", "Erro ao buscar registros de vacinação.");
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Erro ao buscar registros de vacinação:", error);
-    Alert.alert("Erro", "Erro ao buscar registros de vacinação.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
-useFocusEffect(
-  useCallback(() => {
-    fetchRegistros(); // Chama fetchRegistros quando a tela ganha foco
-  }, [])
-);
+  useFocusEffect(
+    useCallback(() => {
+      if (user) fetchRegistros(); // Chama fetchRegistros quando a tela ganha foco e o usuário está autenticado
+    }, [user])
+  );
 
-return (
-  <View style={styles.container}>
-    <View style={styles.headerContainer}>
-      <Text style={styles.title}>Carteira de Vacinação</Text>
-    </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Image source={require('../../../assets/vacina.png')} style={styles.logoVacina} />
+        <Text style={styles.titleVacina}>Carteira de Vacinação</Text>
+      </View>
 
-    <View style={styles.separator} />
+      <View style={styles.separator} />
 
-    {loading ? (
-      <ActivityIndicator size="large" color="#000" />
-    ) : (
-      registros.map((registro) => (
-        <View key={registro.id} style={styles.registroItem}>
-          <Text style={styles.registroText}>{registro.nome}</Text>
-          <Text style={styles.registroText}>{registro.data}</Text>
-          {registro.dose && <Text style={styles.registroText}>Dose: {registro.dose}</Text>}
-          {registro.observacoes && <Text style={styles.registroText}>Observações: {registro.observacoes}</Text>}
-        </View>
-      ))
-    )}
+      {loading ? (
+        <ActivityIndicator size="large" color="#000" />
+      ) : (
+        registros.map((registro) => (
+          <View key={registro.id} style={styles.registroItem}>
+            <Text style={styles.registroText}>{registro.nome}</Text>
+            <Text style={styles.registroText}>{registro.data}</Text>
+            {registro.dose && <Text style={styles.registroText}>Dose: {registro.dose}</Text>}
+            {registro.observacoes && <Text style={styles.registroText}>Observações: {registro.observacoes}</Text>}
+          </View>
+        ))
+      )}
 
-    <TouchableOpacity
-      style={styles.addVacinaButton}
-      onPress={() => setModalVisible(true)}
-    >
-      <Text style={styles.addVacinaIcon}>+</Text>
-    </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.addVacinaButton}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.addVacinaIcon}>+</Text>
+      </TouchableOpacity>
 
-    {/* Modal para adicionar nova vacina */}
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => setModalVisible(false)}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
-          <View style={styles.headerContaineAddVacina}>
-            <Text style={styles.modalTitle}>Escolher Arquivo</Text>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={styles.closeButtonText}>✕</Text>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.headerContaineAddVacina}>
+              <Text style={styles.modalTitle}>Escolher Arquivo</Text>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={styles.closeButtonText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.fileSelector} onPress={abrirDocumento}>
+              <TextInput
+                style={styles.fileInput}
+                placeholder="Escolher arquivo"
+                value={fileName}
+                editable={false}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.addFileButton} onPress={enviarArquivo}>
+              <Text style={styles.addFileButtonText}>Adicionar arquivo</Text>
             </TouchableOpacity>
           </View>
-
-          <View style={styles.fileSelector}>
-            <TextInput style={styles.fileInput} placeholder="Escolher arquivo" editable={false} />
-            <Text style={styles.filePlaceholder}>Nenhum arquivo escolhido</Text>
-          </View>
-
-          <TouchableOpacity style={styles.addFileButton}>
-            <Text style={styles.addFileButtonText}>Adicionar arquivo</Text>
-          </TouchableOpacity>
         </View>
-      </View>
-    </Modal>
-  </View>
-);
+      </Modal>
+    </View>
+  );
 }
