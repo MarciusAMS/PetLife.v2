@@ -39,7 +39,7 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
   const abrirDocumento = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        type: '*/*', // Permitir todos os tipos para testar
+        type: 'application/pdf', // Permitir todos os tipos para testar application/pdf ou */*
         copyToCacheDirectory: true,
       });
 
