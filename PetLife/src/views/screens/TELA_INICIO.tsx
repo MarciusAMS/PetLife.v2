@@ -11,6 +11,7 @@ export type RootStackParamList = {
     TelaLogin: undefined,
     telaEsqueciSenha: undefined,
     TelaInicio: undefined;
+    TelaCadastroPet2: undefined;
   };
   
 type TelaEntrarProps = {
@@ -46,7 +47,7 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
           <Text style={styles.nomeDoPet}>PetLife</Text>
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('TelaCadastroPet2')}>
           <Image source={require('../../../assets/Inicio-verPetsCadastrados.png')} style={styles.imagensTopo} />
         </TouchableOpacity>
       </View>
@@ -65,7 +66,7 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
       </TouchableOpacity>
 
 
-     <MenuGlobal />
+     {/* <MenuGlobal /> */}
     </View>
   );
 }
