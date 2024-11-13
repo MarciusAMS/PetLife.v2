@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { View, Text, Alert, ActivityIndicator, TouchableOpacity, Modal, TextInput, Image, Platform, PermissionsAndroid } from "react-native";
+import { useState, useCallback, useEffect } from "react";
+import { View, Text, Alert, ActivityIndicator, TouchableOpacity, Modal, TextInput, Image, Platform, PermissionsAndroid, ScrollView } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { getFirestore, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
@@ -14,11 +14,11 @@ export type RootStackParamList = {
   TelaVacina: undefined;
 };
 
-type TelaVacinaProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'TelaVacina'>;
-};
+// type TelaVacinaProps = {
+//   navigation: NativeStackNavigationProp<RootStackParamList, 'TelaVacina'>;
+// };
 
-export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
+export default function TelaVacinacao() {
   const [registros, setRegistros] = useState<RegistroVacina[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,9 +26,9 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
   const db = getFirestore();
   const auth = getAuth();
   const [user, setUser] = useState<User | null>(null);
+  const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [documentUri, setDocumentUri] = useState<string | null>(null);
 
-  // Verificar se o usuário está autenticado
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -45,9 +45,8 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
           {
             title: 'Permissão de Armazenamento',
             message: 'Precisamos de acesso ao armazenamento para selecionar e enviar arquivos.',
-            buttonNeutral: 'Perguntar Depois',
             buttonNegative: 'Cancelar',
-            buttonPositive: 'OK',
+            buttonPositive: 'Permitir',
           }
         );
         return granted === PermissionsAndroid.RESULTS.GRANTED;
@@ -62,9 +61,10 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
   const abrirDocumento = async () => {
 
     const hasPermission = await requestStoragePermission();
-    
+
     if (!hasPermission) {
       Alert.alert('Permissão Negada', 'A permissão de acesso ao armazenamento é necessária.');
+      console.log('Permissão:', hasPermission);
       return;
     }
 
@@ -93,6 +93,12 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
 
     if (!documentUri) {
       Alert.alert("Nenhum arquivo selecionado", "Por favor, escolha um arquivo antes de enviar.");
+      console.log('Documento:', documentUri);
+      return;
+    }
+
+    if (!user) {
+      Alert.alert("Erro", "Usuário não autenticado.");
       return;
     }
 
@@ -114,6 +120,7 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
           nome: fileName,
           data: new Date().toISOString(),
           userUID: user.uid,
+          petId: selectedPetId,
           fileURL: downloadURL,
         });
 
@@ -126,15 +133,12 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
       }
     } catch (error) {
       console.error("Erro ao enviar arquivo:", error);
-      console.log("user:",);
+      console.log("user:", user?.uid);
+      console.log("URI do documento:", documentUri);
       Alert.alert("Erro", "Não foi possível enviar o arquivo.");
     } finally {
       setLoading(false);
     }
-    if (!user) {
-      Alert.alert("Erro", "Usuário não autenticado.");
-      return;
-    };
   };
 
   const fetchRegistros = async () => {
@@ -148,7 +152,8 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
     try {
       const q = query(
         collection(db, "registrosVacina"),
-        where("userUID", "==", user.uid)
+        where("userUID", "==", user.uid),
+        where("petId", "==", selectedPetId) 
       );
       const querySnapshot = await getDocs(q);
 
@@ -187,14 +192,18 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
       {loading ? (
         <ActivityIndicator size="large" color="#000" />
       ) : (
-        registros.map((registro) => (
-          <View key={registro.id} style={styles.registroItem}>
-            <Text style={styles.registroText}>{registro.nome}</Text>
-            <Text style={styles.registroText}>{registro.data}</Text>
-            {registro.dose && <Text style={styles.registroText}>Dose: {registro.dose}</Text>}
-            {registro.observacoes && <Text style={styles.registroText}>Observações: {registro.observacoes}</Text>}
-          </View>
-        ))
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+          style={styles.scrollContainer}>
+          {registros.map((registro) => (
+            <View key={registro.id} style={styles.registroItem}>
+              <Text style={styles.registroText}>{registro.nome}</Text>
+              <Text style={styles.registroText}>{registro.data}</Text>
+              {/* {registro.dose && <Text style={styles.registroText}>Dose: {registro.dose}</Text>}
+              {registro.observacoes && <Text style={styles.registroText}>Observações: {registro.observacoes}</Text>} */}
+            </View>
+          ))}
+        </ScrollView>
       )}
 
       <TouchableOpacity

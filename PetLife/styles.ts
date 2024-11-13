@@ -355,24 +355,21 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',            // Permite que elementos que não cabem na linha atual "quebrem" para a próxima linha
   },
   registroItem: {
-    width: 100,               // Largura fixa para cada item (ajuste conforme necessário)
-    height: 100,              // Altura fixa para cada item
-    backgroundColor: '#FFF',  // Cor de fundo (ajuste para se alinhar ao tema)
-    borderRadius: 8,          // Bordas arredondadas
-    justifyContent: 'center', // Centraliza o conteúdo verticalmente
-    alignItems: 'center',     // Centraliza o conteúdo horizontalmente
-    margin: 8,                // Espaçamento entre os itens
-    shadowColor: '#000',      // Sombra para dar destaque
+    width: '95%', // ajusta a largura para cobrir grande parte da tela
+    padding: 15, // adiciona um espaço interno confortável
+    marginVertical: 10, // espaço entre os registros
+    backgroundColor: '#f9f9f9', // cor de fundo para destacar
+    borderRadius: 8, // bordas arredondadas
+    shadowColor: '#000', // sombra para dar profundidade
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 3,             // Sombra no Android
+    elevation: 3, // elevação para sombra no Android
   },
   registroText: {
-    fontSize: 16,          // Tamanho da fonte para ser legível
-    color: '#333',         // Cor do texto
-    marginBottom: 4,       // Espaço entre as linhas de texto
-    fontWeight: '500',     // Peso da fonte para destaque
+    fontSize: 16, // tamanho de fonte legível
+    color: '#333', // cor do texto
+    marginBottom: 5, // espaçamento entre linhas
   },
   addButton: {
     marginTop: 20,
@@ -453,4 +450,9 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  scrollContainer: {
+    flex: 1,
+    marginBottom: 20, // margem inferior para o botão flutuante
+    left: 10,
+  },  
 });
