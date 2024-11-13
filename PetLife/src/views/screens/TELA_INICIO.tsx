@@ -65,7 +65,7 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
       </TouchableOpacity>
 
 
-     {/* <MenuGlobal /> */}
+     <MenuGlobal />
     </View>
   );
 }
