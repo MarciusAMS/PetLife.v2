@@ -81,7 +81,7 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
   }
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
 
       <View style={styles.container}>
 
@@ -157,17 +157,8 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
               <Text style={themas.buttonStyles.buttonText}>Entrar</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('AppMenu')}>
-              <Text style={themas.buttonStyles.buttonText}>Atalho</Text>
-            </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
   );
-
-  // <CheckBox
-  //         title="Lembrar senha"
-  //         checked={isPasswordChecked}
-  //         onPress={() => setIsPasswordChecked(!isPasswordChecked)}
-  //       />
 }

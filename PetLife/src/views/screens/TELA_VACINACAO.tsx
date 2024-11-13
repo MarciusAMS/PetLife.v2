@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { View, Text, Alert, ActivityIndicator, TouchableOpacity, Modal, TextInput, Image } from "react-native";
+import { View, Text, Alert, ActivityIndicator, TouchableOpacity, Modal, TextInput, Image, Platform, PermissionsAndroid } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { getFirestore, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
@@ -8,6 +8,7 @@ import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RegistroVacina } from "../../models/Vacina";
 import * as DocumentPicker from 'expo-document-picker';
+
 
 export type RootStackParamList = {
   TelaVacina: undefined;
@@ -36,7 +37,37 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
     return unsubscribe;
   }, [auth]);
 
+  const requestStoragePermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          {
+            title: 'Permissão de Armazenamento',
+            message: 'Precisamos de acesso ao armazenamento para selecionar e enviar arquivos.',
+            buttonNeutral: 'Perguntar Depois',
+            buttonNegative: 'Cancelar',
+            buttonPositive: 'OK',
+          }
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        return false;
+      }
+    }
+    return true; // No iOS, a permissão geralmente é automática para DocumentPicker
+  };
+
   const abrirDocumento = async () => {
+
+    const hasPermission = await requestStoragePermission();
+    
+    if (!hasPermission) {
+      Alert.alert('Permissão Negada', 'A permissão de acesso ao armazenamento é necessária.');
+      return;
+    }
+
     try {
       const result = await DocumentPicker.getDocumentAsync({
         type: 'application/pdf', // Permitir todos os tipos para testar application/pdf ou */*
@@ -95,6 +126,7 @@ export default function TelaVacinacao({ navigation }: TelaVacinaProps) {
       }
     } catch (error) {
       console.error("Erro ao enviar arquivo:", error);
+      console.log("user:",);
       Alert.alert("Erro", "Não foi possível enviar o arquivo.");
     } finally {
       setLoading(false);
