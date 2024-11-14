@@ -9,10 +9,10 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 export type RootStackParamList = {
     TelaPet: undefined;
     TelaCadastroPet2: undefined;
-   // TelaInicio: string | undefined;
+    AppMenu: undefined;
 };
 
-type TelaEntrarProps = {
+type TelaPetProps = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'TelaPet'>;
 };
 
@@ -22,7 +22,7 @@ interface Pet {
     userUID: string;
 }
 
-export default function TelaPet({ navigation }: TelaEntrarProps) {
+export default function TelaPet({ navigation }: TelaPetProps) {
     const [pets, setPets] = useState<Pet[]>([]);
     const [loading, setLoading] = useState(false);
     const db = getFirestore();
@@ -78,7 +78,7 @@ export default function TelaPet({ navigation }: TelaEntrarProps) {
                         <TouchableOpacity 
                         key={index} 
                         style={styles.petCard} 
-                        // onPress={() => navigation.navigate('TelaInicio')}
+                         onPress={() => navigation.navigate('AppMenu')}
                     >
                         {pet.imagemUrl ? (
                             <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />

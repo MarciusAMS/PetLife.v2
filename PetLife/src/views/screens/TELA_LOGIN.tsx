@@ -12,7 +12,7 @@ import { auth } from '../../../firebaseService';
 
 export type RootStackParamList = {
   telaLogin: undefined,
-  // AppMenu: undefined; // Observação: Por estar dentro do Container do Menu Global, precisa ser importado o container e não a tela diretamente
+  AppMenu: undefined; // Observação: Por estar dentro do Container do Menu Global, precisa ser importado o container e não a tela diretamente
   TelaPet: undefined;
   telaEsqueciSenha: undefined, // Adicione todas as suas telas aqui
   TelaInicio: undefined;
@@ -100,7 +100,7 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
  
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
 
       <View style={styles.container}>
 
@@ -180,10 +180,4 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
       </View>
     </ScrollView>
   );
-
-  // <CheckBox
-  //         title="Lembrar senha"
-  //         checked={isPasswordChecked}
-  //         onPress={() => setIsPasswordChecked(!isPasswordChecked)}
-  //       />
 }
