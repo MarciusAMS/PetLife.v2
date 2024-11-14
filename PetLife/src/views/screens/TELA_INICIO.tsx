@@ -13,6 +13,7 @@ export type RootStackParamList = {
     telaEsqueciSenha: undefined,
     TelaInicio: { pet: { nome: string; imagemUrl: string; petId: string} } | undefined;
     TelaPet: undefined;
+    AppMenu: undefined;
   };
   
 type TelaEntrarProps = {
@@ -51,8 +52,10 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
     <View style={styles.container}>
       <View style={styles.containerInicioHorizontal}>
         <View style={styles.conteudoEsquerda}>
+          <TouchableOpacity onPress={() => navigation.navigate('AppMenu')}>
           <Image source={{uri: pet?.imagemUrl}} style={styles.imagensTopo} />
           <Text style={styles.nomeDoPet}>{pet?.nome}</Text>
+          </TouchableOpacity>
         </View>
 
         <TouchableOpacity onPress={() => navigation.navigate('TelaPet')}>

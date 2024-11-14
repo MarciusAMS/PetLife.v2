@@ -25,6 +25,7 @@ function AppMenu() {
   return (
     <Tab.Navigator>
       {/* Aqui você pode adicionar mais telas que devem aparecer com o Menu Global */}
+      <Tab.Screen name="TelaInicio" component={TelaInicio} options={{ title: 'Tela Inicial' }} />
       <Tab.Screen name='TelaVacinacao' component={TelaVacinacao} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
