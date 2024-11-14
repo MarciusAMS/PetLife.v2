@@ -68,7 +68,7 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
       const usuario = await signIn(email, senha, manterLogado);
       console.log(manterLogado);
       handlePet();
-      navigation.navigate('TelaInicio');
+      navigation.navigate('TelaPet');
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro na autenticação', error.message);

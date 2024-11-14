@@ -113,10 +113,11 @@ export default function TelaCadastroPet() {
     }
 
     try {
-      const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
+      const petId = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
       //console.log('cadastro de pet funcionou');
+      if(petId){
       Alert.alert('Cadastro de pet realizado com sucesso!');
-      navigation.navigate('TelaLogin');
+      navigation.navigate('TelaLogin');}
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro', error.message);

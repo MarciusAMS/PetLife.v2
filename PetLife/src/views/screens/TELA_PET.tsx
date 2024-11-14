@@ -10,6 +10,7 @@ export type RootStackParamList = {
     TelaPet: undefined;
     TelaCadastroPet2: undefined;
     AppMenu: undefined;
+    TelaInicio: { pet: { nome: string; imagemUrl: string } } | undefined;
 };
 
 type TelaPetProps = {
@@ -20,6 +21,7 @@ interface Pet {
     nome: string;
     imagemUrl: string;
     userUID: string;
+    petId: string;
 }
 
 export default function TelaPet({ navigation }: TelaPetProps) {
@@ -40,7 +42,10 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                 );
                 const querySnapshot = await getDocs(q);
 
-                const petList: Pet[] = querySnapshot.docs.map(doc => doc.data() as Pet);
+                const petList: Pet[] = querySnapshot.docs.map((doc) => ({
+                    ...(doc.data() as Pet), // Faz a conversão explícita para o tipo Pet
+                    petId: doc.id
+                }));
                 setPets(petList);
                 console.log('Pets recuperados:', petList);
             } else {
@@ -78,7 +83,7 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                         <TouchableOpacity 
                         key={index} 
                         style={styles.petCard} 
-                         onPress={() => navigation.navigate('AppMenu')}
+                         onPress={() => navigation.navigate('TelaInicio', { pet })}
                     >
                         {pet.imagemUrl ? (
                             <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />

@@ -1,5 +1,5 @@
 import { firestore, storage } from '../../firebaseService'; // Certifique-se de que está exportando firestore
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
 import { auth } from '../../firebaseService'; // Certifique-se de que está exportando auth
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";// Importando Firebase Storage
 
@@ -40,7 +40,14 @@ export const cadastrarPet = async (nome: string, raca: string, idade: string, se
     // Adiciona o novo pet ao Firestore
     const docRef = await addDoc(petsCollection, petData);
 
-    console.log('Pet cadastrado com sucesso, ID do documento:', docRef.id);
+      // Agora adiciona o campo 'petId' usando o ID retornado
+      const petId = docRef.id;
+      const petDocRef = doc(firestore, 'pets', petId);
+      await updateDoc(petDocRef, { petId });
+
+      return petId;
+
+    console.log('Pet cadastrado com sucesso, ID do pet:', petId);
   } catch (error) {
     console.error('Erro ao cadastrar o pet:', error instanceof Error ? error.message : error);
   }
