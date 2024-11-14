@@ -16,16 +16,19 @@ import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import MenuGlobal from './src/global/menuGlobal';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { PetProvider } from "./src/contextos/PetContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function AppMenu() {
   return (
-    <Tab.Navigator>
-      {/* Aqui você pode adicionar mais telas que devem aparecer com o Menu Global */}
-      <Tab.Screen name='TelaVacinacao' component={TelaVacinacao} options={{ headerShown: false }} />
-    </Tab.Navigator>
+    <PetProvider>
+      <Tab.Navigator>
+        {/* Aqui você pode adicionar mais telas que devem aparecer com o Menu Global */}
+        <Tab.Screen name='TelaVacinacao' component={TelaVacinacao} options={{ headerShown: false }} />
+      </Tab.Navigator>
+    </PetProvider>
   );
 }
 
@@ -34,10 +37,10 @@ export type AppRootParamList = {
   TelaLogin: undefined;
   TelaCadastro: undefined;
   TelaCadastroPet: undefined;
-  TelaCadastroPet2: undefined; 
+  TelaCadastroPet2: undefined;
   telaEsqueciSenha: undefined;
   TelaPet: undefined;
-  TelaVacinacao: undefined;
+  TelaVacinacao: string | undefined;
 };
 
 

@@ -5,6 +5,7 @@ import { getAuth } from "firebase/auth";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { usePetContext } from "../../contextos/PetContext";
 
 export type RootStackParamList = {
     TelaPet: undefined;

@@ -17,7 +17,7 @@ type CadastroPetRouteProp = RouteProp<AppRootParamList, 'TelaCadastroPet'>;
 
 export type AppRootParamList = {
   TelaCadastro: undefined;
-  TelaLogin: undefined;
+  TelaLogin: {};
   TelaPet: undefined;
   TelaCadastroPet: undefined;
 };
@@ -113,10 +113,10 @@ export default function TelaCadastroPet() {
     }
 
     try {
-      const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
+      const petId = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
       //console.log('cadastro de pet funcionou');
       Alert.alert('Cadastro de pet realizado com sucesso!');
-      navigation.navigate('TelaLogin');
+      navigation.navigate('TelaLogin', { petId });
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro', error.message);

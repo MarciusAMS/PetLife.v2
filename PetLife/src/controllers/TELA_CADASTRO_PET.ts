@@ -41,6 +41,7 @@ export const cadastrarPet = async (nome: string, raca: string, idade: string, se
     const docRef = await addDoc(petsCollection, petData);
 
     console.log('Pet cadastrado com sucesso, ID do documento:', docRef.id);
+    return docRef.id;
   } catch (error) {
     console.error('Erro ao cadastrar o pet:', error instanceof Error ? error.message : error);
   }

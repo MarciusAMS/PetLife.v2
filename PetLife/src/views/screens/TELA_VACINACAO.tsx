@@ -8,10 +8,21 @@ import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RegistroVacina } from "../../models/Vacina";
 import * as DocumentPicker from 'expo-document-picker';
+import { usePetContext } from "../../contextos/PetContext";
+import { RouteProp, useRoute } from "@react-navigation/native";
+
+// type TelaVacinaRouteProp = RouteProp<RootStackParamList, "TelaVacina">;
 
 
-export type RootStackParamList = {
-  TelaVacina: undefined;
+export type AppRootParamList = {
+  TelaEntrar: undefined;
+  TelaLogin: undefined;
+  TelaCadastro: undefined;
+  TelaCadastroPet: undefined;
+  TelaCadastroPet2: undefined;
+  telaEsqueciSenha: undefined;
+  TelaPet: undefined;
+  TelaVacinacao: { selectedPetId: string } | undefined; // Definindo TelaVacinacao com parâmetro opcional
 };
 
 // type TelaVacinaProps = {
@@ -26,8 +37,12 @@ export default function TelaVacinacao() {
   const db = getFirestore();
   const auth = getAuth();
   const [user, setUser] = useState<User | null>(null);
-  const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [documentUri, setDocumentUri] = useState<string | null>(null);
+  // const { selectedPetId } = usePetContext();
+
+  // const route = useRoute<TelaVacinaRouteProp>();
+  // const { selectedPetId } = route.params;
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -120,7 +135,6 @@ export default function TelaVacinacao() {
           nome: fileName,
           data: new Date().toISOString(),
           userUID: user.uid,
-          petId: selectedPetId,
           fileURL: downloadURL,
         });
 
@@ -143,7 +157,7 @@ export default function TelaVacinacao() {
 
   const fetchRegistros = async () => {
     if (!user) {
-      Alert.alert("Erro", "Usuário não autenticado.");
+      Alert.alert("Erro", "Usuário não autenticado ou Pet não selecionado.");
       return;
     }
 
@@ -153,7 +167,7 @@ export default function TelaVacinacao() {
       const q = query(
         collection(db, "registrosVacina"),
         where("userUID", "==", user.uid),
-        where("petId", "==", selectedPetId) 
+        // where("petId", "==", selectedPetId)
       );
       const querySnapshot = await getDocs(q);
 
