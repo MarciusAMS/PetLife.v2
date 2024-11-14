@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Linking, Dimensions } from 'react-native';
 import { styles } from '../../../styles';
 import { auth } from '../../../firebaseService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,7 +21,7 @@ type TelaEntrarProps = {
 export default function TelaInicio({ navigation }: TelaEntrarProps) {
   const user = auth.currentUser;
   const userId = user?.uid;
-
+  const {width} = Dimensions.get('window');
   const OpenMapsButton = () => {
       const url = 'https://www.google.com/maps/search/?api=1&query=pet+shop+perto+de+mim';
       Linking.openURL(url)
@@ -38,6 +38,7 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
       console.error('Erro ao deslogar:', error);
     }
   };
+
 
   return (
     <View style={styles.container}>
@@ -58,10 +59,10 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
       </View>
 
       {/* ARREDONDAR AS BORDAS DA IMAGEM DO PETSHOP PERTO DE VOCÊ!!!!! */}
-      <TouchableOpacity onPress={OpenMapsButton} style={{position:'absolute', bottom: 110}}>
+      <TouchableOpacity onPress={OpenMapsButton} style={{position:'absolute', bottom: 60}}>
         <Image source={require('../../../assets/pertoDeVoce.png')}
-         style={{ width: 700, height: 400, borderRadius:10, overflow: 'hidden'}}
-         resizeMode='cover'
+         style={{ width: width * 0.9, height: 400, borderRadius:10, overflow: 'hidden'}}
+         resizeMode='contain' // Contain serve para preencher e deixar a imagem do tamanho do container
         />
       </TouchableOpacity>
 
