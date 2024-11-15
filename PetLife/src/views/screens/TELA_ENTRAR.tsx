@@ -3,7 +3,7 @@ import { View, Text, Button, Image, ScrollView, TouchableOpacity, Alert } from '
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { styles } from '../../../styles';
 import { auth } from '../../../firebaseService';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signInWithCustomToken } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Defina o tipo para o stack do navegador
@@ -22,35 +22,27 @@ type TelaEntrarProps = {
 };
 
 export default function TelaEntrar({ navigation }: TelaEntrarProps) {
-  useEffect(() => {
-    const checkAuthState = async () => {
-      try {
-        // Verifica o token armazenado
-        const userToken = await AsyncStorage.getItem('userToken');
-        console.log("Token encontrado no AsyncStorage:", userToken);
-        
-        
-        // Verificação do estado de autenticação com Firebase
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-          console.log(user)
-          if (user && userToken) {
-            console.log("Usuário autenticado, navegando para TelaPet");
-            navigation.navigate('TelaPet'); // Navegar para TelaInicio se autenticado
-          } else {
-            console.log("Usuário não autenticado, permanecendo em TelaEntrar");
-          }
-        });
+  // useEffect(() => {
+  //   const checkAuthState = async () => {
+  //     try {
+  //       const userToken = await AsyncStorage.getItem('userToken');
+  //       console.log("Token encontrado no AsyncStorage:", userToken);
 
-        return () => {
-          unsubscribe(); // Limpa a função onAuthStateChanged ao desmontar
-        };
-      } catch (error) {
-        console.error("Erro ao verificar estado de autenticação:", error);
-      }
-    };
+  //       if (userToken) {
+  //         // Tente autenticar o usuário com o token armazenado
+  //         await signInWithCustomToken(auth, userToken);
+  //         console.log("Usuário autenticado com sucesso, navegando para TelaPet");
+  //         navigation.navigate('TelaPet');
+  //       } else {
+  //         console.log("Nenhum token encontrado, permanecendo em TelaEntrar");
+  //       }
+  //     } catch (error) {
+  //       console.error("Erro ao autenticar o usuário:", error);
+  //     }
+  //   };
 
-    checkAuthState();
-  }, [navigation]);
+  //   checkAuthState();
+  // }, [navigation]);
 
   const handleSignIn = () => {
     navigation.navigate('TelaLogin'); // Navega para a tela de login
