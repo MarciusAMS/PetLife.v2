@@ -77,11 +77,6 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
   try {
       const usuario = await signIn(email, senha, manterLogado);
       console.log(manterLogado);
-      
-      if (manterLogado) {
-        // Salva o token do usuário no AsyncStorage
-        await AsyncStorage.setItem('userToken', usuario.uid);
-      }
       handlePet();
     } catch (error) {
       if (error instanceof Error) {
