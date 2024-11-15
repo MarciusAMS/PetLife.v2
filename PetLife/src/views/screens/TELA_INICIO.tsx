@@ -47,15 +47,19 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
 
   console.log("ID do Pet:", pet?.petId)
 
+  if(pet){
+    console.log("Pet já foi selecionado. Esse é o ", pet.nome);
+  }else{
+    console.log('Nenhu pet foi selecionado ainda');
+    navigation.navigate('TelaPet');
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.containerInicioHorizontal}>
         <View style={styles.conteudoEsquerda}>
-          <TouchableOpacity onPress={() => navigation.navigate('AppMenu')}>
           <Image source={{uri: pet?.imagemUrl}} style={styles.imagensTopo} />
           <Text style={styles.nomeDoPet}>{pet?.nome}</Text>
-          </TouchableOpacity>
         </View>
 
         <TouchableOpacity onPress={() => navigation.navigate('TelaPet')}>

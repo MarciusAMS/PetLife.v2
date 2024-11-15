@@ -31,24 +31,30 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
 
   useEffect(() => {
     const checkAuthState = async () => {
-      const userToken = await AsyncStorage.getItem('userToken');
-      console.log("Token encontrado:", userToken);
+      try {
+        // Verificar token armazenado no AsyncStorage
+        const userToken = await AsyncStorage.getItem('userToken');
+        console.log("Token encontrado no AsyncStorage:", userToken);
   
-      if (userToken != null) {
-        navigation.navigate('TelaInicio'); // Navega diretamente para a tela inicial.
-        return;
+        // Verificação do estado de autenticação com Firebase
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user && userToken) {
+            // Somente redirecionar para TelaInicio se o Firebase e o AsyncStorage tiverem um usuário válido
+            console.log("Usuário autenticado pelo Firebase e token encontrado, navegando para TelaInicio");
+            navigation.navigate('TelaInicio');
+          } else {
+            console.log("Nenhum usuário autenticado ou token ausente, navegando para TelaEntrar");
+            navigation.navigate('TelaEntrar');
+          }
+        });
+  
+        return () => {
+          console.log("Cleanup da função onAuthStateChanged");
+          unsubscribe();
+        };
+      } catch (error) {
+        console.error("Erro ao verificar estado de autenticação:", error);
       }
-  
-      // Caso não haja token, verifica com o Firebase.
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          navigation.navigate('TelaInicio');
-        } else {
-          navigation.navigate('TelaEntrar');
-        }
-      });
-  
-      return () => unsubscribe(); // Cleanup da inscrição.
     };
   
     checkAuthState();
