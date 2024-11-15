@@ -49,7 +49,7 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
   if(pet){
     console.log("Pet já foi selecionado. Esse é o ", pet.nome);
   }else{
-    console.log('Nenhu pet foi selecionado ainda');
+    console.log('Nenhum pet foi selecionado ainda');
     navigation.navigate('TelaPet');
   }
 
