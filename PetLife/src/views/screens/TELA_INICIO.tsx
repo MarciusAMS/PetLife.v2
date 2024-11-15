@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, Linking, Dimensions } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Linking, Dimensions, ImageBackground } from 'react-native';
 import { styles } from '../../../styles';
 import { auth } from '../../../firebaseService';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import CustomCarousel from '../../global/carousel';
-import MenuGlobal from '../../global/menuGlobal';
 
 export type RootStackParamList = {
     TelaLogin: undefined,
@@ -69,14 +68,16 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
       </View>
 
       {/* ARREDONDAR AS BORDAS DA IMAGEM DO PETSHOP PERTO DE VOCÊ!!!!! */}
-      <TouchableOpacity onPress={OpenMapsButton} style={{position:'absolute', bottom: 60}}>
-        <View style={{borderRadius:10, overflow: 'hidden'}}>
-        <Image source={require('../../../assets/pertoDeVoce.png')}
-         style={{ width: width * 0.9, height: 400}}
-         resizeMode='contain' // Contain serve para preencher e deixar a imagem do tamanho do container
-        />
-        </View>
-      </TouchableOpacity>
+      <TouchableOpacity onPress={OpenMapsButton} style={{ position: 'absolute', bottom: 60 }}>
+  <View style={{ width: width * 0.9, height: 400, borderRadius: 10, overflow: 'hidden' }}>
+    <ImageBackground 
+      source={require('../../../assets/pertoDeVoce.png')}
+      style={{ width: '100%', height: '100%' }}
+      imageStyle={{ borderRadius: 10 }}
+      resizeMode="contain"
+    />
+  </View>
+</TouchableOpacity>
 
 
      {/* <MenuGlobal /> */}

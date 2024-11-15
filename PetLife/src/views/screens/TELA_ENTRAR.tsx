@@ -41,7 +41,7 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
   
       // Caso não haja token, verifica com o Firebase.
       const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
+        if (user != null) {
           navigation.navigate('TelaInicio');
         } else {
           navigation.navigate('TelaEntrar');
