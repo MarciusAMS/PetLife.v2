@@ -28,9 +28,10 @@ export default function TelaEntrar({ navigation }: TelaEntrarProps) {
         // Verifica o token armazenado
         const userToken = await AsyncStorage.getItem('userToken');
         console.log("Token encontrado no AsyncStorage:", userToken);
-
+        
         // Verificação do estado de autenticação com Firebase
         const unsubscribe = onAuthStateChanged(auth, (user) => {
+          console.log(user)
           if (user && userToken) {
             console.log("Usuário autenticado, navegando para TelaPet");
             navigation.navigate('TelaPet'); // Navegar para TelaInicio se autenticado

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, Button, Image, ScrollView, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { styles } from '../../../styles';
 import { signIn } from '../../controllers/TELA_LOGIN';
@@ -23,6 +23,18 @@ type TelaEntrarProps = {
 };
 
 export default function TelaLogin( { navigation }: TelaEntrarProps ) {
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const userToken = await AsyncStorage.getItem('userToken');
+      if (userToken) {
+        // Se encontrar o token, navegar para TelaPet
+        navigation.navigate('TelaPet');
+      }
+    };
+
+    checkLoginStatus();
+  }, [navigation]);
 
   const handleEsqueciSenha = () => {
     navigation.navigate('telaEsqueciSenha'); 
@@ -62,13 +74,15 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
 
     if (!isValid) return;
 
-    try {
-      
-     
+  try {
       const usuario = await signIn(email, senha, manterLogado);
       console.log(manterLogado);
+      
+      if (manterLogado) {
+        // Salva o token do usuário no AsyncStorage
+        await AsyncStorage.setItem('userToken', usuario.uid);
+      }
       handlePet();
-      navigation.navigate('TelaPet');
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro na autenticação', error.message);
