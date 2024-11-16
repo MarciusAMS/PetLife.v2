@@ -10,7 +10,8 @@ import { usePetContext } from "../../contextos/PetContext";
 export type RootStackParamList = {
     TelaPet: undefined;
     TelaCadastroPet2: undefined;
-    AppMenu: { selectedPetId?: string };
+    AppMenu: { pet: { nome: string; imagemUrl: string } } | undefined;
+    TelaInicio: { pet: { nome: string; imagemUrl: string } } | undefined;
 };
 
 type TelaPetProps = {
@@ -18,10 +19,10 @@ type TelaPetProps = {
 };
 
 interface Pet {
-    petId: string;
     nome: string;
     imagemUrl: string;
     userUID: string;
+    petId: string;
 }
 
 export default function TelaPet({ navigation }: TelaPetProps) {
@@ -31,9 +32,9 @@ export default function TelaPet({ navigation }: TelaPetProps) {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    const handleNavigateToAppMenu = (petId: string) => {
-        navigation.navigate("AppMenu", { selectedPetId: petId });
-    };
+    // const handleNavigateToAppMenu = (petId: string) => {
+    //     navigation.navigate("AppMenu", { petId });
+    // };
 
     const fetchPets = async () => {
         setLoading(true);
@@ -46,7 +47,10 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                 );
                 const querySnapshot = await getDocs(q);
 
-                const petList: Pet[] = querySnapshot.docs.map(doc => doc.data() as Pet);
+                const petList: Pet[] = querySnapshot.docs.map((doc) => ({
+                    ...(doc.data() as Pet), // Faz a conversão explícita para o tipo Pet
+                    petId: doc.id
+                }));
                 setPets(petList);
                 console.log('Pets recuperados:', petList);
             } else {
@@ -81,18 +85,18 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                     <ActivityIndicator size="large" color="#0000ff" />
                 ) : (
                     pets.map((pet, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            style={styles.petCard}
-                            onPress={() => handleNavigateToAppMenu(pet.petId)} 
-                        >
-                            {pet.imagemUrl ? (
-                                <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
-                            ) : (
-                                <Text style={styles.petName}>Imagem não disponível</Text>
-                            )}
-                            <Text style={styles.petName}>{pet.nome}</Text>
-                        </TouchableOpacity>
+                        <TouchableOpacity 
+                        key={index} 
+                        style={styles.petCard} 
+                         onPress={() => navigation.navigate('TelaInicio', { pet })}
+                    >
+                        {pet.imagemUrl ? (
+                            <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
+                        ) : (
+                            <Text style={styles.petName}>Imagem não disponível</Text>
+                        )}
+                        <Text style={styles.petName}>{pet.nome}</Text>
+                    </TouchableOpacity>
                     ))
                 )}
                 <TouchableOpacity
