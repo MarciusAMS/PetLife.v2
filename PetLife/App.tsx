@@ -32,16 +32,16 @@ function AppMenu() {
   );
 }
 
-export type AppRootParamList = {
-  TelaEntrar: undefined;
-  TelaLogin: undefined;
-  TelaCadastro: undefined;
-  TelaCadastroPet: undefined;
-  TelaCadastroPet2: undefined;
-  telaEsqueciSenha: undefined;
-  TelaPet: undefined;
-  TelaVacinacao: string | undefined;
-};
+// export type AppRootParamList = {
+//   TelaEntrar: undefined;
+//   TelaLogin: undefined;
+//   TelaCadastro: undefined;
+//   TelaCadastroPet: undefined;
+//   TelaCadastroPet2: undefined;
+//   telaEsqueciSenha: undefined;
+//   TelaPet: undefined;
+//   TelaVacinacao: string | undefined;
+// };
 
 
 function App() {

@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { View, Text, Image, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePetContext } from "../../contextos/PetContext";
@@ -10,7 +10,7 @@ import { usePetContext } from "../../contextos/PetContext";
 export type RootStackParamList = {
     TelaPet: undefined;
     TelaCadastroPet2: undefined;
-    AppMenu: undefined;
+    AppMenu: { selectedPetId?: string };
 };
 
 type TelaPetProps = {
@@ -18,6 +18,7 @@ type TelaPetProps = {
 };
 
 interface Pet {
+    petId: string;
     nome: string;
     imagemUrl: string;
     userUID: string;
@@ -29,6 +30,10 @@ export default function TelaPet({ navigation }: TelaPetProps) {
     const db = getFirestore();
     const auth = getAuth();
     const user = auth.currentUser;
+
+    const handleNavigateToAppMenu = (petId: string) => {
+        navigation.navigate("AppMenu", { selectedPetId: petId });
+    };
 
     const fetchPets = async () => {
         setLoading(true);
@@ -76,18 +81,18 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                     <ActivityIndicator size="large" color="#0000ff" />
                 ) : (
                     pets.map((pet, index) => (
-                        <TouchableOpacity 
-                        key={index} 
-                        style={styles.petCard} 
-                         onPress={() => navigation.navigate('AppMenu')}
-                    >
-                        {pet.imagemUrl ? (
-                            <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
-                        ) : (
-                            <Text style={styles.petName}>Imagem não disponível</Text>
-                        )}
-                        <Text style={styles.petName}>{pet.nome}</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            key={index}
+                            style={styles.petCard}
+                            onPress={() => handleNavigateToAppMenu(pet.petId)} 
+                        >
+                            {pet.imagemUrl ? (
+                                <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
+                            ) : (
+                                <Text style={styles.petName}>Imagem não disponível</Text>
+                            )}
+                            <Text style={styles.petName}>{pet.nome}</Text>
+                        </TouchableOpacity>
                     ))
                 )}
                 <TouchableOpacity
@@ -97,6 +102,7 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                     <Text style={styles.addPetIcon}>+</Text>
                 </TouchableOpacity>
             </View>
+
         </View>
     );
 }

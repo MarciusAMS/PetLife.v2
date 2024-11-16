@@ -38,7 +38,9 @@ export default function TelaVacinacao() {
   const auth = getAuth();
   const [user, setUser] = useState<User | null>(null);
   const [documentUri, setDocumentUri] = useState<string | null>(null);
-  // const { selectedPetId } = usePetContext();
+  const route = useRoute();
+  const { selectedPetId } = route.params as { selectedPetId?: string };
+
 
   // const route = useRoute<TelaVacinaRouteProp>();
   // const { selectedPetId } = route.params;
@@ -161,13 +163,18 @@ export default function TelaVacinacao() {
       return;
     }
 
+    if (!selectedPetId) {
+      Alert.alert("Erro", "Pet não selecionado.");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const q = query(
         collection(db, "registrosVacina"),
         where("userUID", "==", user.uid),
-        // where("petId", "==", selectedPetId)
+        where("petId", "==", selectedPetId)
       );
       const querySnapshot = await getDocs(q);
 
@@ -190,8 +197,10 @@ export default function TelaVacinacao() {
 
   useFocusEffect(
     useCallback(() => {
-      if (user) fetchRegistros(); // Chama fetchRegistros quando a tela ganha foco e o usuário está autenticado
-    }, [user])
+      if (user && selectedPetId){
+        fetchRegistros();
+      } // Chama fetchRegistros quando a tela ganha foco e o usuário está autenticado
+    }, [user, selectedPetId])
   );
 
   return (

@@ -5,4 +5,5 @@ export interface RegistroVacina {
     dose?: string;
     observacoes?: string;
     userUID: string;
+    petId: string;
   };
