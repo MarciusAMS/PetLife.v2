@@ -12,63 +12,13 @@ import TelaPet from './src/views/screens/TELA_PET';
 import TelaVacinacao from './src/views/screens/TELA_VACINACAO';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
-import MenuGlobal from './src/global/menuGlobal';
+import AppMenu from './src/global/menuGlobal';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function AppMenu() {
-//   return (
-//     // <Tab.Navigator>
-//     //   {/* Aqui você pode adicionar mais telas que devem aparecer com o Menu Global */}
-//     //   <Tab.Screen name="TelaInicio" component={TelaInicio} options={{ title: 'Tela Inicial' }} />
-//     //   <Tab.Screen name='TelaVacinacao' component={TelaVacinacao} options={{ headerShown: false }} />
-//     // </Tab.Navigator>
-
-//     <NavigationContainer>
-//     <Tab.Navigator
-//       screenOptions={({ route }) => ({
-//         tabBarIcon: ({ color, size }) => {
-//           let iconName: string;
-
-//           switch (route.name) {
-//             case 'Inicio':
-//               iconName = 'home';
-//               break;
-//             case 'Saude':
-//               iconName = 'paw';
-//               break;
-//             case 'Diario':
-//               iconName = 'notebook';
-//               break;
-//             case 'Vacinacao':
-//               iconName = 'needle';
-//               break;
-//             default:
-//               iconName = 'circle';
-//               break;
-//           }
-//           return <Icon name={iconName} size={size} color={color} />;
-//         },
-//         tabBarActiveTintColor: '#ff6347',
-//         tabBarInactiveTintColor: 'gray',
-//         tabBarStyle: {
-//           backgroundColor: '#f9f1e7',
-//           borderTopWidth: 0,
-//         },
-//         headerShown: false,
-//       })}
-//     >
-//       <Tab.Screen name="Inicio" component={TelaInicio} />
-//       <Tab.Screen name="Saude" component={TelaVacinacao} />
-//       {/* <Tab.Screen name="Diario" component={DiarioScreen} />
-//       <Tab.Screen name="Vacinacao" component={VacinacaoScreen} /> */}
-//     </Tab.Navigator>
-//   </NavigationContainer>
-// );
-};
 
 export type AppRootParamList = {
   TelaEntrar: undefined;
@@ -90,6 +40,7 @@ function App() {
   }, []);
 
   return (
+    
     <NavigationContainer>
       <Stack.Navigator initialRouteName="TelaEntrar">
 

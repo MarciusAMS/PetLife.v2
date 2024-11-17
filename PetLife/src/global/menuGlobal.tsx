@@ -13,7 +13,7 @@ export type RootTabParamList = {
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
-const BottomTabs = () => {
+const AppMenu = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -46,4 +46,4 @@ const BottomTabs = () => {
   );
 };
 
-export default BottomTabs;
+export default AppMenu;
