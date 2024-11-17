@@ -9,10 +9,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 export type RootStackParamList = {
     TelaPet: undefined;
     TelaCadastroPet2: undefined;
-   // TelaInicio: string | undefined;
+    AppMenu: undefined;
+    TelaInicio: { pet: { nome: string; imagemUrl: string } } | undefined;
 };
 
-type TelaEntrarProps = {
+type TelaPetProps = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'TelaPet'>;
 };
 
@@ -20,9 +21,10 @@ interface Pet {
     nome: string;
     imagemUrl: string;
     userUID: string;
+    petId: string;
 }
 
-export default function TelaPet({ navigation }: TelaEntrarProps) {
+export default function TelaPet({ navigation }: TelaPetProps) {
     const [pets, setPets] = useState<Pet[]>([]);
     const [loading, setLoading] = useState(false);
     const db = getFirestore();
@@ -40,7 +42,10 @@ export default function TelaPet({ navigation }: TelaEntrarProps) {
                 );
                 const querySnapshot = await getDocs(q);
 
-                const petList: Pet[] = querySnapshot.docs.map(doc => doc.data() as Pet);
+                const petList: Pet[] = querySnapshot.docs.map((doc) => ({
+                    ...(doc.data() as Pet), // Faz a conversão explícita para o tipo Pet
+                    petId: doc.id
+                }));
                 setPets(petList);
                 console.log('Pets recuperados:', petList);
             } else {
@@ -78,7 +83,7 @@ export default function TelaPet({ navigation }: TelaEntrarProps) {
                         <TouchableOpacity 
                         key={index} 
                         style={styles.petCard} 
-                        // onPress={() => navigation.navigate('TelaInicio')}
+                         onPress={() => navigation.navigate('TelaInicio', { pet })}
                     >
                         {pet.imagemUrl ? (
                             <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />

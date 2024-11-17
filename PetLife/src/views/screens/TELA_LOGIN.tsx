@@ -1,18 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, Button, Image, ScrollView, TextInput, Alert, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
 import { styles } from '../../../styles';
 import { signIn } from '../../controllers/TELA_LOGIN';
 //import { CheckBoxCustom } from '../../global/checkbox';
 import { CheckBox } from 'react-native-elements';
 import { themas } from '../../global/themes';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { onAuthStateChanged } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth } from '../../../firebaseService';
 
 export type RootStackParamList = {
   telaLogin: undefined,
-  telaEsqueciSenha: undefined; 
-  // AppMenu: undefined; // Observação: Por estar dentro do Container do Menu Global, precisa ser importado o container e não a tela diretamente
+  AppMenu: undefined; // Observação: Por estar dentro do Container do Menu Global, precisa ser importado o container e não a tela diretamente
   TelaPet: undefined;
+  telaEsqueciSenha: undefined, // Adicione todas as suas telas aqui
+  TelaInicio: undefined;
 };
 
 type TelaEntrarProps = {
@@ -20,7 +23,6 @@ type TelaEntrarProps = {
 };
 
 export default function TelaLogin( { navigation }: TelaEntrarProps ) {
-
   const handleEsqueciSenha = () => {
     navigation.navigate('telaEsqueciSenha'); 
   };
@@ -29,10 +31,21 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
     navigation.navigate('TelaPet');
   };
 
+   const signOutUser = async () => {
+    try {
+      await auth.signOut();
+      await AsyncStorage.removeItem('userToken'); // Limpa o token ao sair.
+      console.log('Usuário deslogado.');
+    } catch (error) {
+      console.error('Erro ao deslogar:', error);
+    }
+  };
+
   // Estados para gerenciar o estado dos checkboxes
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [isEmailChecked, setIsEmailChecked] = useState(false);
+  // const [isEmailChecked, setIsEmailChecked] = useState(false);
+  const [manterLogado, setManterLogado] = useState(false);
   //  const [isPasswordChecked, setIsPasswordChecked] = useState(false);
   const [inputErrors, setInputErrors] = useState({
     email: false,
@@ -48,8 +61,9 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
 
     if (!isValid) return;
 
-    try {
-      const usuario = await signIn(email, senha);
+  try {
+      const usuario = await signIn(email, senha, manterLogado);
+      console.log(manterLogado);
       handlePet();
     } catch (error) {
       if (error instanceof Error) {
@@ -79,8 +93,10 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
     return isValid;
   }
 
+ 
+
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
 
       <View style={styles.container}>
 
@@ -135,8 +151,8 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
             <CheckBox
               style={styles.orCheckBox}
               title="Manter-me logado"
-              checked={isEmailChecked}
-              onPress={() => setIsEmailChecked(!isEmailChecked)}
+              checked={manterLogado}
+              onPress={() => setManterLogado((prev) => !prev)}
             />
           </View>
 
@@ -160,10 +176,4 @@ export default function TelaLogin( { navigation }: TelaEntrarProps ) {
       </View>
     </ScrollView>
   );
-
-  // <CheckBox
-  //         title="Lembrar senha"
-  //         checked={isPasswordChecked}
-  //         onPress={() => setIsPasswordChecked(!isPasswordChecked)}
-  //       />
 }
