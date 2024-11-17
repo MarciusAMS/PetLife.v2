@@ -99,7 +99,7 @@ export default function TelaCadastroPet() {
 
   const handleCadastrarPet = async () => {
 
-
+    const currentUser = auth.currentUser;
 
     // Validação antes de tentar o cadastro
     const isValid = validarCampos();
@@ -113,12 +113,10 @@ export default function TelaCadastroPet() {
     }
 
     try {
-      const petId = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
+      const user = await cadastrarPet(additionalData.nome, additionalData.raca, idade, sexo, peso, imageUri);
       //console.log('cadastro de pet funcionou');
-      if(petId){
       Alert.alert('Cadastro de pet realizado com sucesso!');
-      navigation.navigate('TelaLogin');
-    }
+      navigation.navigate('TelaPet');
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert('Erro', error.message);
@@ -208,7 +206,6 @@ export default function TelaCadastroPet() {
       setInputErrors({ ...inputErrors, raca: true });
     }
   };
-
 
   return (
     <ScrollView>
@@ -353,4 +350,4 @@ export default function TelaCadastroPet() {
 */}
     </ScrollView>
   )
-}
+};

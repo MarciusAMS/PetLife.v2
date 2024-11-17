@@ -24,11 +24,13 @@ const Tab = createBottomTabNavigator();
 
 function AppMenu() {
   return (
-    <Tab.Navigator>
-      {/* Aqui você pode adicionar mais telas que devem aparecer com o Menu Global */}
-      <Tab.Screen name="TelaInicio" component={TelaInicio} options={{ title: 'Tela Inicial' }} />
-      <Tab.Screen name='TelaVacinacao' component={TelaVacinacao} options={{ headerShown: false }} />
-    </Tab.Navigator>
+    <NavigationContainer>
+      <Tab.Navigator>
+        {/* Aqui você pode adicionar mais telas que devem aparecer com o Menu Global */}
+        <Tab.Screen name="TelaInicio" component={TelaInicio} options={{ title: 'Tela Inicial' }} />
+        <Tab.Screen name='TelaVacinacao' component={TelaVacinacao} options={{ headerShown: false }} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -60,7 +62,7 @@ function App() {
         <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ title: 'Login' }} />
         <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
         <Stack.Screen name="TelaCadastroPet" component={TelaCadastroPet} options={{ title: 'Cadastro do pet' }} />
-        <Stack.Screen name="TelaInicio" component={TelaInicio} options={{ title: 'Tela Inicial' }} />
+        {/* <Stack.Screen name="TelaInicio" component={TelaInicio} options={{ title: 'Tela Inicial' }} /> */}
         <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
         <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
         <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />

@@ -21,8 +21,8 @@ export type AppRootParamList = {
   TelaCadastroPet: undefined;
   TelaCadastroPet2: undefined;
   telaEsqueciSenha: undefined;
-  TelaPet: undefined;
-  TelaVacinacao: { selectedPetId: string } | undefined; // Definindo TelaVacinacao com parâmetro opcional
+  TelaPet: { pet: { nome: string; imagemUrl: string; petId: string} } | undefined;
+  TelaVacinacao: undefined; // Definindo TelaVacinacao com parâmetro opcional
 };
 
 // type TelaVacinaProps = {

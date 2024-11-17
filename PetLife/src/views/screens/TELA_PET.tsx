@@ -88,7 +88,7 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                         <TouchableOpacity 
                         key={index} 
                         style={styles.petCard} 
-                         onPress={() => navigation.navigate('TelaInicio', { pet })}
+                         onPress={() => navigation.navigate('AppMenu', { pet })}
                     >
                         {pet.imagemUrl ? (
                             <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />

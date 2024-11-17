@@ -11,8 +11,8 @@ export type RootStackParamList = {
     TelaLogin: undefined,
     telaEsqueciSenha: undefined,
     TelaInicio: { pet: { nome: string; imagemUrl: string; petId: string} } | undefined;
-    TelaPet: undefined;
-    AppMenu: undefined;
+    TelaPet: { pet: { nome: string; imagemUrl: string; petId: string} } | undefined;
+    AppMenu: { pet: { nome: string; imagemUrl: string; petId: string} } | undefined;
   };
   
 type TelaEntrarProps = {
