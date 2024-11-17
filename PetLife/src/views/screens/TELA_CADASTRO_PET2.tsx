@@ -311,6 +311,8 @@ export default function TelaCadastroPet2() {
                             onChangeText={handleSexoChange}
                             placeholder="Sexo:"
                             placeholderTextColor={themas.colors.placeholderColor}
+                            autoCorrect={false} // Desativa a autocorreção
+                            autoCapitalize="none"
                         />
                         {inputErrors.sexo && <Text style={themas.textStyles.errorText}>O sexo do animal é obrigatorio.</Text>}
                     </View>

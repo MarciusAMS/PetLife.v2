@@ -22,27 +22,27 @@ type TelaEntrarProps = {
 };
 
 export default function TelaEntrar({ navigation }: TelaEntrarProps) {
-  // useEffect(() => {
-  //   const checkAuthState = async () => {
-  //     try {
-  //       const userToken = await AsyncStorage.getItem('userToken');
-  //       console.log("Token encontrado no AsyncStorage:", userToken);
+  useEffect(() => {
+    const checkAuthState = async () => {
+      try {
+        const userToken = await AsyncStorage.getItem('userToken');
+        console.log("Token encontrado no AsyncStorage:", userToken);
 
-  //       if (userToken) {
-  //         // Tente autenticar o usuário com o token armazenado
-  //         await signInWithCustomToken(auth, userToken);
-  //         console.log("Usuário autenticado com sucesso, navegando para TelaPet");
-  //         navigation.navigate('TelaPet');
-  //       } else {
-  //         console.log("Nenhum token encontrado, permanecendo em TelaEntrar");
-  //       }
-  //     } catch (error) {
-  //       console.error("Erro ao autenticar o usuário:", error);
-  //     }
-  //   };
+        if (userToken) {
+          // Tente autenticar o usuário com o token armazenado
+          await signInWithCustomToken(auth, userToken);
+          console.log("Usuário autenticado com sucesso, navegando para TelaPet");
+          navigation.navigate('TelaPet');
+        } else {
+          console.log("Nenhum token encontrado, permanecendo em TelaEntrar");
+        }
+      } catch (error) {
+        console.error("Erro ao autenticar o usuário:", error);
+      }
+    };
 
-  //   checkAuthState();
-  // }, [navigation]);
+    checkAuthState();
+  }, [navigation]);
 
   const handleSignIn = () => {
     navigation.navigate('TelaLogin'); // Navega para a tela de login
