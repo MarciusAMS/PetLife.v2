@@ -51,7 +51,7 @@ imagensTopo: {
 },
 
 nomeDoPet: {
-  fontSize: 40,
+  fontSize: 30,
   fontWeight: 'bold',
   color: '#000',
 },
