@@ -72,15 +72,20 @@ export default function TelaInicio({ navigation }: TelaEntrarProps) {
       </View>
 
       {/* ARREDONDAR AS BORDAS DA IMAGEM DO PETSHOP PERTO DE VOCÊ!!!!! */}
-      <TouchableOpacity onPress={OpenMapsButton} style={{ position: 'absolute', bottom: 60 }}>
-  <View style={{ width: width * 0.9, height: 400, borderRadius: 10, overflow: 'hidden' }}>
+      <TouchableOpacity onPress={OpenMapsButton} style={{ 
+         position: 'absolute',
+         bottom: 160,
+         alignSelf: 'center',
+         width: width * 0.9, 
+         height: 200, 
+         borderRadius: 10, 
+         overflow: 'hidden',
+         backgroundColor: 'trasnparent' }}>
     <ImageBackground 
       source={require('../../../assets/pertoDeVoce.png')}
       style={{ width: '100%', height: '100%' }}
-      imageStyle={{ borderRadius: 10 }}
       resizeMode="contain"
     />
-  </View>
 </TouchableOpacity>
 
 
