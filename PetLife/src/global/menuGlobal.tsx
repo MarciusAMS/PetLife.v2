@@ -1,39 +1,49 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TelaPet from '../views/screens/TELA_PET';
-import TelaPerfil from '../views/screens/TELA_LOGIN';
-import { Icon } from 'react-native-elements';
+import { NavigationContainer } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import TelaInicio from '../views/screens/TELA_INICIO';
+import TelaVacinacao from '../views/screens/TELA_VACINACAO';
 
-const Tab = createBottomTabNavigator();
 
-export default function MenuGlobal() {
+export type RootTabParamList = {
+  TelaInicio: undefined;
+  TelaVacinacao: undefined;
+};
+
+const Tab = createBottomTabNavigator<RootTabParamList>();
+
+const BottomTabs = () => {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarActiveTintColor: '#000', // Cor do ícone ativo
-        tabBarInactiveTintColor: '#aaa', // Cor do ícone inativo
-        tabBarStyle: { backgroundColor: '#f2c2a2' }, // Personalize a cor de fundo
-      }}
-    >
-      <Tab.Screen 
-        name="Inicio" 
-        component={TelaPet} 
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="home" type="font-awesome" color={color} size={size} />
-          ),
-        }}
-      />
-      {/* <Tab.Screen 
-        name="Saúde" 
-        component={TelaPet} 
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="heartbeat" type="font-awesome" color={color} size={size} />
-          ),
-        }}
-      /> */}
-      {/* Adicione mais telas conforme necessário */}
-    </Tab.Navigator>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            let iconName: string;
+            switch (route.name) {
+              case 'TelaInicio':
+                iconName = 'home';
+                break;
+              case 'TelaVacinacao':
+                iconName = 'paw';
+                break;
+              default:
+                iconName = 'circle';
+                break;
+            }
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: '#ff6347',
+          tabBarInactiveTintColor: 'gray',
+          tabBarStyle: { backgroundColor: '#f9f1e7' },
+          headerShown: false,
+        })}
+      >
+        <Tab.Screen name="TelaInicio" component={TelaInicio} />
+        <Tab.Screen name="TelaVacinacao" component={TelaVacinacao} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
-}
+};
+
+export default BottomTabs;
