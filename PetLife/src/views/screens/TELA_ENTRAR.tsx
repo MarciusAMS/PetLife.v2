@@ -16,7 +16,7 @@ type RootStackParamList = {
   TelaInicio: undefined;
   TelaPet: undefined;
 };
-
+// 
 type TelaEntrarProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'TelaEntrar'>;
 };
