@@ -15,7 +15,6 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const AppMenu = () => {
   return (
-    <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color, size }) => {
@@ -42,7 +41,6 @@ const AppMenu = () => {
         <Tab.Screen name="TelaInicio" component={TelaInicio} />
         <Tab.Screen name="TelaVacinacao" component={TelaVacinacao} />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 };
 
