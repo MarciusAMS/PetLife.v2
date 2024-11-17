@@ -9,7 +9,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 export type RootStackParamList = {
     TelaPet: undefined;
     TelaCadastroPet2: undefined;
-    AppMenu: undefined;
+    AppMenu: { pet: { nome: string; imagemUrl: string } } | undefined;
     TelaInicio: { pet: { nome: string; imagemUrl: string } } | undefined;
 };
 
@@ -83,7 +83,7 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                         <TouchableOpacity 
                         key={index} 
                         style={styles.petCard} 
-                         onPress={() => navigation.navigate('TelaInicio', { pet })}
+                         onPress={() => navigation.navigate('AppMenu', { pet })}
                     >
                         {pet.imagemUrl ? (
                             <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
