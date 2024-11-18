@@ -11,6 +11,7 @@ export type RootStackParamList = {
     TelaCadastroPet2: undefined;
     AppMenu: undefined;
     TelaInicio: { pet: { nome: string; imagemUrl: string } } | undefined;
+    TelaDiario: { pet: { nome: string; imagemUrl: string } } | undefined;
 };
 
 type TelaPetProps = {
@@ -83,7 +84,7 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                         <TouchableOpacity 
                         key={index} 
                         style={styles.petCard} 
-                         onPress={() => navigation.navigate('TelaInicio', { pet })}
+                         onPress={() => navigation.navigate('TelaDiario', { pet })}
                     >
                         {pet.imagemUrl ? (
                             <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />

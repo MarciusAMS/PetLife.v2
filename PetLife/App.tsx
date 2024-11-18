@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import { StatusBar } from 'expo-status-bar';
-// import { initializeApp } from 'firebase/app';
-// import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 import TelaEntrar from './src/views/screens/TELA_ENTRAR';
 import TelaLogin from './src/views/screens/TELA_LOGIN';
 import TelaEsqueciSenha from './src/views/screens/TELA_ESQUECI_SENHA';
@@ -15,8 +12,8 @@ import TelaPet from './src/views/screens/TELA_PET';
 import TelaVacinacao from './src/views/screens/TELA_VACINACAO';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
-import MenuGlobal from './src/global/menuGlobal';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import TelaDiario from './src/views/screens/TELA_DIARIO';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,6 +37,7 @@ export type AppRootParamList = {
   telaEsqueciSenha: undefined;
   TelaPet: undefined;
   TelaVacinacao: undefined;
+  TelaDiario: undefined;
 };
 
 
@@ -63,7 +61,7 @@ function App() {
         <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
         <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
         <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
-
+        <Stack.Screen name="TelaDiario" component={TelaDiario} options={{ title: 'Tela Diario' }} />
         {/* Menu Global com as abas principais */}
         <Stack.Screen name="AppMenu" component={AppMenu} options={{ headerShown: false }} />
 
