@@ -530,7 +530,6 @@ notesContainer: {
     paddingTop: '40%',
 },
 note: {
-  backgroundColor: '#d8c3a5',
   flexBasis: '48%', // Cada item ocupa ~48% do espaço horizontal (ajuste para o layout)
   margin: '1%', // Espaço entre os itens
   height: 150,

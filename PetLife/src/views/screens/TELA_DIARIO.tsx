@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
     TelaDiario: undefined;
     AppMenu: undefined;
-
 };
 
 type TelaDiarioProps = {
@@ -17,6 +16,7 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
     type Note = { id: string; content: string };
 
     const [notes, setNotes] = useState<Note[]>([]);
+    const [scrollY, setScrollY] = useState(0); // Adicionado estado para monitorar scroll
 
     // Adicionar uma nova nota
     const addNote = () => {
@@ -29,13 +29,22 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
         Alert.alert('Nota Selecionada', `Você clicou na nota: ${note.content}`);
     };
 
-    const renderNote = ({ item }: { item: Note }) => (
-        <TouchableOpacity style={styles.note} onPress={() => handleNoteClick(item)}>
-             <Image style={styles.noteImage} source={require('../../../assets/anotacao.png')} />
-            <Text style={styles.noteText}>{item.content}</Text>
-        </TouchableOpacity>
-    );
+    const renderNote = ({ item, index }: { item: Note, index: number }) => {
+        const shouldHide = scrollY > 700 && index < 2; // Altere o "120" para ajustar a linha de referência
 
+        return (
+            <TouchableOpacity
+                style={[
+                    styles.note,
+                    shouldHide && { opacity: 0, transform: [{ translateY: 30 }] } // Estilo dinâmico
+                ]}
+                onPress={() => handleNoteClick(item)}
+            >
+                <Image style={styles.noteImage} source={require('../../../assets/anotacao.png')} />
+                <Text style={styles.noteText}>{item.content}</Text>
+            </TouchableOpacity>
+        );
+    };
 
     return (
         <View style={styles.container}>
@@ -47,9 +56,8 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
 
             <View style={styles.separator} />
 
-
             <TouchableOpacity onPress={addNote} style={styles.addDiarioButton}>
-            <Text style={styles.addDiarioButtonText}>+</Text>
+                <Text style={styles.addDiarioButtonText}>+</Text>
             </TouchableOpacity>
 
             {/* Lista de Notas */}
@@ -57,50 +65,14 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
                 data={notes}
                 keyExtractor={(item) => item.id}
                 renderItem={renderNote}
-                numColumns={2} // Duas colunas
+                numColumns={2}
                 contentContainerStyle={styles.notesContainer}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
                 scrollEnabled={true}
                 showsVerticalScrollIndicator={false}
+                onScroll={(event) => setScrollY(event.nativeEvent.contentOffset.y)} // Monitorar scroll
+                scrollEventThrottle={16}
             />
         </View>
     );
-
 }
-
-// const styles = StyleSheet.create({
-//     container: { flex: 1, backgroundColor: '#fbe6d3', paddingHorizontal: 10 },
-//     header: {
-//         flexDirection: 'row',
-//         justifyContent: 'space-between',
-//         alignItems: 'center',
-//         paddingVertical: 20,
-//         backgroundColor: '#fcdab7',
-//         paddingHorizontal: 15,
-//         borderBottomWidth: 1,
-//         borderColor: '#d3a589',
-//     },
-//     headerText: { fontSize: 24, fontWeight: 'bold', color: '#4a3f35' },
-//     addButton: {
-//         backgroundColor: '#f08a5d',
-//         borderRadius: 50,
-//         width: 40,
-//         height: 40,
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//     },
-//     addButtonText: { fontSize: 24, color: '#fff', fontWeight: 'bold' },
-//     notesContainer: { paddingTop: 20 },
-//     note: {
-//         backgroundColor: '#d8c3a5',
-//         width: '45%',
-//         margin: '2.5%',
-//         aspectRatio: 1,
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         borderRadius: 10,
-//         borderWidth: 1,
-//         borderColor: '#caa374',
-//     },
-//     noteText: { fontSize: 16, color: '#4a3f35' },
-// });
