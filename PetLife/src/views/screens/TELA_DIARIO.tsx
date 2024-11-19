@@ -59,6 +59,7 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
                 renderItem={renderNote}
                 numColumns={2} // Duas colunas
                 contentContainerStyle={styles.notesContainer}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
             />
         </View>
     );

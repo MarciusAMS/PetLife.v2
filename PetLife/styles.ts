@@ -531,12 +531,13 @@ notesContainer: {
 },
 note: {
   backgroundColor: '#d8c3a5',
-  flex: 1,
-  margin: 10,
-  aspectRatio: 1, // Garantir quadrado
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 10,
+        width: '50%', // Ocupa 45% da largura do contêiner
+        margin: 10, // Espaço ao redor das notas
+        height: 150, // Altura fixa para garantir proporção
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        flex: 1, // Faz com que a largura se ajuste automaticamente
 },
 noteImage: {
   width: '80%',
