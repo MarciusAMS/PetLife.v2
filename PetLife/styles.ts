@@ -531,17 +531,18 @@ notesContainer: {
 },
 note: {
   backgroundColor: '#d8c3a5',
-        width: '50%', // Ocupa 45% da largura do contêiner
-        margin: 10, // Espaço ao redor das notas
-        height: 150, // Altura fixa para garantir proporção
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        flex: 1, // Faz com que a largura se ajuste automaticamente
+  flexBasis: '48%', // Cada item ocupa ~48% do espaço horizontal (ajuste para o layout)
+  margin: '1%', // Espaço entre os itens
+  height: 150,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 10,
 },
 noteImage: {
-  width: '80%',
+  width: '100%',
   height: '50%',
+  aspectRatio: 1, // Mantém proporção 1:1
+  resizeMode: 'contain',
 },
 noteText: {
   fontSize: 16,
@@ -549,14 +550,15 @@ noteText: {
   marginTop: 5,
 },
 addDiarioButton: {
-  backgroundColor: '#f08a5d',
-  borderRadius: 50,
-  width: 60,
-  height: 60,
-  alignItems: 'center',
-  justifyContent: 'center',
-  alignSelf: 'center',
-  marginVertical: 20,
+  position: 'absolute',
+    bottom: 20,
+    right: 20, // Ajuste para posicioná-lo no canto inferior
+    backgroundColor: '#f08a5d',
+    borderRadius: 50,
+    width: 60,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
 },
 addDiarioButtonText: {
   fontSize: 30,
