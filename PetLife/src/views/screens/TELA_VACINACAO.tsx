@@ -233,9 +233,9 @@ export default function TelaVacinacao({ pet }: TelaVacinaProps) {
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
           style={styles.scrollContainer}>
           {registros.map((registro) => (
-            <View key={registro.id} style={styles.registroItem}>
+            <View key={registro.id} style={styles.registroContainer}>
               <Text style={styles.registroText}>{registro.nome}</Text>
-              <Text style={styles.registroText}>{registro.data}</Text>
+              <Text style={styles.registroData}>{registro.data}</Text>
               {/* {registro.dose && <Text style={styles.registroText}>Dose: {registro.dose}</Text>}
               {registro.observacoes && <Text style={styles.registroText}>Observações: {registro.observacoes}</Text>} */}
             </View>
