@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { View, Text, Image, FlatList, StyleSheet, ScrollView, Animated, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -16,27 +16,35 @@ type TelaDiarioProps = {
 export default function TelaDiario({ navigation }: TelaDiarioProps) {
     type Note = { id: string; content: string };
 
-    const [notes, setNotes] = useState<Note[]>([]);
+    const [notes, setNotes] = useState(
+        Array.from({ length: 20 }, (_, i) => ({ id: i.toString(), content: `Nota ${i + 1}` }))
+      );
+      const [scrollY, setScrollY] = useState(0); // Armazena a posição do scroll
 
     // Adicionar uma nova nota
     const addNote = () => {
-        const newNote = { id: Date.now().toString(), content: 'Nova nota' };
+        const newNote = { id: Date.now().toString(), content: `Nota ${notes.length + 1}` };
         setNotes((prevNotes) => [...prevNotes, newNote]);
-    };
+      };
 
     // Quando uma nota é clicada
     const handleNoteClick = (note: Note) => {
         Alert.alert('Nota Selecionada', `Você clicou na nota: ${note.content}`);
     };
 
-    const renderNote = ({ item }: { item: Note }) => (
-        <TouchableOpacity style={styles.note} onPress={() => handleNoteClick(item)}>
-             <Image style={styles.noteImage} source={require('../../../assets/anotacao.png')} />
-            <Text style={styles.noteText}>{item.content}</Text>
-        </TouchableOpacity>
+    const renderNote = ({ item }: { item: Note }) => {
+        const shouldHide = scrollY > 1000 && parseInt(item.id) < 3; // Esconde as 3 primeiras notas ao ultrapassar 100px no scroll
+          return (
+            <Animated.View style={[styles.note, shouldHide && { opacity: 0 }]}>
+              <Text style={styles.noteText}>{item.content}</Text>
+            </Animated.View>
+          
+    //     <TouchableOpacity style={styles.note} onPress={() => handleNoteClick(item)}>
+    //          <Image style={styles.noteImage} source={require('../../../assets/anotacao.png')} />
+    //         <Text style={styles.noteText}>{item.content}</Text>
+    //     </TouchableOpacity>
     );
-
-
+}
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
@@ -61,6 +69,7 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
                 contentContainerStyle={styles.notesContainer}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
                 scrollEnabled={true}
+                showsVerticalScrollIndicator={false}
             />
         </View>
     );
