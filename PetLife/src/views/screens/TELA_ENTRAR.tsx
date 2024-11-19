@@ -22,22 +22,32 @@ type TelaEntrarProps = {
 };
 
 export default function TelaEntrar({ navigation }: TelaEntrarProps) {
+  const user = auth.currentUser;
+  const userId = user?.uid;
+
+  console.log(userId);
+
   useEffect(() => {
     const checkAuthState = async () => {
       try {
-        const userToken = await AsyncStorage.getItem('userToken');
-        console.log("Token encontrado no AsyncStorage:", userToken);
+        // Verificação do estado de autenticação com Firebase
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+            // Somente redirecionar para TelaInicio se o Firebase e o AsyncStorage tiverem um usuário válido
+            console.log("Usuário autenticado pelo Firebase e token encontrado, navegando para TelaInicio");
+            navigation.navigate('TelaInicio');
+          } else {
+            console.log("Nenhum usuário autenticado ou token ausente, navegando para TelaEntrar");
+            navigation.navigate('TelaEntrar');
+          }
+        });
 
-        if (userToken) {
-          // Tente autenticar o usuário com o token armazenado
-          await signInWithCustomToken(auth, userToken);
-          console.log("Usuário autenticado com sucesso, navegando para TelaPet");
-          navigation.navigate('TelaPet');
-        } else {
-          console.log("Nenhum token encontrado, permanecendo em TelaEntrar");
-        }
+        return () => {
+          console.log("Cleanup da função onAuthStateChanged");
+          unsubscribe();
+        };
       } catch (error) {
-        console.error("Erro ao autenticar o usuário:", error);
+        console.error("Erro ao verificar estado de autenticação:", error);
       }
     };
 
