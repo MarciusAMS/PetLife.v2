@@ -528,7 +528,6 @@ pawDiarioIcon: {
 notesContainer: {
     paddingHorizontal: 10,
     top: '20%',
-  justifyContent: 'space-between',
 },
 note: {
   backgroundColor: '#d8c3a5',

@@ -60,6 +60,7 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
                 numColumns={2} // Duas colunas
                 contentContainerStyle={styles.notesContainer}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
+                scrollEnabled={true}
             />
         </View>
     );
