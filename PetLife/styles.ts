@@ -526,7 +526,9 @@ pawDiarioIcon: {
   marginLeft: 10,
 },
 notesContainer: {
-  paddingHorizontal: 10,
+    paddingHorizontal: 10,
+    flex: 1,
+    paddingBottom: 80,
   justifyContent: 'space-between',
 },
 note: {
@@ -559,6 +561,8 @@ addDiarioButton: {
     height: 60,
     alignItems: 'center',
     justifyContent: 'center',
+    elevation: 5, // Para destacar o botão
+    zIndex: 1, // Garante que o botão esteja acima do FlatList
 },
 addDiarioButtonText: {
   fontSize: 30,
