@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { View, Text, Alert, ActivityIndicator, TouchableOpacity, Modal, TextInput, Image, Platform, PermissionsAndroid, ScrollView } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { getFirestore, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -21,12 +21,20 @@ export type RootStackParamList = {
   AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
 };
 
+interface Pet {
+  nome: string;
+  imagemUrl: string;
+  userUID: string;
+  petId: string;
+}
+
 type TelaVacinaProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'TelaVacinacao'>;
-  pet?: { nome: string; imagemUrl: string; petId: string };
+  //navigation: NativeStackNavigationProp<RootStackParamList, 'TelaVacinacao'>;
+  pet?: Pet;
 };
 
-export default function TelaVacinacao({ navigation, pet }: TelaVacinaProps) {
+export default function TelaVacinacao({ pet }: TelaVacinaProps) {
+  const navigator = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [registros, setRegistros] = useState<RegistroVacina[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -48,12 +56,12 @@ export default function TelaVacinacao({ navigation, pet }: TelaVacinaProps) {
 
       if (!pet) {
         Alert.alert("Erro", "Nenhum pet selecionado. Redirecionando...");
-        navigation.navigate('TelaPet');
+        navigator.navigate('TelaPet');
       }
     });
 
     return unsubscribe;
-  }, [auth, pet, navigation]);
+  }, [auth, pet, navigator]);
 
   const requestStoragePermission = async () => {
     if (Platform.OS === 'android') {
@@ -142,6 +150,8 @@ export default function TelaVacinacao({ navigation, pet }: TelaVacinaProps) {
           petId: pet.petId,  // Adicionando o petId ao documento
         });
 
+        await fetchRegistros();
+
         Alert.alert("Sucesso", "Arquivo enviado e salvo com sucesso!");
         setFileName("Nenhum arquivo escolhido");
         setDocumentUri(null);
@@ -204,7 +214,7 @@ export default function TelaVacinacao({ navigation, pet }: TelaVacinaProps) {
       if (user) {
         fetchRegistros();
       } // Chama fetchRegistros quando a tela ganha foco e o usuário está autenticado
-    }, [user])
+    }, [user, pet])
   );
 
   return (

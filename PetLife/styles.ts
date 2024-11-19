@@ -26,14 +26,14 @@ export const styles = StyleSheet.create({
 //------------------------------------------
 containerInicioHorizontal: {
   position: 'absolute', 
-  top: 0,
-  left: 0,
+  top: 28,
+  left: 6,
   right: 0,
   flexDirection: 'row', 
   justifyContent: 'space-between', // Espaço entre a parte esquerda (imagem + nome) e o botão
   alignItems: 'center', 
   paddingHorizontal: 20,
-  height: 80,
+  minHeight: 80,
   paddingTop: StatusBar.currentHeight || 20, 
   zIndex: 1, 
 },
@@ -99,6 +99,7 @@ verPets: {
     marginTop: 10, // Ajuste para mais ou menos espaço do topo
     paddingVertical: 3, // Adiciona padding vertical, se necessário
     padding: 10,
+    zIndex: 1,
   },
   // containerCadastro: {
   //   flex: 1,
@@ -336,6 +337,7 @@ verPets: {
     alignSelf: 'center',      // Centraliza a linha horizontalmente
     top: 150,            // Espaçamento para ficar logo abaixo do título
     marginBottom: 20,         // Espaçamento inferior para o conteúdo a seguir
+    zIndex: 1,
   },
   separatorBottom: {
     height: 3,               // Altura da linha
@@ -410,6 +412,7 @@ verPets: {
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3, // elevação para sombra no Android
+    zIndex: 1,
   },
   registroText: {
     fontSize: 16, // tamanho de fonte legível

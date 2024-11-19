@@ -6,6 +6,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import CustomCarousel from '../../global/carousel';
+import { useNavigation } from '@react-navigation/native';
 
 export type RootStackParamList = {
   TelaLogin: undefined;
@@ -15,12 +16,21 @@ export type RootStackParamList = {
   AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
 };
 
-type TelaEntrarProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'TelaInicio'>;
-  pet?: { nome: string; imagemUrl: string; petId: string };
+interface Pet {
+  nome: string;
+  imagemUrl: string;
+  userUID: string;
+  petId: string;
+}
+
+type TelaInicioProps = {
+  //navigation: NativeStackNavigationProp<RootStackParamList, 'TelaInicio'>;
+  // pet?: { nome: string; imagemUrl: string; petId: string };
+  pet?: Pet;
 };
 
-export default function TelaInicio({ navigation, pet }: TelaEntrarProps) {
+export default function TelaInicio({ pet }: TelaInicioProps) {
+  const navigator = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const user = auth.currentUser;
   const userId = user?.uid;
   const { width } = Dimensions.get('window');
@@ -31,11 +41,11 @@ export default function TelaInicio({ navigation, pet }: TelaEntrarProps) {
   useEffect(() => {
     if (!pet) {
       console.log('Nenhum pet foi selecionado ainda. Redirecionando para TelaPet.');
-      navigation.navigate('TelaPet');
+      navigator.navigate('TelaPet');
     } else {
       console.log('Pet já foi selecionado. Esse é o ', pet.nome);
     }
-  }, [pet, navigation]);
+  }, [pet, navigator]);
 
   const OpenMapsButton = () => {
     const url = 'https://www.google.com/maps/search/?api=1&query=pet+shop+perto+de+mim';
@@ -47,7 +57,7 @@ export default function TelaInicio({ navigation, pet }: TelaEntrarProps) {
       await auth.signOut();
       await AsyncStorage.removeItem('userToken');
       console.log('Usuário deslogado.');
-      navigation.navigate('TelaLogin');
+      navigator.navigate('TelaLogin');
     } catch (error) {
       console.error('Erro ao deslogar:', error);
     }
@@ -63,12 +73,12 @@ export default function TelaInicio({ navigation, pet }: TelaEntrarProps) {
           <Text style={styles.nomeDoPet}>{pet?.nome}</Text>
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate('TelaPet')}>
+        <TouchableOpacity onPress={() => navigator.navigate('TelaPet')}>
           <Image source={require('../../../assets/Inicio-verPetsCadastrados.png')} style={styles.imagensTopo} />
         </TouchableOpacity>
       </View>
 
-      <View style={{ marginTop: 130 }}>
+      <View style={{ marginTop: 180 }}>
         <CustomCarousel />
       </View>
 

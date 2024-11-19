@@ -27,33 +27,56 @@ function AppMenu({ route }) {
   const { pet } = route.params; // Pegando os parâmetros da navegação para o AppMenu
 
   return (
-    <Tab.Navigator initialRouteName="TelaInicio">
-      {/* Passando parâmetros explicitamente para TelaInicio */}
+    <Tab.Navigator
+      initialRouteName="TelaInicio"
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: themas.colors.background, // Cor de fundo parecida com a da imagem
+          borderTopWidth: 4, // Remove a borda superior
+          borderTopColor: '#D2A24C',
+          height: 70, // Ajusta a altura
+        },
+        tabBarLabelStyle: {
+          fontSize: 20,
+          fontFamily: themas.fonts.fontLetras,
+          fontWeight: 'bold',
+          color: '#000', // Cor do texto
+        },
+        tabBarActiveTintColor: '#000', // Cor para a aba ativa
+        tabBarInactiveTintColor: '#444', // Cor para abas inativas
+        tabBarIconStyle: {
+          marginTop: 5, // Ajusta o espaçamento dos ícones
+        },
+      }}
+    >
+      {/* Tela Início */}
       <Tab.Screen
         name="TelaInicio"
         options={{
           headerShown: false,
+          tabBarLabel: 'inicio',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={size} />
+            <Icon name="home" color={color} size={36} />
           ),
         }}
       >
         {() => <TelaInicio pet={pet} />}
       </Tab.Screen>
 
-      {/* Passando parâmetros explicitamente para TelaVacinacao */}
+      {/* Tela Vacinação */}
       <Tab.Screen
         name="TelaVacinacao"
         options={{
           headerShown: false,
+          tabBarLabel: 'vacinação',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="Vacina" color={color} size={size} />
+            <Icon name="calendar" color={color} size={36} />
           ),
         }}
       >
         {() => <TelaVacinacao pet={pet} />}
       </Tab.Screen>
-    </Tab.Navigator>
+    </Tab.Navigator >
   );
 }
 
