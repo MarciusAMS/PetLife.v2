@@ -1,27 +1,37 @@
-// contexts/PetContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type PetContextType = {
-  selectedPetId: string | null;
-  setSelectedPetId: (id: string | null) => void;
-};
+// Definindo a tipagem para o pet
+export interface Pet {
+  petId: string;
+  nome: string;
+  imagemUrl: string;
+}
 
+// Tipagem para o contexto
+interface PetContextType {
+  pet: Pet | null;
+  setPet: React.Dispatch<React.SetStateAction<Pet | null>>;
+}
+
+// Criando o contexto
 const PetContext = createContext<PetContextType | undefined>(undefined);
 
-export const PetProvider = ({ children }: { children: ReactNode }) => {
-  const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
+// Provedor de contexto
+export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [pet, setPet] = useState<Pet | null>(null);
 
   return (
-    <PetContext.Provider value={{ selectedPetId, setSelectedPetId }}>
+    <PetContext.Provider value={{ pet, setPet }}>
       {children}
     </PetContext.Provider>
   );
 };
 
-export const usePetContext = () => {
+// Hook para acessar o contexto
+export const usePetContext = (): PetContextType => {
   const context = useContext(PetContext);
   if (!context) {
-    throw new Error("usePetContext must be used within a PetProvider");
+    throw new Error('usePetContext must be used within a PetProvider');
   }
   return context;
 };

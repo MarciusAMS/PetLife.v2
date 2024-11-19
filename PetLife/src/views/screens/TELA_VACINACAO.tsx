@@ -14,22 +14,19 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 // type TelaVacinaRouteProp = RouteProp<RootStackParamList, "TelaVacina">;
 
 
-export type AppRootParamList = {
-  TelaEntrar: undefined;
-  TelaLogin: undefined;
-  TelaCadastro: undefined;
-  TelaCadastroPet: undefined;
-  TelaCadastroPet2: undefined;
-  telaEsqueciSenha: undefined;
-  TelaPet: { pet: { nome: string; imagemUrl: string; petId: string} } | undefined;
-  TelaVacinacao: undefined; // Definindo TelaVacinacao com parâmetro opcional
+export type RootStackParamList = {
+  TelaVacinacao: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
+  TelaInicio: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
+  TelaPet: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
+  AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
 };
 
-// type TelaVacinaProps = {
-//   navigation: NativeStackNavigationProp<RootStackParamList, 'TelaVacina'>;
-// };
+type TelaVacinaProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'TelaVacinacao'>;
+  pet?: { nome: string; imagemUrl: string; petId: string };
+};
 
-export default function TelaVacinacao() {
+export default function TelaVacinacao({ navigation, pet }: TelaVacinaProps) {
   const [registros, setRegistros] = useState<RegistroVacina[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,21 +35,25 @@ export default function TelaVacinacao() {
   const auth = getAuth();
   const [user, setUser] = useState<User | null>(null);
   const [documentUri, setDocumentUri] = useState<string | null>(null);
-  const route = useRoute();
-  const { selectedPetId } = route.params as { selectedPetId?: string };
-
-
+  //const route = useRoute();
+  // const { selectedPetId } = route.params as { selectedPetId?: string };
   // const route = useRoute<TelaVacinaRouteProp>();
   // const { selectedPetId } = route.params;
 
+  // const { pet } = usePetContext(); 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
+      if (!pet) {
+        Alert.alert("Erro", "Nenhum pet selecionado. Redirecionando...");
+        navigation.navigate('TelaPet');
+      }
     });
 
     return unsubscribe;
-  }, [auth]);
+  }, [auth, pet, navigation]);
 
   const requestStoragePermission = async () => {
     if (Platform.OS === 'android') {
@@ -62,7 +63,7 @@ export default function TelaVacinacao() {
           {
             title: 'Permissão de Armazenamento',
             message: 'Precisamos de acesso ao armazenamento para selecionar e enviar arquivos.',
-            buttonNegative: 'Cancelar',
+            buttonNegative: 'Negar',
             buttonPositive: 'Permitir',
           }
         );
@@ -132,12 +133,13 @@ export default function TelaVacinacao() {
       const downloadURL = await getDownloadURL(fileRef);
 
       // Salvar o registro no Firestore
-      if (user) {
+      if (user && pet) {
         await addDoc(collection(db, "registrosVacina"), {
           nome: fileName,
           data: new Date().toISOString(),
           userUID: user.uid,
           fileURL: downloadURL,
+          petId: pet.petId,  // Adicionando o petId ao documento
         });
 
         Alert.alert("Sucesso", "Arquivo enviado e salvo com sucesso!");
@@ -163,7 +165,7 @@ export default function TelaVacinacao() {
       return;
     }
 
-    if (!selectedPetId) {
+    if (!pet?.petId) {  // Verifique se o petId está disponível
       Alert.alert("Erro", "Pet não selecionado.");
       return;
     }
@@ -171,10 +173,11 @@ export default function TelaVacinacao() {
     setLoading(true);
 
     try {
+      // Agora, além do filtro pelo userUID, adicionamos o filtro para o petId
       const q = query(
         collection(db, "registrosVacina"),
         where("userUID", "==", user.uid),
-        where("petId", "==", selectedPetId)
+        where("petId", "==", pet.petId)  // Filtra pelo petId
       );
       const querySnapshot = await getDocs(q);
 
@@ -184,8 +187,9 @@ export default function TelaVacinacao() {
       } as RegistroVacina));
 
       setRegistros(registrosList);
+
       if (registrosList.length === 0) {
-        Alert.alert("Nenhum registro", "Você não tem registros de vacinação.");
+        Alert.alert("Nenhum registro", "Você não tem registros de vacinação para este pet.");
       }
     } catch (error) {
       console.error("Erro ao buscar registros de vacinação:", error);
@@ -197,10 +201,10 @@ export default function TelaVacinacao() {
 
   useFocusEffect(
     useCallback(() => {
-      if (user && selectedPetId){
+      if (user) {
         fetchRegistros();
       } // Chama fetchRegistros quando a tela ganha foco e o usuário está autenticado
-    }, [user, selectedPetId])
+    }, [user])
   );
 
   return (
