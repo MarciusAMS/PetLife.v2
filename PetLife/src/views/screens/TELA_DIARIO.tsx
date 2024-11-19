@@ -30,9 +30,9 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
     };
 
     const renderNote = ({ item }: { item: Note }) => (
-        <TouchableOpacity onPress={() => handleNoteClick(item)}>
-             <Image source={require('../../../assets/anotacao.png')} />
-            <Text>{item.content}</Text>
+        <TouchableOpacity style={styles.note} onPress={() => handleNoteClick(item)}>
+             <Image style={styles.noteImage} source={require('../../../assets/anotacao.png')} />
+            <Text style={styles.noteText}>{item.content}</Text>
         </TouchableOpacity>
     );
 
@@ -48,7 +48,8 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
             <View style={styles.separator} />
 
 
-            <TouchableOpacity onPress={addNote} style={styles.addButton}>
+            <TouchableOpacity onPress={addNote} style={styles.addDiarioButton}>
+            <Text style={styles.addDiarioButtonText}>+</Text>
             </TouchableOpacity>
 
             {/* Lista de Notas */}
@@ -57,7 +58,7 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
                 keyExtractor={(item) => item.id}
                 renderItem={renderNote}
                 numColumns={2} // Duas colunas
-
+                contentContainerStyle={styles.notesContainer}
             />
         </View>
     );

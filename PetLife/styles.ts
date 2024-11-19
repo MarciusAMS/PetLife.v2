@@ -525,5 +525,41 @@ pawDiarioIcon: {
   height: 45,
   marginLeft: 10,
 },
-
+notesContainer: {
+  paddingHorizontal: 10,
+  justifyContent: 'space-between',
+},
+note: {
+  backgroundColor: '#d8c3a5',
+  flex: 1,
+  margin: 10,
+  aspectRatio: 1, // Garantir quadrado
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 10,
+},
+noteImage: {
+  width: '80%',
+  height: '50%',
+},
+noteText: {
+  fontSize: 16,
+  color: '#4a3f35',
+  marginTop: 5,
+},
+addDiarioButton: {
+  backgroundColor: '#f08a5d',
+  borderRadius: 50,
+  width: 60,
+  height: 60,
+  alignItems: 'center',
+  justifyContent: 'center',
+  alignSelf: 'center',
+  marginVertical: 20,
+},
+addDiarioButtonText: {
+  fontSize: 30,
+  color: '#fff',
+  fontWeight: 'bold',
+},
 });
