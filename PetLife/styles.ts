@@ -527,8 +527,7 @@ pawDiarioIcon: {
 },
 notesContainer: {
     paddingHorizontal: 10,
-    flex: 1,
-    paddingBottom: 80,
+    top: '20%',
   justifyContent: 'space-between',
 },
 note: {
