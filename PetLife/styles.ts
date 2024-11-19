@@ -499,5 +499,31 @@ verPets: {
     flex: 1,
     marginBottom: 20, // margem inferior para o botão flutuante
     left: 10,
-  },  
+  },
+  
+// Tela Diario
+
+logoDiario: {
+  width: '30%',
+  height: 300,
+  aspectRatio: 1, // Mantém a proporção da imagem
+  marginBottom: -30,
+  left: 10,
+},
+titleDiario: {
+  fontSize: 60,
+  marginBottom: 30,
+  fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
+  fontFamily: themas.fonts.fontLetras2,
+  color: themas.colors.black,
+  textAlign: 'center', // Centraliza o texto dentro do círculo
+  marginTop: 40,
+  left: 10,
+},
+pawDiarioIcon: {
+  width: 45,
+  height: 45,
+  marginLeft: 10,
+},
+
 });

@@ -40,9 +40,9 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Image source={require('../../../assets/Logo.png')} style={styles.logoPet} />
-                <Text style={styles.titlePet}>DIÁRIO</Text>
-                <Image source={require('../../../assets/patas.png')} style={styles.pawIcon} />
+                <Image source={require('../../../assets/diario.png')} style={styles.logoDiario} />
+                <Text style={styles.titleDiario}>DIÁRIO</Text>
+                <Image source={require('../../../assets/patas.png')} style={styles.pawDiarioIcon} />
             </View>
 
             <View style={styles.separator} />
