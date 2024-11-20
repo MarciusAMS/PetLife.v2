@@ -26,14 +26,14 @@ export const styles = StyleSheet.create({
 //------------------------------------------
 containerInicioHorizontal: {
   position: 'absolute', 
-  top: 0,
-  left: 0,
+  top: 28,
+  left: 6,
   right: 0,
   flexDirection: 'row', 
   justifyContent: 'space-between', // Espaço entre a parte esquerda (imagem + nome) e o botão
   alignItems: 'center', 
   paddingHorizontal: 20,
-  height: 80,
+  minHeight: 80,
   paddingTop: StatusBar.currentHeight || 20, 
   zIndex: 1, 
 },
@@ -99,6 +99,7 @@ verPets: {
     marginTop: 10, // Ajuste para mais ou menos espaço do topo
     paddingVertical: 3, // Adiciona padding vertical, se necessário
     padding: 10,
+    zIndex: 1,
   },
   // containerCadastro: {
   //   flex: 1,
@@ -336,6 +337,7 @@ verPets: {
     alignSelf: 'center',      // Centraliza a linha horizontalmente
     top: 150,            // Espaçamento para ficar logo abaixo do título
     marginBottom: 20,         // Espaçamento inferior para o conteúdo a seguir
+    zIndex: 1,
   },
   separatorBottom: {
     height: 3,               // Altura da linha
@@ -392,29 +394,28 @@ verPets: {
     paddingBottom: 10,      // Espaço extra para evitar que fique muito próximo do final da tela
   },
   registroContainer: {
-    flexDirection: 'row',        // Para exibir os elementos horizontalmente
-    justifyContent: 'center',    // Centraliza os elementos horizontalmente
-    alignItems: 'center',        // Alinha verticalmente no centro
-    paddingVertical: 15,         // Espaçamento vertical
-    marginHorizontal: 20,        // Espaçamento nas laterais
-    flexWrap: 'wrap',            // Permite que elementos que não cabem na linha atual "quebrem" para a próxima linha
-  },
-  registroItem: {
-    width: '95%', // ajusta a largura para cobrir grande parte da tela
-    padding: 15, // adiciona um espaço interno confortável
-    marginVertical: 10, // espaço entre os registros
-    backgroundColor: '#f9f9f9', // cor de fundo para destacar
-    borderRadius: 8, // bordas arredondadas
-    shadowColor: '#000', // sombra para dar profundidade
+    backgroundColor: '#FAE8C8', // Fundo bege claro
+    borderRadius: 10, // Bordas arredondadas
+    padding: 10, // Espaçamento interno
+    marginBottom: 10, // Espaçamento entre registros
+    borderWidth: 2, // Borda fina
+    borderColor: '#D2A24C', // Cor da borda
+    shadowColor: '#000', // Sombras para destaque
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3, // elevação para sombra no Android
+    elevation: 3, // Sombras no Android
   },
   registroText: {
-    fontSize: 16, // tamanho de fonte legível
-    color: '#333', // cor do texto
-    marginBottom: 5, // espaçamento entre linhas
+    fontSize: 16, // Tamanho legível
+    color: '#333', // Cor do texto
+    fontFamily: 'Glacial Indifference', // Fonte do projeto
+    marginBottom: 5, // Espaçamento inferior
+  },
+  registroData: {
+    fontSize: 14, // Tamanho menor para a data
+    color: '#666', // Cor mais clara para a data
+    fontFamily: 'Chau Philomene', // Outra fonte do projeto
   },
   addButton: {
     marginTop: 20,
