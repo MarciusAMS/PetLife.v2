@@ -13,6 +13,7 @@ import TelaCadastroPet from './src/views/screens/TELA_CADASTRO_PET'
 import TelaCadastroPet2 from './src/views/screens/TELA_CADASTRO_PET2';
 import TelaPet from './src/views/screens/TELA_PET';
 import TelaVacinacao from './src/views/screens/TELA_VACINACAO';
+import TelaSaude from './src/views/screens/TELA_SAUDE';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import MenuGlobal from './src/global/menuGlobal';
@@ -61,6 +62,20 @@ function AppMenu({ route }) {
         }}
       >
         {() => <TelaInicio pet={pet} />}
+      </Tab.Screen>
+
+      {/* Tela Saude */}
+      <Tab.Screen
+        name="TelaSaude"
+        options={{
+          headerShown: false,
+          tabBarLabel: 'saude',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="hospital" color={color} size={36} />
+          ),
+        }}
+      >
+        {() => <TelaSaude pet={pet} />}
       </Tab.Screen>
 
       {/* Tela Vacinação */}
