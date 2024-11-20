@@ -566,4 +566,12 @@ addDiarioButtonText: {
   color: '#fff',
   fontWeight: 'bold',
 },
+fixedHeader: {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 10,
+  backgroundColor: '#fff',
+},
 });
