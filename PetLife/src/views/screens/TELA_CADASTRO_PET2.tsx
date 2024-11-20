@@ -124,7 +124,7 @@ export default function TelaCadastroPet2() {
 
     // ---------------------------------------------------- //
 
-    // Função de validar os campos
+    // Função de validar os campos aaaaa
 
     const validarCampos = () => {
         let isValid = true;
@@ -307,10 +307,12 @@ export default function TelaCadastroPet2() {
                                 inputErrors.sexo && { borderColor: themas.colors.errorColor }
                             ]}
                             ref={sexoInputRef}
-                            value={sexo || ''}
+                            value={sexo}
                             onChangeText={handleSexoChange}
                             placeholder="Sexo:"
                             placeholderTextColor={themas.colors.placeholderColor}
+                            autoCorrect={false} // Desativa a autocorreção
+                            autoCapitalize="none"
                         />
                         {inputErrors.sexo && <Text style={themas.textStyles.errorText}>O sexo do animal é obrigatorio.</Text>}
                     </View>
@@ -326,6 +328,8 @@ export default function TelaCadastroPet2() {
                             onChangeText={handleRacaChange}
                             placeholder="Raça:"
                             placeholderTextColor={themas.colors.placeholderColor}
+                            autoCorrect={false} // Desativa a autocorreção
+                            autoCapitalize="none"
                         />
                         {inputErrors.raca && <Text style={themas.textStyles.errorText}>Raça é obrigatorio.</Text>}
                     </View>

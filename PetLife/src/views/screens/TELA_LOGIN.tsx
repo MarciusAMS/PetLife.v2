@@ -23,19 +23,6 @@ type TelaEntrarProps = {
 };
 
 export default function TelaLogin( { navigation }: TelaEntrarProps ) {
-
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      const userToken = await AsyncStorage.getItem('userToken');
-      if (userToken) {
-        // Se encontrar o token, navegar para TelaPet
-        navigation.navigate('TelaPet');
-      }
-    };
-
-    checkLoginStatus();
-  }, [navigation]);
-
   const handleEsqueciSenha = () => {
     navigation.navigate('telaEsqueciSenha'); 
   };

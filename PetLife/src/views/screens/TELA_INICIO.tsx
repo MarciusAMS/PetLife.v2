@@ -81,7 +81,6 @@ export default function TelaInicio({ pet }: TelaInicioProps) {
       <View style={{ marginTop: 180 }}>
         <CustomCarousel />
       </View>
-
       <TouchableOpacity onPress={OpenMapsButton} style={{ position: 'absolute', bottom: 60 }}>
         <View style={{ width: width * 0.9, height: 400, borderRadius: 10, overflow: 'hidden' }}>
           <ImageBackground
