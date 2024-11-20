@@ -501,4 +501,69 @@ verPets: {
     marginBottom: 20, // margem inferior para o botão flutuante
     left: 10,
   },  
+
+  // Tela Saude
+  headerContainerSaude: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  logoPetsaude: {
+    width: '40%',
+    height: 450,
+    aspectRatio: 1, // Mantém a proporção da imagem
+    marginBottom: 10,
+    left: -10, 
+    marginTop: 30,
+  }, 
+  pawIconSaude: {
+    width: 60,
+    height: 60,
+    marginLeft: 1,
+  }, 
+  titlePetSaude: {
+    fontSize: 60,
+    marginBottom: 30,
+    fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
+    fontFamily: themas.fonts.fontLetras2,
+    color: themas.colors.black,
+    textAlign: 'center', // Centraliza o texto dentro do círculo
+    marginTop: 30,
+    left: -30,
+    marginHorizontal: 10,
+  },
+  button: {
+    width: 200,
+    height: 200,
+    backgroundColor: '#F5E0C3',
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 30, // Espaço específico entre os botões
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+    backgroundColor: themas.colors.consulta, 
+    borderRadius: 20, 
+  },
+  buttonText: {
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#D2904C',
+  },
+  buttonContainerSaude: {
+    marginTop: 500,
+    width: '80%',
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'space-between', // Espaçamento uniforme entre os botões
+    marginVertical: 50, // Ajusta o espaço geral no container
+    bottom: 80,
+  },
 });
