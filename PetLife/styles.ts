@@ -566,4 +566,46 @@ verPets: {
     marginVertical: 50, // Ajusta o espaço geral no container
     bottom: 80,
   },
+
+  // Tela Remédio
+  closeButtonTextRemedio: {
+    fontSize: 20,
+    marginLeft: 260,
+    width: '20%',
+  },
+  inputModalRemedio: {
+    padding: 5,
+    borderRadius: 10,
+    marginBottom: 10,
+    width: 290,
+    alignSelf: 'center',
+    backgroundColor: themas.colors.white,
+    fontSize: 15,
+    top: 5,
+  },
+  fileSelectorRemedio: {
+    width: '100%',
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    //padding: 5,
+    alignItems: 'center',
+    marginVertical: 20,
+    borderWidth: 1,
+    borderColor: '#D2A24C',
+  },
+  modalContentRemedio: {
+    width: '85%',
+    backgroundColor: themas.colors.consulta,
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitleRemedio: {
+    position: 'absolute',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: themas.colors.white,
+    textAlign: 'center',
+    marginLeft: 85,
+  },
 });
