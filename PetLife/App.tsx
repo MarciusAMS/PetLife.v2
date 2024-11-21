@@ -14,6 +14,7 @@ import TelaCadastroPet2 from './src/views/screens/TELA_CADASTRO_PET2';
 import TelaPet from './src/views/screens/TELA_PET';
 import TelaVacinacao from './src/views/screens/TELA_VACINACAO';
 import TelaSaude from './src/views/screens/TELA_SAUDE';
+import TelaRemedio from './src/views/screens/TELA_REMEDIO'
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import MenuGlobal from './src/global/menuGlobal';
@@ -127,6 +128,7 @@ function App() {
           <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
           <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
           <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
+          <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ headerShown: false}} />
           {/* <Stack.Screen name='TelaInicio' component={TelaInicio} options={{ headerShown: false }} /> */}
 
           {/* Menu Global com as abas principais */}
