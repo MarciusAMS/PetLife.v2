@@ -1,28 +1,44 @@
 import { styles } from '../../../styles';
 import React, { useState, useRef } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { View, Text, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 
 export type RootStackParamList = {
-    TelaDiario: undefined;
+    TelaDiario: { newNote?: Note } | undefined;
     AppMenu: undefined;
+    TelaEditarNota: { noteId: string } | undefined;
 };
+type Note = { id: string; title: string; content: string };
 
-type TelaDiarioProps = {
-    navigation: NativeStackNavigationProp<RootStackParamList, 'TelaDiario'>;
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'TelaDiario'>;
 
-export default function TelaDiario({ navigation }: TelaDiarioProps) {
-    type Note = { id: string; content: string };
-
+const TelaDiario: React.FC<Props> = ({ navigation, route }) => {
     const [notes, setNotes] = useState<Note[]>([]);
     const [scrollY, setScrollY] = useState(0);
     const [notePositions, setNotePositions] = useState<{ [key: string]: number }>({});
 
+    // Processar parâmetros recebidos ao retornar de `TelaEditarNota`
+    useFocusEffect(
+        React.useCallback(() => {
+            if (route.params?.newNote) {
+                const { newNote } = route.params;
+
+                setNotes((prevNotes) => {
+                    const updatedNotes = prevNotes.filter((note) => note.id !== newNote.id); // Remover duplicatas
+                    return [...updatedNotes, newNote]; // Adicionar nova/atualizada
+                });
+
+                // Limpar parâmetros para evitar duplicações
+                navigation.setParams({ newNote: undefined });
+            }
+        }, [route.params])
+    );
+
     const viewableItemsChanged = useRef(({ viewableItems }: any) => {
         const updatedPositions: { [key: string]: number } = {};
         viewableItems.forEach((viewable: any) => {
-            updatedPositions[viewable.item.id] = viewable.index * 100; // Supondo altura de cada item como 100px
+            updatedPositions[viewable.item.id] = viewable.index * 90; // Ajustar a posição
         });
         setNotePositions((prevPositions) => ({
             ...prevPositions,
@@ -31,22 +47,25 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
     }).current;
 
     const viewabilityConfig = {
-        itemVisiblePercentThreshold: 50, // Percentual mínimo de visibilidade para um item ser considerado visível
+        itemVisiblePercentThreshold: 10,
     };
 
+    // Criar uma nova nota e navegar para edição
     const addNote = () => {
-        const newNote = { id: Date.now().toString(), content: 'Nova nota' };
-        setNotes((prevNotes) => [...prevNotes, newNote]);
+        const newNoteId = Date.now().toString(); // Gerar ID único
+        navigation.navigate('TelaEditarNota', { noteId: newNoteId });
     };
 
-    const handleNoteClick = (note: Note) => {
-        Alert.alert('Nota Selecionada', `Você clicou na nota: ${note.content}`);
+    // Editar nota existente
+    const editNote = (note: Note) => {
+        navigation.navigate('TelaEditarNota', { noteId: note.id });
     };
 
+    // Renderizar uma nota
     const renderNote = ({ item }: { item: Note }) => {
         const position = notePositions[item.id];
-        const hideThreshold = 50; // Altura limite
-        const shouldHide = position !== undefined && position < scrollY + hideThreshold;
+        const hideThreshold = 10;
+        const shouldHide = position !== undefined && position + hideThreshold < scrollY;
 
         return (
             <TouchableOpacity
@@ -54,17 +73,17 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
                     styles.note,
                     shouldHide && { opacity: 0.3, transform: [{ translateY: -30 }] },
                 ]}
-                onPress={() => handleNoteClick(item)}
+                onPress={() => editNote(item)} // Navegar para editar ao clicar
             >
                 <Image style={styles.noteImage} source={require('../../../assets/anotacao.png')} />
-                <Text style={styles.noteText}>{item.content}</Text>
+                <Text style={styles.noteText}>{item.title}</Text>
             </TouchableOpacity>
         );
     };
 
     return (
         <View style={styles.container}>
-            {/* Cabeçalho e separador fixos */}
+            {/* Cabeçalho fixo */}
             <View style={styles.fixedHeader}>
                 <View style={styles.headerContainer}>
                     <Image source={require('../../../assets/diario.png')} style={styles.logoDiario} />
@@ -95,4 +114,6 @@ export default function TelaDiario({ navigation }: TelaDiarioProps) {
             />
         </View>
     );
-}
+};
+
+export default TelaDiario;
