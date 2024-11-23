@@ -638,25 +638,31 @@ export const styles = StyleSheet.create({
     left: 5,               // Alinha à esquerda da tela
     right: 0,              // Alinha à direita da tela para ocupar a largura completa
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: -10, // Ajuste para mais ou menos espaço do topo
     paddingVertical: 3, // Adiciona padding vertical, se necessário
-    padding: 10,
-    zIndex: 1,
+    padding: 16,
+    marginBottom: 16,
   },
   alarmeContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#D9A775',
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 10,
-    alignItems: 'center',
+    marginTop: 150, // Adiciona espaço acima de cada registro
+    width: '80%',
+    backgroundColor: '#FFF', // Exemplo de cor de fundo
+    borderRadius: 8,
+    padding: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    left: 25,
   },
   alarmeHorario: {
     fontSize: 24,
     fontWeight: 'bold',
     marginRight: 15,
+    marginBottom: -10,
   },
   alarmeNome: {
     fontSize: 16,
@@ -680,17 +686,29 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 15,
     marginTop: 20,
+    width: '100%',
   },
   botaoAdicionarTexto: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 30,
     fontWeight: 'bold',
+    width: '80%',
   },
   botaoAdicionarIcone: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 8, // Tamanho reduzido
     fontWeight: 'bold',
+    marginLeft: 0, // Remova margens desnecessárias
+    alignSelf: 'center', // Alinha o ícone dentro do botão
+  },
+  botaoContainer: {
+    flexDirection: 'row', // Alinha ícone e texto lado a lado
+    justifyContent: 'center', // Centraliza conteúdo horizontalmente
+    alignItems: 'center', // Centraliza conteúdo verticalmente
+    padding: 0, // Remove espaços extras
+    marginBottom: 120,
     marginLeft: 10,
+    marginRight: 10,
   },
   modalOverlayRemedio: {
     flex: 1,
@@ -730,6 +748,23 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  logoAddRemedio: {
+    width: '20%', // Largura do ícone
+    height: 50, // Altura do ícone
+    resizeMode: 'center', // Para garantir que a imagem não se distorça
+    marginLeft: 0, // Remove deslocamento lateral
+    marginTop: 5, // Remove o deslocamento superior
+  },
+  flatContainer: {
+
+  },
+  textoVazio: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#aaa', // Cor cinza clara
+    marginTop: 20, // Espaço superior
+    fontStyle: 'italic', // Faz o texto parecer uma mensagem de placeholder
+},
 
   // --------------------------------------------------------------------------------- IMPORTANTE
   separatorTelaFora: {
@@ -739,7 +774,8 @@ export const styles = StyleSheet.create({
     width: '95%',             // Ajuste a largura para centralizar visualmente
     alignSelf: 'center',      // Centraliza a linha horizontalmente
     top: 100,            // Espaçamento para ficar logo abaixo do título
-    marginBottom: 20,         // Espaçamento inferior para o conteúdo a seguir
+    marginBottom: 16,         // Espaçamento inferior para o conteúdo a seguir
+    marginVertical: 16,
     zIndex: 1,
   },
   // ---------------------------------------------------------------------------------

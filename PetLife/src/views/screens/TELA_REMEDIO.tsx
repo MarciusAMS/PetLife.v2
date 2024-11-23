@@ -7,6 +7,7 @@ import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getFirestore, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { Remedios } from '../../models/Remedio';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export type RootStackParamList = {
     TelaRemedio: { pet: Pet };
@@ -22,6 +23,13 @@ interface Pet {
     petId: string;
 }
 
+interface Alarme {
+    id: string;
+    nome: string;
+    horario: string;
+    frequencia: string;
+}
+
 type TelaRemedioProp = RouteProp<RootStackParamList, 'TelaRemedio'>;
 
 export default function TelaRemedio() {
@@ -35,12 +43,13 @@ export default function TelaRemedio() {
     const [fileName, setFileName] = useState("Nenhum arquivo escolhido");
     const [documentUri, setDocumentUri] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const [registros, setRegistros] = useState<Remedios[]>([]);
+    const [registros, setRegistros] = useState<Alarme[]>([]);
     const db = getFirestore();
     const [alarmeNome, setAlarmeNome] = useState('');
     const [horario, setHorario] = useState('');
     const [frequencia, setFrequencia] = useState('');
-    const [listaAlarmes, setListaAlarmes] = useState([]);
+    const [listaAlarmes, setListaAlarmes] = useState<Alarme[]>([]);
+
 
     useEffect(() => {
         Alert.alert('Parâmetros recebidos na TelaRemedio:', pet?.petId);
@@ -50,18 +59,46 @@ export default function TelaRemedio() {
         } else {
             console.log('PetId recebido: ', pet.petId);
         }
+
+        const carregarRegistros = async () => {
+            setLoading(true);
+            try {
+                const firestore = getFirestore();
+                const querySnapshot = await getDocs(collection(firestore, 'remedios')); // Substitua 'remedios' pelo nome correto da coleção
+                const registrosList: Alarme[] = querySnapshot.docs.map((doc) => {
+                    const data = doc.data() as Remedios; // Converte os dados para o tipo Remedios
+                    return {
+                        id: doc.id, // Inclui o ID do documento
+                        nome: data.nome ?? 'Sem Nome',
+                        horario: data.horario ?? 'Sem Horário',
+                        frequencia: data.frequencia ?? 'Sem Frequência',
+                    };
+                });
+                setRegistros(registrosList); // Atualiza o estado com os registros
+            } catch (error) {
+                Alert.alert('Erro', 'Não foi possível carregar os registros.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        carregarRegistros();
     }, [pet, navigator]);
 
     const adicionarAlarme = () => {
         if (alarmeNome && horario && frequencia) {
-            const novoAlarme = { nome: alarmeNome, horario, frequencia };
-          //  setListaAlarmes([...listaAlarmes, novoAlarme]);
+            const novoAlarme: Alarme = {
+                id: (listaAlarmes.length + 1).toString(),
+                nome: alarmeNome,
+                horario,
+                frequencia,
+            };
+            setListaAlarmes((prevLista) => [...prevLista, novoAlarme]);
+            setRegistros((prevRegistros) => [...prevRegistros, novoAlarme]); // Adiciona o alarme ao estado exibido
+            setModalVisible(false);
             setAlarmeNome('');
             setHorario('');
             setFrequencia('');
-            setModalVisible(false);
-        } else {
-            alert('Por favor, preencha todos os campos.');
         }
     };
 
@@ -141,10 +178,15 @@ export default function TelaRemedio() {
             );
             const querySnapshot = await getDocs(q);
 
-            const registrosList: Remedios[] = querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data(),
-            } as Remedios));
+            const registrosList: Alarme[] = querySnapshot.docs.map((doc) => {
+                const data = doc.data() as Remedios; // Converte explicitamente para Remedios
+                return {
+                    id: doc.id, // Inclui o ID do documento
+                    nome: data.nome ?? 'Sem Nome', // Garante que o campo "nome" exista
+                    horario: data.horario ?? 'Sem Horário', // Garante que o campo "horario" exista
+                    frequencia: data.frequencia ?? 'Sem Frequência', // Garante que o campo "frequencia" exista
+                };
+            });
 
             setRegistros(registrosList);
 
@@ -171,33 +213,35 @@ export default function TelaRemedio() {
             {/* Separador */}
             <View style={styles.separatorTelaFora} />
 
-            {/* Lista de Alarmes */}
-            {/* <FlatList
-                data={listaAlarmes}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                    <View style={styles.alarmeContainer}>
-                        <Text style={styles.alarmeHorario}>{item.horario}</Text>
-                        <View>
-                            <Text style={styles.alarmeNome}>{item.nome.toUpperCase()}</Text>
-                            <Text style={styles.alarmeFrequencia}>{item.frequencia}</Text>
+            <ScrollView
+                contentContainerStyle={{ flexGrow: 1, justifyContent: registros.length ? 'flex-start' : 'center' }}
+                style={styles.scrollContainer}>
+                {registros.length ? (
+                    registros.map((registro) => (
+                        <View key={registro.id} style={styles.alarmeContainer}>
+                            <Text style={styles.alarmeNome}>{registro.nome.toUpperCase()}</Text>
+                            <Text style={styles.alarmeHorario}>Horário: {registro.horario}</Text>
+                            <Text style={styles.alarmeFrequencia}>Frequência: {registro.frequencia}</Text>
                         </View>
-                        <Image
-                            source={require('../../../assets/editIcon.png')}
-                            style={styles.iconeEditar}
-                        />
-                    </View>
+                    ))
+                ) : (
+                    <Text style={styles.textoVazio}>Nenhum alarme adicionado ainda</Text>
                 )}
-            /> */}
+            </ScrollView>
 
             {/* Botão Laranja */}
-            <TouchableOpacity
-                style={styles.botaoAdicionar}
-                onPress={() => setModalVisible(true)}
-            >
-                <Text style={styles.botaoAdicionarTexto}>ADICIONAR ALARME</Text>
-                <Text style={styles.botaoAdicionarIcone}>+</Text>
-            </TouchableOpacity>
+            <View style={styles.botaoContainer}>
+                <TouchableOpacity
+                    style={styles.botaoAdicionar}
+                    onPress={() => setModalVisible(true)}
+                >
+                    <Text style={styles.botaoAdicionarTexto}>ADICIONAR ALARME</Text>
+                    <Image
+                        style={styles.logoAddRemedio}
+                        source={require('../../../assets/icone_addAlarme.png')}
+                    />
+                </TouchableOpacity>
+            </View>
 
             {/* Modal */}
             <Modal
