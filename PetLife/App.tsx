@@ -128,7 +128,7 @@ function App() {
           <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
           <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
           <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
-          <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ headerShown: false}} />
+          <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar'}} />
           {/* <Stack.Screen name='TelaInicio' component={TelaInicio} options={{ headerShown: false }} /> */}
 
           {/* Menu Global com as abas principais */}

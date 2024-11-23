@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, Linking, Dimensions, ImageBackground, Alert, Modal, TextInput } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Dimensions, Alert, Modal, TextInput, FlatList } from 'react-native';
 import { styles } from '../../../styles';
 import { auth } from '../../../firebaseService';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getFirestore, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { Remedios } from '../../models/Remedio';
 
 export type RootStackParamList = {
-    TelaRemedio: { pet?: { petId: string } };
+    TelaRemedio: { pet: Pet };
     TelaSaude: { pet: { petId: string } } | undefined;
     TelaPet: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
     AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
@@ -22,14 +22,14 @@ interface Pet {
     petId: string;
 }
 
-type TelaRemedioProps = {
-    pet?: Pet;
-};
+type TelaRemedioProp = RouteProp<RootStackParamList, 'TelaRemedio'>;
 
-export default function TelaRemedio({ pet }: TelaRemedioProps) {
+export default function TelaRemedio() {
+    const route = useRoute<TelaRemedioProp>();
+    const pet = route.params?.pet;
     const navigator = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const user = auth.currentUser;
-    const userId = user?.uid;
+    // const userId = user?.uid;
     const { width } = Dimensions.get('window');
     const [modalVisible, setModalVisible] = useState(false);
     const [fileName, setFileName] = useState("Nenhum arquivo escolhido");
@@ -37,16 +37,33 @@ export default function TelaRemedio({ pet }: TelaRemedioProps) {
     const [loading, setLoading] = useState(false);
     const [registros, setRegistros] = useState<Remedios[]>([]);
     const db = getFirestore();
+    const [alarmeNome, setAlarmeNome] = useState('');
+    const [horario, setHorario] = useState('');
+    const [frequencia, setFrequencia] = useState('');
+    const [listaAlarmes, setListaAlarmes] = useState([]);
 
     useEffect(() => {
         Alert.alert('Parâmetros recebidos na TelaRemedio:', pet?.petId);
         if (!pet?.petId) {
-            //Alert.alert('Nenhum pet foi selecionado ainda. Redirecionando para TelaPet.');
-            //navigator.navigate('TelaPet');
+            Alert.alert('Nenhum pet foi selecionado ainda. Redirecionando para TelaPet.');
+            navigator.navigate('TelaPet');
         } else {
             console.log('PetId recebido: ', pet.petId);
         }
     }, [pet, navigator]);
+
+    const adicionarAlarme = () => {
+        if (alarmeNome && horario && frequencia) {
+            const novoAlarme = { nome: alarmeNome, horario, frequencia };
+          //  setListaAlarmes([...listaAlarmes, novoAlarme]);
+            setAlarmeNome('');
+            setHorario('');
+            setFrequencia('');
+            setModalVisible(false);
+        } else {
+            alert('Por favor, preencha todos os campos.');
+        }
+    };
 
     const enviarArquivo = async () => {
 
@@ -145,22 +162,44 @@ export default function TelaRemedio({ pet }: TelaRemedioProps) {
     return (
         <View style={styles.container}>
             {/* Cabeçalho */}
-            <View style={styles.headerContainer}>
-                <Image source={require('../../../assets/remedios.png')} style={styles.logoPetsaude} />
-                <Text style={styles.titlePetSaude}>Remédios</Text>
-                <Image source={require('../../../assets/patas.png')} style={styles.pawIconSaude} />
+            <View style={styles.headerContainerRemedio}>
+                <Image source={require('../../../assets/remedio_liso.png')} style={styles.logoPetRemedio} />
+                <Text style={styles.titlePetRemedio}>Remédios</Text>
+                <Image source={require('../../../assets/patas.png')} style={styles.pawIconRemedio} />
             </View>
 
             {/* Separador */}
-            <View style={styles.separator} />
+            <View style={styles.separatorTelaFora} />
 
+            {/* Lista de Alarmes */}
+            {/* <FlatList
+                data={listaAlarmes}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                    <View style={styles.alarmeContainer}>
+                        <Text style={styles.alarmeHorario}>{item.horario}</Text>
+                        <View>
+                            <Text style={styles.alarmeNome}>{item.nome.toUpperCase()}</Text>
+                            <Text style={styles.alarmeFrequencia}>{item.frequencia}</Text>
+                        </View>
+                        <Image
+                            source={require('../../../assets/editIcon.png')}
+                            style={styles.iconeEditar}
+                        />
+                    </View>
+                )}
+            /> */}
+
+            {/* Botão Laranja */}
             <TouchableOpacity
-                style={styles.addVacinaButton}
+                style={styles.botaoAdicionar}
                 onPress={() => setModalVisible(true)}
             >
-                <Text style={styles.addVacinaIcon}>+</Text>
+                <Text style={styles.botaoAdicionarTexto}>ADICIONAR ALARME</Text>
+                <Text style={styles.botaoAdicionarIcone}>+</Text>
             </TouchableOpacity>
 
+            {/* Modal */}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -169,27 +208,35 @@ export default function TelaRemedio({ pet }: TelaRemedioProps) {
             >
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalContentRemedio}>
-                        <View style={styles.headerContaineAddVacina}>
-                            <Text style={styles.modalTitleRemedio}>CRIAR ALARME</Text>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalTitulo}>CRIAR ALARME</Text>
                             <TouchableOpacity onPress={() => setModalVisible(false)}>
-                                <Image style={styles.closeButtonTextRemedio} source={require('../../../assets/iconeFechar.png')} />
+                                <Image
+                                    source={require('../../../assets/iconeFechar.png')}
+                                    style={styles.iconeFechar}
+                                />
                             </TouchableOpacity>
                         </View>
-
-                        <TouchableOpacity style={styles.fileSelectorRemedio}>
-                            <TextInput
-                                style={[styles.inputModalRemedio,]}
-                                placeholder="Nome do alarme:"
-                            />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity>
-                            <Text>Horário</Text>
-                            <TextInput placeholder='00:00'></TextInput>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.addFileButton} onPress={enviarArquivo}>
-                            <Text style={styles.addFileButtonText}>CRIAR</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Nome do alarme"
+                            value={alarmeNome}
+                            onChangeText={setAlarmeNome}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Horário (ex: 10:30)"
+                            value={horario}
+                            onChangeText={setHorario}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Frequência (ex: todos os dias)"
+                            value={frequencia}
+                            onChangeText={setFrequencia}
+                        />
+                        <TouchableOpacity style={styles.botaoCriar} onPress={adicionarAlarme}>
+                            <Text style={styles.textoCriar}>CRIAR</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

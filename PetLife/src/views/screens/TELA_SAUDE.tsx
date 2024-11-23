@@ -67,12 +67,13 @@ export default function TelaSaude({ pet }: TelaSaudeProps) {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => {
-                        if (pet) {
-                            console.log('Pet enviado:', pet?.petId);
-                            navigator.navigate('TelaRemedio', { pet }); // Passa o objeto Pet completo
-                        } else {
-                            console.log('Nenhum pet foi selecionado.');
-                        }
+                        const pet = {
+                            nome: 'Nome do Pet',
+                            imagemUrl: 'URL da Imagem',
+                            userUID: 'UID do Usuário',
+                            petId: 'ID do Pet',
+                        };
+                        navigator.navigate('TelaRemedio', { pet }); // Passa o objeto completo
                     }}
                 >
                     <Image source={require('../../../assets/remedios.png')} style={styles.buttonImage} />

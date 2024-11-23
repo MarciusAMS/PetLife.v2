@@ -23,49 +23,49 @@ export const styles = StyleSheet.create({
     bottom: 25,
   },
   //------------------------------------------
-//------------------------------------------
-containerInicioHorizontal: {
-  position: 'absolute', 
-  top: 28,
-  left: 6,
-  right: 0,
-  flexDirection: 'row', 
-  justifyContent: 'space-between', // Espaço entre a parte esquerda (imagem + nome) e o botão
-  alignItems: 'center', 
-  paddingHorizontal: 20,
-  minHeight: 80,
-  paddingTop: StatusBar.currentHeight || 20, 
-  zIndex: 1, 
-},
+  //------------------------------------------
+  containerInicioHorizontal: {
+    position: 'absolute',
+    top: 28,
+    left: 6,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between', // Espaço entre a parte esquerda (imagem + nome) e o botão
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    minHeight: 80,
+    paddingTop: StatusBar.currentHeight || 20,
+    zIndex: 1,
+  },
 
-conteudoEsquerda: {
-  flexDirection: 'row', // Alinha imagem e nome horizontalmente
-  alignItems: 'center', // Centraliza verticalmente
-},
+  conteudoEsquerda: {
+    flexDirection: 'row', // Alinha imagem e nome horizontalmente
+    alignItems: 'center', // Centraliza verticalmente
+  },
 
-imagensTopo: {
-  width: 75,
-  height: 75,
-  borderRadius: 25, 
-  marginRight: 10, // Espaço entre a imagem e o nome do pet
-},
+  imagensTopo: {
+    width: 75,
+    height: 75,
+    borderRadius: 25,
+    marginRight: 10, // Espaço entre a imagem e o nome do pet
+  },
 
-nomeDoPet: {
-  fontSize: 27,
-  fontWeight: 'bold',
-  color: '#000',
-},
+  nomeDoPet: {
+    fontSize: 27,
+    fontWeight: 'bold',
+    color: '#000',
+  },
 
-verPets: {
-  width: 40,
-  height: 40,
-  borderRadius: 20, 
-  justifyContent: 'center',
-  alignItems: 'center',
-},
+  verPets: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
 
-//------------------------------
+  //------------------------------
   containerHorizontal: {
     flexDirection: 'row',       // Coloca os itens em linha horizontal
     alignItems: 'center',       // Alinha verticalmente no centro
@@ -500,7 +500,7 @@ verPets: {
     flex: 1,
     marginBottom: 20, // margem inferior para o botão flutuante
     left: 10,
-  },  
+  },
 
   // Tela Saude
   headerContainerSaude: {
@@ -512,14 +512,14 @@ verPets: {
     height: 450,
     aspectRatio: 1, // Mantém a proporção da imagem
     marginBottom: 10,
-    left: -10, 
+    left: -10,
     marginTop: 30,
-  }, 
+  },
   pawIconSaude: {
     width: 60,
     height: 60,
     marginLeft: 1,
-  }, 
+  },
   titlePetSaude: {
     fontSize: 60,
     marginBottom: 30,
@@ -548,8 +548,8 @@ verPets: {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
-    backgroundColor: themas.colors.consulta, 
-    borderRadius: 20, 
+    backgroundColor: themas.colors.consulta,
+    borderRadius: 20,
   },
   buttonText: {
     marginTop: 10,
@@ -594,11 +594,10 @@ verPets: {
     borderColor: '#D2A24C',
   },
   modalContentRemedio: {
-    width: '85%',
-    backgroundColor: themas.colors.consulta,
-    borderRadius: 10,
+    backgroundColor: '#D9A775',
     padding: 20,
-    alignItems: 'center',
+    borderRadius: 10,
+    width: '80%',
   },
   modalTitleRemedio: {
     position: 'absolute',
@@ -608,4 +607,140 @@ verPets: {
     textAlign: 'center',
     marginLeft: 85,
   },
+  logoPetRemedio: {
+    width: '20%', // Mantém a largura proporcional
+    height: undefined, // Permite que a altura seja ajustada pela proporção
+    aspectRatio: 1, // Mantém a proporção da imagem
+    marginBottom: 10, // Espaçamento inferior
+    marginLeft: 0, // Remove deslocamento lateral
+    marginTop: 60, // Remove o deslocamento superior
+    alignSelf: 'flex-start', // Alinha ao topo e à esquerda do container
+  },
+  titlePetRemedio: {
+    fontSize: 50, // Tamanho do texto
+    marginBottom: 10, // Espaçamento inferior reduzido
+    fontWeight: 'bold', // Deixa o texto em negrito
+    fontFamily: themas.fonts.fontLetras2, // Fonte personalizada
+    color: themas.colors.black, // Cor do texto
+    textAlign: 'left', // Alinha o texto à esquerda
+    marginTop: 60, // Remove o deslocamento superior
+    marginLeft: 10, // Espaçamento lateral esquerdo para ajustar a posição
+  },
+  pawIconRemedio: {
+    width: 60,
+    height: 60,
+    marginLeft: 1,
+    marginTop: 60,
+  },
+  headerContainerRemedio: {
+    position: 'absolute',
+    top: -40,                // Fixa no topo da tela
+    left: 5,               // Alinha à esquerda da tela
+    right: 0,              // Alinha à direita da tela para ocupar a largura completa
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: -10, // Ajuste para mais ou menos espaço do topo
+    paddingVertical: 3, // Adiciona padding vertical, se necessário
+    padding: 10,
+    zIndex: 1,
+  },
+  alarmeContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#D9A775',
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+  alarmeHorario: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginRight: 15,
+  },
+  alarmeNome: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  alarmeFrequencia: {
+    fontSize: 14,
+    color: '#fff',
+  },
+  iconeEditar: {
+    width: 24,
+    height: 24,
+    marginLeft: 'auto',
+  },
+  botaoAdicionar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F96C0D',
+    borderRadius: 20,
+    padding: 15,
+    marginTop: 20,
+  },
+  botaoAdicionarTexto: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  botaoAdicionarIcone: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  modalOverlayRemedio: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  modalTitulo: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  iconeFechar: {
+    width: 24,
+    height: 24,
+  },
+  inputRemedio: {
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 10,
+    fontSize: 16,
+  },
+  botaoCriar: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 10,
+    marginTop: 20,
+    padding: 15,
+    alignItems: 'center',
+  },
+  textoCriar: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  // --------------------------------------------------------------------------------- IMPORTANTE
+  separatorTelaFora: {
+    position: 'absolute',
+    height: 3,               // Altura da linha
+    backgroundColor: '#D2A24C', // Cor da linha
+    width: '95%',             // Ajuste a largura para centralizar visualmente
+    alignSelf: 'center',      // Centraliza a linha horizontalmente
+    top: 100,            // Espaçamento para ficar logo abaixo do título
+    marginBottom: 20,         // Espaçamento inferior para o conteúdo a seguir
+    zIndex: 1,
+  },
+  // ---------------------------------------------------------------------------------
 });
