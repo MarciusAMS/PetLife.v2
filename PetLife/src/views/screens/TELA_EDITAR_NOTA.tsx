@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { firestore } from '../../../firebaseService';
 import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
@@ -139,8 +139,12 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
                 onChangeText={setContent}
                 multiline
             />
-            <Button title="Salvar" onPress={handleSave} />
-            <Button title="Excluir" onPress={handleDelete} color="red" />
+            <TouchableOpacity style={styles.button} onPress={handleSave}>
+    <Text style={styles.buttonText}>Salvar</Text>
+</TouchableOpacity>
+<TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+    <Text style={styles.deleteButtonText}>Excluir</Text>
+</TouchableOpacity>
         </View>
     );
 };
@@ -149,18 +153,49 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: '#fff',
+        backgroundColor: '#f9dcc4', // Fundo pêssego claro
     },
     input: {
         borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 8,
+        borderColor: '#8a4f37', // Marrom escuro para as bordas
+        backgroundColor: '#fef6ec', // Fundo bege claro
+        padding: 12,
         marginBottom: 12,
-        borderRadius: 4,
+        borderRadius: 8,
+        fontSize: 16,
+        color: '#5a4035', // Texto em marrom escuro
     },
     textarea: {
-        height: 100,
+        height: 120,
         textAlignVertical: 'top',
+    },
+    button: {
+        backgroundColor: '#f39c63', // Laranja pastel para os botões
+        padding: 12,
+        borderRadius: 25, // Bordas arredondadas, semelhante ao botão na imagem
+        alignItems: 'center',
+        marginBottom: 12,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        elevation: 4,
+    },
+    buttonText: {
+        color: '#fff', // Texto branco para contraste
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    deleteButton: {
+        backgroundColor: '#d35445', // Vermelho queimado para o botão de exclusão
+        padding: 12,
+        borderRadius: 25, // Bordas arredondadas
+        alignItems: 'center',
+    },
+    deleteButtonText: {
+        color: '#fff', // Texto branco
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 
