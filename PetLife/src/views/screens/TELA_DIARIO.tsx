@@ -1,14 +1,19 @@
 import { styles } from '../../../styles';
 import React, { useState, useRef } from 'react';
 import { View, Text, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
-import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useFocusEffect } from '@react-navigation/native';
+import { firestore } from '../../../firebaseService'; // Firestore import
+import { collection, getDocs, query, where, addDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
+// Tipos de parâmetros para a navegação
 export type RootStackParamList = {
-    TelaDiario: { newNote?: Note } | undefined;
+    TelaDiario: { pet: { petId: string; name?: string }; newNote?: Note } | undefined; // pet como objeto
     AppMenu: undefined;
-    TelaEditarNota: { noteId: string } | undefined;
+    TelaEditarNota: { noteId?: string; petId: string } | undefined; // petId obrigatório, noteId opcional
 };
+
 type Note = { id: string; title: string; content: string };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TelaDiario'>;
@@ -17,28 +22,68 @@ const TelaDiario: React.FC<Props> = ({ navigation, route }) => {
     const [notes, setNotes] = useState<Note[]>([]);
     const [scrollY, setScrollY] = useState(0);
     const [notePositions, setNotePositions] = useState<{ [key: string]: number }>({});
+    const auth = getAuth();
 
-    // Processar parâmetros recebidos ao retornar de `TelaEditarNota`
+    const pet = route.params?.pet;
+
+    console.log('Pet:', pet);
+    console.log('Pet ID:', pet?.petId);
+
+    const fetchNotes = async () => {
+        try {
+            if (!pet) {
+                Alert.alert('Erro', 'Pet não encontrado.');
+                return;
+            }
+
+            const user = auth.currentUser;
+            if (!user) {
+                Alert.alert('Erro', 'Você precisa estar autenticado para acessar as notas.');
+                return;
+            }
+
+            const notesQuery = query(
+                collection(firestore, `pets/${pet.petId}/notes`), // Ajusta para subcoleções de notas
+                where('userUID', '==', user.uid) // Verifica o userUID
+            );
+
+            const notesSnapshot = await getDocs(notesQuery);
+            const fetchedNotes: Note[] = notesSnapshot.docs.map((doc) => ({
+                id: doc.id,
+                title: doc.data().title,
+                content: doc.data().content,
+            }));
+            setNotes(fetchedNotes);
+        } catch (error: any) {
+            if (error.code === 'permission-denied') {
+                Alert.alert('Erro', 'Você não tem permissão para acessar essas notas.');
+            } else {
+                Alert.alert('Erro', 'Algo deu errado. Tente novamente mais tarde.');
+            }
+            console.error('Erro ao buscar notas:', error.code, error.message);
+        }
+    };
+
     useFocusEffect(
         React.useCallback(() => {
+            fetchNotes();
             if (route.params?.newNote) {
                 const { newNote } = route.params;
 
                 setNotes((prevNotes) => {
-                    const updatedNotes = prevNotes.filter((note) => note.id !== newNote.id); // Remover duplicatas
-                    return [...updatedNotes, newNote]; // Adicionar nova/atualizada
+                    const updatedNotes = prevNotes.filter((note) => note.id !== newNote.id);
+                    return [...updatedNotes, newNote];
                 });
 
-                // Limpar parâmetros para evitar duplicações
                 navigation.setParams({ newNote: undefined });
             }
-        }, [route.params])
+        }, [route.params, pet])
     );
 
     const viewableItemsChanged = useRef(({ viewableItems }: any) => {
         const updatedPositions: { [key: string]: number } = {};
         viewableItems.forEach((viewable: any) => {
-            updatedPositions[viewable.item.id] = viewable.index * 90; // Ajustar a posição
+            updatedPositions[viewable.item.id] = viewable.index * 90;
         });
         setNotePositions((prevPositions) => ({
             ...prevPositions,
@@ -50,18 +95,51 @@ const TelaDiario: React.FC<Props> = ({ navigation, route }) => {
         itemVisiblePercentThreshold: 10,
     };
 
-    // Criar uma nova nota e navegar para edição
-    const addNote = () => {
-        const newNoteId = Date.now().toString(); // Gerar ID único
-        navigation.navigate('TelaEditarNota', { noteId: newNoteId });
+    const addNote = async () => {
+        if (!pet) {
+            Alert.alert('Erro', 'Pet não encontrado.');
+            return;
+        }
+
+        const user = auth.currentUser;
+        if (!user) {
+            Alert.alert('Erro', 'Você precisa estar autenticado para adicionar uma nota.');
+            return;
+        }
+
+        try {
+            const newNoteId = Date.now().toString();
+
+            const newNote: Note = {
+                id: newNoteId,
+                title: '',
+                content: '',
+            };
+
+            const docRef = await addDoc(collection(firestore, `pets/${pet.petId}/notes`), {
+                ...newNote,
+                userUID: user.uid, // Inclui o userUID obrigatório
+                createdAt: new Date().toISOString(), // Adiciona data de criação
+            });
+
+            navigation.navigate('TelaEditarNota', {
+                noteId: docRef.id,
+                petId: pet.petId,
+            });
+        } catch (error) {
+            console.error('Erro ao adicionar nota:', error);
+            Alert.alert('Erro', 'Não foi possível criar a nota.');
+        }
     };
 
-    // Editar nota existente
     const editNote = (note: Note) => {
-        navigation.navigate('TelaEditarNota', { noteId: note.id });
+        if (!pet) {
+            Alert.alert('Erro', 'Pet não encontrado.');
+            return;
+        }
+        navigation.navigate('TelaEditarNota', { noteId: note.id, petId: pet.petId });
     };
 
-    // Renderizar uma nota
     const renderNote = ({ item }: { item: Note }) => {
         const position = notePositions[item.id];
         const hideThreshold = 10;
@@ -69,11 +147,8 @@ const TelaDiario: React.FC<Props> = ({ navigation, route }) => {
 
         return (
             <TouchableOpacity
-                style={[
-                    styles.note,
-                    shouldHide && { opacity: 0.3, transform: [{ translateY: -30 }] },
-                ]}
-                onPress={() => editNote(item)} // Navegar para editar ao clicar
+                style={[styles.note, shouldHide && { opacity: 0.3, transform: [{ translateY: -30 }] }]}
+                onPress={() => editNote(item)}
             >
                 <Image style={styles.noteImage} source={require('../../../assets/anotacao.png')} />
                 <Text style={styles.noteText}>{item.title}</Text>
@@ -83,7 +158,6 @@ const TelaDiario: React.FC<Props> = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            {/* Cabeçalho fixo */}
             <View style={styles.fixedHeader}>
                 <View style={styles.headerContainer}>
                     <Image source={require('../../../assets/diario.png')} style={styles.logoDiario} />
@@ -93,12 +167,10 @@ const TelaDiario: React.FC<Props> = ({ navigation, route }) => {
                 <View style={styles.separator} />
             </View>
 
-            {/* Botão de adicionar nota */}
             <TouchableOpacity onPress={addNote} style={styles.addDiarioButton}>
                 <Text style={styles.addDiarioButtonText}>+</Text>
             </TouchableOpacity>
 
-            {/* Lista de notas */}
             <FlatList
                 data={notes}
                 keyExtractor={(item) => item.id}

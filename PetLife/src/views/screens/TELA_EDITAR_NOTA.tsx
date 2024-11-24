@@ -1,47 +1,108 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { firestore } from '../../../firebaseService';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 type Note = { id: string; title: string; content: string };
 
 type RootStackParamList = {
-    TelaDiario: { newNote?: Note } | undefined;
+    TelaDiario: { pet: { petId: string; name?: string }; newNote?: Note } | undefined;
     AppMenu: undefined;
-    TelaEditarNota: { noteId: string } | undefined;
+    TelaEditarNota: { petId: string; noteId?: string } | undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TelaEditarNota'>;
 
-const TelaEditarNota: React.FC<Props> = ({ navigation, route }) => {
+const TelaEditarNota = ({ navigation, route }: Props) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const noteId = route.params?.noteId;
+    const [userUid, setUserUid] = useState<string | null>(null);
 
-    // Simulação de carregamento de notas (adapte para o seu caso)
-    const notes: Note[] = [
-        { id: '1', title: 'Nota 1', content: 'Conteúdo da Nota 1' },
-        { id: '2', title: 'Nota 2', content: 'Conteúdo da Nota 2' },
-    ];
+    const petId = route.params?.petId; // Recebe o petId
+    const noteId = route.params?.noteId; // Recebe o noteId (se estiver editando)
 
     useEffect(() => {
-        if (noteId) {
-            // Buscar a nota existente pelo ID
-            const existingNote = notes.find((note) => note.id === noteId);
-            if (existingNote) {
-                setTitle(existingNote.title);
-                setContent(existingNote.content);
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUserUid(user.uid);
+            } else {
+                Alert.alert('Erro', 'Usuário não autenticado. Faça login para continuar.');
+                navigation.navigate('AppMenu');
             }
-        }
-    }, [noteId]);
+        });
 
-    const handleSave = () => {
+        return unsubscribe; // Remove listener ao desmontar
+    }, []);
+
+    useEffect(() => {
+        if (noteId && userUid && petId) {
+            const loadNote = async () => {
+                try {
+                    const noteRef = doc(firestore, `pets/${petId}/notes/${noteId}`);
+                    const noteSnap = await getDoc(noteRef);
+
+                    if (noteSnap.exists()) {
+                        const noteData = noteSnap.data();
+                        setTitle(noteData?.title || '');
+                        setContent(noteData?.content || '');
+                    } else {
+                        Alert.alert('Erro', 'Nota não encontrada.');
+                        navigation.goBack();
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar a nota:', error);
+                    Alert.alert('Erro', 'Não foi possível carregar a nota.');
+                }
+            };
+
+            loadNote();
+        }
+    }, [noteId, petId, userUid]);
+
+    const handleSave = async () => {
         if (!title.trim() || !content.trim()) {
             Alert.alert('Erro', 'O título e o conteúdo não podem estar vazios.');
             return;
         }
-
+    
+        if (!petId) {
+            Alert.alert('Erro', 'Pet não selecionado.');
+            return;
+        }
+    
         const newNote: Note = { id: noteId || Date.now().toString(), title, content };
-        navigation.navigate('TelaDiario', { newNote }); // Enviar a nota de volta para TelaDiario
+    
+        try {
+            const noteRef = doc(firestore, `pets/${petId}/notes/${newNote.id}`);
+    
+            // Montar o objeto de dados, excluindo campos com valores inválidos
+            const noteData: any = {
+                id: newNote.id,
+                title: newNote.title,
+                content: newNote.content,
+                userUID: userUid,
+                petId: petId,
+            };
+    
+            // Adicionar `createdAt` apenas se for uma nova nota
+            if (!noteId) {
+                noteData.createdAt = new Date().toISOString();
+            }
+    
+            await setDoc(noteRef, noteData, { merge: true });
+    
+            Alert.alert('Sucesso', 'Nota salva com sucesso!');
+            navigation.navigate('TelaDiario', {
+                pet: { petId },
+                newNote,
+            });
+        } catch (error) {
+            console.error('Erro ao salvar a nota:', error);
+            Alert.alert('Erro', 'Não foi possível salvar a nota. Tente novamente.');
+        }
     };
 
     return (
