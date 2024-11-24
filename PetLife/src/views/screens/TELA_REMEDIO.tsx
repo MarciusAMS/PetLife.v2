@@ -152,59 +152,59 @@ export default function TelaRemedio() {
         }
     };
 
-    const enviarArquivo = async () => {
+    // const enviarArquivo = async () => {
 
-        if (!documentUri) {
-            Alert.alert("Nenhum arquivo selecionado", "Por favor, escolha um arquivo antes de enviar.");
-            console.log('Documento:', documentUri);
-            return;
-        }
+    //     if (!documentUri) {
+    //         Alert.alert("Nenhum arquivo selecionado", "Por favor, escolha um arquivo antes de enviar.");
+    //         console.log('Documento:', documentUri);
+    //         return;
+    //     }
 
-        if (!user) {
-            Alert.alert("Erro", "Usuário não autenticado.");
-            return;
-        }
+    //     if (!user) {
+    //         Alert.alert("Erro", "Usuário não autenticado.");
+    //         return;
+    //     }
 
-        setLoading(true); // Ativar um indicador de carregamento
-        const storage = getStorage();
+    //     setLoading(true); // Ativar um indicador de carregamento
+    //     const storage = getStorage();
 
-        try {
-            const fileRef = ref(storage, `documentos_vacina/${fileName}`);
-            const response = await fetch(documentUri);
-            const blob = await response.blob();
+    //     try {
+    //         const fileRef = ref(storage, `documentos_vacina/${fileName}`);
+    //         const response = await fetch(documentUri);
+    //         const blob = await response.blob();
 
-            // Upload do arquivo
-            await uploadBytes(fileRef, blob);
-            const downloadURL = await getDownloadURL(fileRef);
+    //         // Upload do arquivo
+    //         await uploadBytes(fileRef, blob);
+    //         const downloadURL = await getDownloadURL(fileRef);
 
-            // Salvar o registro no Firestore
-            if (user && pet) {
-                await addDoc(collection(db, "registrosVacina"), {
-                    nome: fileName,
-                    data: new Date().toISOString(),
-                    userUID: user.uid,
-                    fileURL: downloadURL,
-                    petId: pet.petId,  // Adicionando o petId ao documento
-                });
+    //         // Salvar o registro no Firestore
+    //         if (user && pet) {
+    //             await addDoc(collection(db, "registrosVacina"), {
+    //                 nome: fileName,
+    //                 data: new Date().toISOString(),
+    //                 userUID: user.uid,
+    //                 fileURL: downloadURL,
+    //                 petId: pet.petId,  // Adicionando o petId ao documento
+    //             });
 
-                await fetchRegistros();
+    //             await fetchRegistros();
 
-                Alert.alert("Sucesso", "Arquivo enviado e salvo com sucesso!");
-                setFileName("Nenhum arquivo escolhido");
-                setDocumentUri(null);
-                setModalVisible(false);
-            } else {
-                Alert.alert("Erro", "Usuário não autenticado.");
-            }
-        } catch (error) {
-            console.error("Erro ao enviar arquivo:", error);
-            console.log("user:", user?.uid);
-            console.log("URI do documento:", documentUri);
-            Alert.alert("Erro", "Não foi possível enviar o arquivo.");
-        } finally {
-            setLoading(false);
-        }
-    };
+    //             Alert.alert("Sucesso", "Arquivo enviado e salvo com sucesso!");
+    //             setFileName("Nenhum arquivo escolhido");
+    //             setDocumentUri(null);
+    //             setModalVisible(false);
+    //         } else {
+    //             Alert.alert("Erro", "Usuário não autenticado.");
+    //         }
+    //     } catch (error) {
+    //         console.error("Erro ao enviar arquivo:", error);
+    //         console.log("user:", user?.uid);
+    //         console.log("URI do documento:", documentUri);
+    //         Alert.alert("Erro", "Não foi possível enviar o arquivo.");
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     const fetchRegistros = async () => {
         if (!user) {
@@ -279,6 +279,34 @@ export default function TelaRemedio() {
             console.error("Erro ao salvar alterações:", error);
             Alert.alert("Erro", "Não foi possível salvar as alterações.");
         }
+    };
+
+    const validarExclusao = async () => {
+        Alert.alert(
+            "Confirmação",
+            "Deseja realmente excluir este registro?",
+            [
+                {
+                    text: "Não", // Botão "Não"
+                    onPress: () => Alert.alert("Operação cancelada!"), // Mensagem de cancelamento
+                    style: "cancel", // Define o estilo do botão
+                },
+                {
+                    text: "Sim", // Botão "Sim"
+                    onPress: async () => {
+                        try {
+                            await excluirRegistro(registroSelecionado?.id); // Função para excluir o registro
+                            Alert.alert("Sucesso", "Registro excluído com sucesso!");
+                        } catch (error) {
+                            console.error("Erro ao excluir registro:", error);
+                            Alert.alert("Erro", "Ocorreu um erro ao tentar excluir o registro.");
+                        }
+                    },
+                    style: "destructive", // Destaca o botão como uma ação destrutiva
+                },
+            ],
+            { cancelable: false } // Impede que o alerta seja fechado tocando fora dele
+        );
     };
 
     const excluirRegistro = async (id?: string) => {
@@ -420,8 +448,17 @@ export default function TelaRemedio() {
                 animationType="slide"
                 onRequestClose={() => setModalOpcoesVisible(false)}>
                 <View style={styles.modalOverlay}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>{registroSelecionado?.nome}</Text>
+                    <View style={styles.modalContentRemedio}>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalTitulo}>{registroSelecionado?.nome}</Text>
+                            <TouchableOpacity onPress={() => setModalVisible(false)}>
+                                <Image
+                                    source={require('../../../assets/iconeFechar.png')}
+                                    style={styles.iconeFechar}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.label}>Digite o novo nome do alarme:</Text>
                         <TextInput
                             style={styles.input}
                             value={registroSelecionado?.nome}
@@ -430,22 +467,37 @@ export default function TelaRemedio() {
                             }
                             placeholder="Nome do Alarme"
                         />
-                        <TextInput
+                        <Text style={styles.label}>Digite o novo Horário (HH:MM):</Text>
+                        <TextInputMask
+                            type={'custom'}
+                            options={{
+                                mask: '99:99', // Máscara no formato HH:MM
+                            }}
                             style={styles.input}
                             value={registroSelecionado?.horario}
                             onChangeText={(text) =>
                                 setRegistroSelecionado((prev) => prev ? { ...prev, horario: text } : null)
                             }
-                            placeholder="Horário"
+                            placeholder="Novo Horário (Ex: 08:30)"
+                            keyboardType="numeric"
+                        />
+                        <Text style={styles.label}>Digite a sequência:</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Frequência (ex: todos os dias)"
+                            value={registroSelecionado?.frequencia}
+                            onChangeText={(text) =>
+                                setRegistroSelecionado((prev) => prev ? { ...prev, frequencia: text } : null)
+                            }
                         />
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity
                                 style={styles.deleteButton}
                                 onPress={() => {
-                                    excluirRegistro(registroSelecionado?.id);
+                                    validarExclusao();
                                     setModalOpcoesVisible(false); // Fecha o modal após excluir
                                 }}>
-                                <Text style={styles.buttonText}>Excluir</Text>
+                                <Text style={styles.buttonTextRemedio}>Excluir</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={styles.saveButton}
@@ -453,7 +505,7 @@ export default function TelaRemedio() {
                                     salvarAlteracoes();
                                     setModalOpcoesVisible(false); // Fecha o modal após salvar
                                 }}>
-                                <Text style={styles.buttonText}>Salvar</Text>
+                                <Text style={styles.buttonTextRemedio}>Salvar</Text>
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity
@@ -464,7 +516,6 @@ export default function TelaRemedio() {
                     </View>
                 </View>
             </Modal>
-
         </View>
     );
 }

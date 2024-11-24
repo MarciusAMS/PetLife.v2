@@ -778,7 +778,7 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
   },
   saveButton: {
-    backgroundColor: "#0f0",
+    backgroundColor: "#0b0",
     padding: 10,
     borderRadius: 5,
   },
@@ -807,11 +807,17 @@ export const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-},
-textoBotao: {
+  },
+  textoBotao: {
     color: '#FFF',
     fontSize: 16,
-},
+  },
+  buttonTextRemedio: {
+    marginTop: 2,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFF',
+  },
 
   // --------------------------------------------------------------------------------- IMPORTANTE
   separatorTelaFora: {
