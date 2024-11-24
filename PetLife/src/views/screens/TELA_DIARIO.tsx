@@ -147,7 +147,7 @@ const TelaDiario: React.FC<Props> = ({ navigation, route }) => {
 
         return (
             <TouchableOpacity
-                style={[styles.note, shouldHide && { opacity: 0.3, transform: [{ translateY: -30 }] }]}
+                style={[styles.note, shouldHide && { opacity: 0, transform: [{ translateY: -20 }] }]}
                 onPress={() => editNote(item)}
             >
                 <Image style={styles.noteImage} source={require('../../../assets/anotacao.png')} />
