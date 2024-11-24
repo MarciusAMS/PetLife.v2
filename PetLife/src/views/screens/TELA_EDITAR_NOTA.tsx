@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { firestore } from '../../../firebaseService';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 type Note = { id: string; title: string; content: string };
@@ -67,17 +67,17 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             Alert.alert('Erro', 'O título e o conteúdo não podem estar vazios.');
             return;
         }
-    
+
         if (!petId) {
             Alert.alert('Erro', 'Pet não selecionado.');
             return;
         }
-    
+
         const newNote: Note = { id: noteId || Date.now().toString(), title, content };
-    
+
         try {
             const noteRef = doc(firestore, `pets/${petId}/notes/${newNote.id}`);
-    
+
             // Montar o objeto de dados, excluindo campos com valores inválidos
             const noteData: any = {
                 id: newNote.id,
@@ -86,14 +86,14 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
                 userUID: userUid,
                 petId: petId,
             };
-    
+
             // Adicionar `createdAt` apenas se for uma nova nota
             if (!noteId) {
                 noteData.createdAt = new Date().toISOString();
             }
-    
+
             await setDoc(noteRef, noteData, { merge: true });
-    
+
             Alert.alert('Sucesso', 'Nota salva com sucesso!');
             navigation.navigate('TelaDiario', {
                 pet: { petId },
@@ -102,6 +102,25 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
         } catch (error) {
             console.error('Erro ao salvar a nota:', error);
             Alert.alert('Erro', 'Não foi possível salvar a nota. Tente novamente.');
+        }
+    };
+
+    // Função para excluir a nota
+    const handleDelete = async () => {
+        if (!noteId || !petId) {
+            Alert.alert('Erro', 'Nota não encontrada para exclusão.');
+            return;
+        }
+
+        try {
+            const noteRef = doc(firestore, `pets/${petId}/notes/${noteId}`);
+            await deleteDoc(noteRef);
+
+            Alert.alert('Sucesso', 'Nota excluída com sucesso!');
+            navigation.goBack(); // Volta para a tela anterior
+        } catch (error) {
+            console.error('Erro ao excluir a nota:', error);
+            Alert.alert('Erro', 'Não foi possível excluir a nota. Tente novamente.');
         }
     };
 
@@ -121,6 +140,7 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
                 multiline
             />
             <Button title="Salvar" onPress={handleSave} />
+            <Button title="Excluir" onPress={handleDelete} color="red" />
         </View>
     );
 };
