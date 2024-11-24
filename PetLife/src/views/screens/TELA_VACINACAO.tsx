@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { View, Text, Alert, ActivityIndicator, TouchableOpacity, Modal, TextInput, Image, Platform, PermissionsAndroid, ScrollView } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { getFirestore, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -8,17 +8,33 @@ import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RegistroVacina } from "../../models/Vacina";
 import * as DocumentPicker from 'expo-document-picker';
+import { usePetContext } from "../../contextos/PetContext";
+import { RouteProp, useRoute } from "@react-navigation/native";
+
+// type TelaVacinaRouteProp = RouteProp<RootStackParamList, "TelaVacina">;
 
 
 export type RootStackParamList = {
-  TelaVacina: undefined;
+  TelaVacinacao: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
+  TelaInicio: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
+  TelaPet: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
+  AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
 };
 
-// type TelaVacinaProps = {
-//   navigation: NativeStackNavigationProp<RootStackParamList, 'TelaVacina'>;
-// };
+interface Pet {
+  nome: string;
+  imagemUrl: string;
+  userUID: string;
+  petId: string;
+}
 
-export default function TelaVacinacao() {
+type TelaVacinaProps = {
+  //navigation: NativeStackNavigationProp<RootStackParamList, 'TelaVacinacao'>;
+  pet?: Pet;
+};
+
+export default function TelaVacinacao({ pet }: TelaVacinaProps) {
+  const navigator = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [registros, setRegistros] = useState<RegistroVacina[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,16 +42,26 @@ export default function TelaVacinacao() {
   const db = getFirestore();
   const auth = getAuth();
   const [user, setUser] = useState<User | null>(null);
-  const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [documentUri, setDocumentUri] = useState<string | null>(null);
+  //const route = useRoute();
+  // const { selectedPetId } = route.params as { selectedPetId?: string };
+  // const route = useRoute<TelaVacinaRouteProp>();
+  // const { selectedPetId } = route.params;
+
+  // const { pet } = usePetContext(); 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
+      if (!pet) {
+        Alert.alert("Erro", "Nenhum pet selecionado. Redirecionando...");
+        navigator.navigate('TelaPet');
+      }
     });
 
     return unsubscribe;
-  }, [auth]);
+  }, [auth, pet, navigator]);
 
   const requestStoragePermission = async () => {
     if (Platform.OS === 'android') {
@@ -45,7 +71,7 @@ export default function TelaVacinacao() {
           {
             title: 'Permissão de Armazenamento',
             message: 'Precisamos de acesso ao armazenamento para selecionar e enviar arquivos.',
-            buttonNegative: 'Cancelar',
+            buttonNegative: 'Negar',
             buttonPositive: 'Permitir',
           }
         );
@@ -115,14 +141,16 @@ export default function TelaVacinacao() {
       const downloadURL = await getDownloadURL(fileRef);
 
       // Salvar o registro no Firestore
-      if (user) {
+      if (user && pet) {
         await addDoc(collection(db, "registrosVacina"), {
           nome: fileName,
           data: new Date().toISOString(),
           userUID: user.uid,
-          petId: selectedPetId,
           fileURL: downloadURL,
+          petId: pet.petId,  // Adicionando o petId ao documento
         });
+
+        await fetchRegistros();
 
         Alert.alert("Sucesso", "Arquivo enviado e salvo com sucesso!");
         setFileName("Nenhum arquivo escolhido");
@@ -143,17 +171,23 @@ export default function TelaVacinacao() {
 
   const fetchRegistros = async () => {
     if (!user) {
-      Alert.alert("Erro", "Usuário não autenticado.");
+      Alert.alert("Erro", "Usuário não autenticado ou Pet não selecionado.");
+      return;
+    }
+
+    if (!pet?.petId) {  // Verifique se o petId está disponível
+      Alert.alert("Erro", "Pet não selecionado.");
       return;
     }
 
     setLoading(true);
 
     try {
+      // Agora, além do filtro pelo userUID, adicionamos o filtro para o petId
       const q = query(
         collection(db, "registrosVacina"),
         where("userUID", "==", user.uid),
-        where("petId", "==", selectedPetId) 
+        where("petId", "==", pet.petId)  // Filtra pelo petId
       );
       const querySnapshot = await getDocs(q);
 
@@ -163,8 +197,9 @@ export default function TelaVacinacao() {
       } as RegistroVacina));
 
       setRegistros(registrosList);
+
       if (registrosList.length === 0) {
-        Alert.alert("Nenhum registro", "Você não tem registros de vacinação.");
+        Alert.alert("Nenhum registro", "Você não tem registros de vacinação para este pet.");
       }
     } catch (error) {
       console.error("Erro ao buscar registros de vacinação:", error);
@@ -176,8 +211,10 @@ export default function TelaVacinacao() {
 
   useFocusEffect(
     useCallback(() => {
-      if (user) fetchRegistros(); // Chama fetchRegistros quando a tela ganha foco e o usuário está autenticado
-    }, [user])
+      if (user) {
+        fetchRegistros();
+      } // Chama fetchRegistros quando a tela ganha foco e o usuário está autenticado
+    }, [user, pet])
   );
 
   return (
@@ -196,9 +233,9 @@ export default function TelaVacinacao() {
           contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
           style={styles.scrollContainer}>
           {registros.map((registro) => (
-            <View key={registro.id} style={styles.registroItem}>
+            <View key={registro.id} style={styles.registroContainer}>
               <Text style={styles.registroText}>{registro.nome}</Text>
-              <Text style={styles.registroText}>{registro.data}</Text>
+              <Text style={styles.registroData}>{registro.data}</Text>
               {/* {registro.dose && <Text style={styles.registroText}>Dose: {registro.dose}</Text>}
               {registro.observacoes && <Text style={styles.registroText}>Observações: {registro.observacoes}</Text>} */}
             </View>

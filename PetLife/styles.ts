@@ -26,14 +26,14 @@ export const styles = StyleSheet.create({
 //------------------------------------------
 containerInicioHorizontal: {
   position: 'absolute', 
-  top: 0,
-  left: 0,
+  top: 28,
+  left: 6,
   right: 0,
   flexDirection: 'row', 
   justifyContent: 'space-between', // Espaço entre a parte esquerda (imagem + nome) e o botão
   alignItems: 'center', 
   paddingHorizontal: 20,
-  height: 80,
+  minHeight: 80,
   paddingTop: StatusBar.currentHeight || 20, 
   zIndex: 1, 
 },
@@ -99,6 +99,7 @@ verPets: {
     marginTop: 10, // Ajuste para mais ou menos espaço do topo
     paddingVertical: 3, // Adiciona padding vertical, se necessário
     padding: 10,
+    zIndex: 1,
   },
   // containerCadastro: {
   //   flex: 1,
@@ -336,6 +337,7 @@ verPets: {
     alignSelf: 'center',      // Centraliza a linha horizontalmente
     top: 150,            // Espaçamento para ficar logo abaixo do título
     marginBottom: 20,         // Espaçamento inferior para o conteúdo a seguir
+    zIndex: 1,
   },
   separatorBottom: {
     height: 3,               // Altura da linha
@@ -392,29 +394,28 @@ verPets: {
     paddingBottom: 10,      // Espaço extra para evitar que fique muito próximo do final da tela
   },
   registroContainer: {
-    flexDirection: 'row',        // Para exibir os elementos horizontalmente
-    justifyContent: 'center',    // Centraliza os elementos horizontalmente
-    alignItems: 'center',        // Alinha verticalmente no centro
-    paddingVertical: 15,         // Espaçamento vertical
-    marginHorizontal: 20,        // Espaçamento nas laterais
-    flexWrap: 'wrap',            // Permite que elementos que não cabem na linha atual "quebrem" para a próxima linha
-  },
-  registroItem: {
-    width: '95%', // ajusta a largura para cobrir grande parte da tela
-    padding: 15, // adiciona um espaço interno confortável
-    marginVertical: 10, // espaço entre os registros
-    backgroundColor: '#f9f9f9', // cor de fundo para destacar
-    borderRadius: 8, // bordas arredondadas
-    shadowColor: '#000', // sombra para dar profundidade
+    backgroundColor: '#FAE8C8', // Fundo bege claro
+    borderRadius: 10, // Bordas arredondadas
+    padding: 10, // Espaçamento interno
+    marginBottom: 10, // Espaçamento entre registros
+    borderWidth: 2, // Borda fina
+    borderColor: '#D2A24C', // Cor da borda
+    shadowColor: '#000', // Sombras para destaque
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3, // elevação para sombra no Android
+    elevation: 3, // Sombras no Android
   },
   registroText: {
-    fontSize: 16, // tamanho de fonte legível
-    color: '#333', // cor do texto
-    marginBottom: 5, // espaçamento entre linhas
+    fontSize: 16, // Tamanho legível
+    color: '#333', // Cor do texto
+    fontFamily: 'Glacial Indifference', // Fonte do projeto
+    marginBottom: 5, // Espaçamento inferior
+  },
+  registroData: {
+    fontSize: 14, // Tamanho menor para a data
+    color: '#666', // Cor mais clara para a data
+    fontFamily: 'Chau Philomene', // Outra fonte do projeto
   },
   addButton: {
     marginTop: 20,
@@ -574,4 +575,71 @@ fixedHeader: {
   zIndex: 10,
   backgroundColor: '#fff',
 },
+
+  },  
+
+  // Tela Saude
+  headerContainerSaude: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  logoPetsaude: {
+    width: '40%',
+    height: 450,
+    aspectRatio: 1, // Mantém a proporção da imagem
+    marginBottom: 10,
+    left: -10, 
+    marginTop: 30,
+  }, 
+  pawIconSaude: {
+    width: 60,
+    height: 60,
+    marginLeft: 1,
+  }, 
+  titlePetSaude: {
+    fontSize: 60,
+    marginBottom: 30,
+    fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
+    fontFamily: themas.fonts.fontLetras2,
+    color: themas.colors.black,
+    textAlign: 'center', // Centraliza o texto dentro do círculo
+    marginTop: 30,
+    left: -30,
+    marginHorizontal: 10,
+  },
+  button: {
+    width: 200,
+    height: 200,
+    backgroundColor: '#F5E0C3',
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 30, // Espaço específico entre os botões
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+    backgroundColor: themas.colors.consulta, 
+    borderRadius: 20, 
+  },
+  buttonText: {
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#D2904C',
+  },
+  buttonContainerSaude: {
+    marginTop: 500,
+    width: '80%',
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'space-between', // Espaçamento uniforme entre os botões
+    marginVertical: 50, // Ajusta o espaço geral no container
+    bottom: 80,
+  },
 });

@@ -2,15 +2,16 @@ import { useState, useCallback } from "react";
 import { View, Text, Image, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { usePetContext } from "../../contextos/PetContext";
 
 export type RootStackParamList = {
     TelaPet: undefined;
     TelaCadastroPet2: undefined;
-    AppMenu: undefined;
-    TelaInicio: { pet: { nome: string; imagemUrl: string } } | undefined;
+    AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
+    TelaInicio: { pet: { nome: string; imagemUrl: string, petId: string } } | undefined;
     TelaDiario: { pet: { nome: string; imagemUrl: string } } | undefined;
 };
 
@@ -32,6 +33,7 @@ export default function TelaPet({ navigation }: TelaPetProps) {
     const auth = getAuth();
     const user = auth.currentUser;
 
+    // Função que busca os pets do banco de dados
     const fetchPets = async () => {
         setLoading(true);
         try {
@@ -44,7 +46,7 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                 const querySnapshot = await getDocs(q);
 
                 const petList: Pet[] = querySnapshot.docs.map((doc) => ({
-                    ...(doc.data() as Pet), // Faz a conversão explícita para o tipo Pet
+                    ...(doc.data() as Pet), // Conversão explícita para o tipo Pet
                     petId: doc.id
                 }));
                 setPets(petList);
@@ -60,9 +62,10 @@ export default function TelaPet({ navigation }: TelaPetProps) {
         }
     };
 
+    // UseFocusEffect para buscar pets sempre que a tela ganhar foco
     useFocusEffect(
         useCallback(() => {
-            fetchPets(); // Chama fetchPets quando a tela ganha foco
+            fetchPets();
         }, [])
     );
 
@@ -81,18 +84,24 @@ export default function TelaPet({ navigation }: TelaPetProps) {
                     <ActivityIndicator size="large" color="#0000ff" />
                 ) : (
                     pets.map((pet, index) => (
-                        <TouchableOpacity 
-                        key={index} 
-                        style={styles.petCard} 
-                         onPress={() => navigation.navigate('TelaInicio', { pet })}
-                    >
-                        {pet.imagemUrl ? (
-                            <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
-                        ) : (
-                            <Text style={styles.petName}>Imagem não disponível</Text>
-                        )}
-                        <Text style={styles.petName}>{pet.nome}</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            key={index}
+                            style={styles.petCard}
+                            onPress={() => navigation.navigate('AppMenu', {
+                                pet: {
+                                    nome: pet.nome,
+                                    imagemUrl: pet.imagemUrl,
+                                    petId: pet.petId, // Passando o petId corretamente
+                                },
+                            })}
+                        >
+                            {pet.imagemUrl ? (
+                                <Image source={{ uri: pet.imagemUrl }} style={styles.petImage} />
+                            ) : (
+                                <Text style={styles.petName}>Imagem não disponível</Text>
+                            )}
+                            <Text style={styles.petName}>{pet.nome}</Text>
+                        </TouchableOpacity>
                     ))
                 )}
                 <TouchableOpacity

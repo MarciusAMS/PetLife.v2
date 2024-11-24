@@ -14,7 +14,7 @@ const auth = getAuth();
 export type AppRootParamList = {
     TelaCadastro: undefined;
     TelaLogin: undefined;
-    TelaPet: undefined;
+    TelaPet: {};
     TelaCadastroPet: undefined;
 };
 declare global {
