@@ -501,6 +501,82 @@ export const styles = StyleSheet.create({
     marginBottom: 20, // margem inferior para o botão flutuante
     left: 10,
   },
+  
+// Tela Diario
+
+logoDiario: {
+  width: '30%',
+  height: 300,
+  aspectRatio: 1, // Mantém a proporção da imagem
+  marginBottom: -30,
+  left: 10,
+},
+titleDiario: {
+  fontSize: 60,
+  marginBottom: 30,
+  fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
+  fontFamily: themas.fonts.fontLetras2,
+  color: themas.colors.black,
+  textAlign: 'center', // Centraliza o texto dentro do círculo
+  marginTop: 40,
+  left: 10,
+},
+pawDiarioIcon: {
+  width: 45,
+  height: 45,
+  marginLeft: 10,
+},
+notesContainer: {
+    paddingHorizontal: 10,
+    paddingTop: '40%',
+},
+note: {
+  flexBasis: '48%', // Cada item ocupa ~48% do espaço horizontal (ajuste para o layout)
+  margin: '1%', // Espaço entre os itens
+  height: 150,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 10,
+},
+noteImage: {
+  width: '100%',
+  height: '50%',
+  aspectRatio: 1, // Mantém proporção 1:1
+  resizeMode: 'contain',
+},
+noteText: {
+  fontSize: 16,
+  color: '#4a3f35',
+  marginTop: 5,
+},
+addDiarioButton: {
+  position: 'absolute',
+    bottom: 20,
+    right: 20, // Ajuste para posicioná-lo no canto inferior
+    backgroundColor: '#f08a5d',
+    borderRadius: 50,
+    width: 60,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 20, // Para destacar o botão
+    zIndex: 40, // Garante que o botão esteja acima do FlatList
+},
+addDiarioButtonText: {
+  fontSize: 30,
+  color: '#fff',
+  fontWeight: 'bold',
+},
+fixedHeader: {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 10,
+  backgroundColor: '#fff',
+},
+
+  },  
 
   // Tela Saude
   headerContainerSaude: {

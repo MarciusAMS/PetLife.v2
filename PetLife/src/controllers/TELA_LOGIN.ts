@@ -6,11 +6,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Função para autenticação
 export const signIn = async (email: string, password: string, manterLogado: boolean) => {
   try {
- 
+
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Armazena ou remove o token no AsyncStorage
     if (manterLogado) {
       await AsyncStorage.setItem('userToken', user.uid);
     } else {
