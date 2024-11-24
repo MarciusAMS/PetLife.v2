@@ -12,6 +12,7 @@ export type RootStackParamList = {
     TelaCadastroPet2: undefined;
     AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
     TelaInicio: { pet: { nome: string; imagemUrl: string, petId: string } } | undefined;
+    TelaDiario: { pet: { nome: string; imagemUrl: string } } | undefined;
 };
 
 type TelaPetProps = {
