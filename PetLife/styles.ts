@@ -594,7 +594,7 @@ export const styles = StyleSheet.create({
     borderColor: '#D2A24C',
   },
   modalContentRemedio: {
-    backgroundColor: '#D9A775',
+    backgroundColor: '#FFE5CC',
     padding: 20,
     borderRadius: 10,
     width: '80%',
@@ -646,23 +646,25 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   alarmeContainer: {
-    marginTop: 150, // Adiciona espaço acima de cada registro
-    width: '80%',
-    backgroundColor: '#FFF', // Exemplo de cor de fundo
+    //marginTop: 100, // Adiciona espaço acima de cada registro
+    top: 150,
+    width: '90%',
+    backgroundColor: themas.colors.consulta, // Exemplo de cor de fundo
     borderRadius: 8,
-    padding: 5,
+    padding: 10,
+    marginVertical: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    left: 25,
+    left: 15,
   },
   alarmeHorario: {
     fontSize: 24,
     fontWeight: 'bold',
     marginRight: 15,
-    marginBottom: -10,
+    marginBottom: 3,
   },
   alarmeNome: {
     fontSize: 16,
@@ -720,6 +722,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding: 10,
   },
   modalTitulo: {
     fontSize: 20,
@@ -737,7 +740,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   botaoCriar: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#007BFF',
     borderRadius: 10,
     marginTop: 20,
     padding: 15,
@@ -764,6 +767,50 @@ export const styles = StyleSheet.create({
     color: '#aaa', // Cor cinza clara
     marginTop: 20, // Espaço superior
     fontStyle: 'italic', // Faz o texto parecer uma mensagem de placeholder
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  deleteButton: {
+    backgroundColor: "#f00",
+    padding: 10,
+    borderRadius: 5,
+  },
+  saveButton: {
+    backgroundColor: "#0f0",
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+  },
+  itemContainer: {
+    padding: 15,
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+  },
+  itemNome: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  itemHorario: {
+    fontSize: 14,
+    color: '#555',
+  },
+  botao: {
+    backgroundColor: '#007BFF',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+},
+textoBotao: {
+    color: '#FFF',
+    fontSize: 16,
 },
 
   // --------------------------------------------------------------------------------- IMPORTANTE
