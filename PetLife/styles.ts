@@ -51,7 +51,9 @@ export const styles = StyleSheet.create({
   },
 
   nomeDoPet: {
-    fontSize: 27,
+    paddingLeft:20,
+    top:-10,
+    fontSize: 40,
     fontWeight: 'bold',
     color: '#000',
   },
@@ -292,6 +294,7 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     top: -60,
+    zIndex:1
   },
   petCard: {
     alignItems: 'center',
@@ -337,7 +340,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',      // Centraliza a linha horizontalmente
     top: 150,            // Espaçamento para ficar logo abaixo do título
     marginBottom: 20,         // Espaçamento inferior para o conteúdo a seguir
-    zIndex: 1,
+    zIndex: 20,
   },
   separatorBottom: {
     height: 3,               // Altura da linha
@@ -575,9 +578,6 @@ fixedHeader: {
   zIndex: 10,
   backgroundColor: '#fff',
 },
-
-  },  
-
   // Tela Saude
   headerContainerSaude: {
     alignItems: 'center',
@@ -894,6 +894,100 @@ fixedHeader: {
     fontWeight: 'bold',
     color: '#FFF',
   },
+
+  // Tela de consultas
+  todayButton: {
+    borderWidth: 2,
+    borderColor: '#FF914D',
+},
+todayText: {
+    color: '#FF914D',
+    fontWeight: 'bold',
+},
+logoPetConsultas: {
+    width: '40%',
+    height: 450,
+    aspectRatio: 1, // Mantém a proporção da imagem
+    marginBottom: 10,
+    left: -10,
+    marginTop: 10,
+  },
+  pawIconConsultas: {
+    width: 60,
+    height: 60,
+    marginLeft: -35,
+  },
+  titlePetConsultas: {
+    fontSize: 40,
+    marginBottom: 30,
+    fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
+    fontFamily: themas.fonts.fontLetras2,
+    color: themas.colors.black,
+    textAlign: 'center', // Centraliza o texto dentro do círculo
+    marginTop: 30,
+    left: -30,
+    marginHorizontal: 10,
+  },
+  calendarContainer: {
+    backgroundColor: '#FCD2AF',
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 20,
+},
+monthText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 10,
+},
+weekHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+},
+weekDayText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#555',
+},
+daysContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+},
+dayButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5,
+    borderRadius: 20,
+    backgroundColor: '#FFF',
+},
+selectedDayButton: {
+    backgroundColor: '#FF914D',
+},
+dayText: {
+    fontSize: 16,
+    color: '#333',
+},
+selectedDayText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+},
+notificationsContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+},
+notificationsText: {
+    fontSize: 16,
+    color: '#FF914D',
+    marginBottom: 10,
+},
+selectedDaysText: {
+    fontSize: 16,
+    color: '#333',
+},
 
   // --------------------------------------------------------------------------------- IMPORTANTE
   separatorTelaFora: {

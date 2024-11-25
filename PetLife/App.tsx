@@ -19,9 +19,8 @@ import GlobalFont from 'react-native-global-font';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PetProvider } from "./src/contextos/PetContext";
 import { Icon } from 'react-native-elements';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Icon } from 'react-native-elements'; 
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler'; 
+import TelaConsultas from './src/views/screens/TELA_CONSULTAS';
 
 export type AppRootParamList = {
   TelaEntrar: undefined;
@@ -36,6 +35,7 @@ export type AppRootParamList = {
   TelaEditarNota: { noteId?: string; noteContent?: string };
   AppMenu: undefined;
   TelaInicio: undefined;
+  TelaConsultas: undefined;
 };
 
 const Stack = createNativeStackNavigator();
@@ -123,18 +123,6 @@ function AppMenu({ route }) {
 //   TelaVacinacao: string | undefined;
 // };
 
-const Stack = createNativeStackNavigator<AppRootParamList>(); // Declaração correta do tipo
-const Tab = createBottomTabNavigator();
-
-function AppMenu() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="TelaInicio" component={TelaInicio} options={{ title: 'Tela Inicial' }} />
-      <Tab.Screen name="TelaVacinacao" component={TelaVacinacao} options={{ headerShown: false }} />
-    </Tab.Navigator>
-  );
-}
-
 function App() {
   useEffect(() => {
     let fontName = themas.fonts.fontLetras2; // Fonte definida no arquivo de temas
@@ -155,13 +143,10 @@ function App() {
           <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
           <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
           <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
-          <Stack.Screen name="TelaDiario" component={TelaDiario} options={{ title: 'Tela Diário' }} />
-        <Stack.Screen
-          name="TelaEditarNota"
-          component={TelaEditarNota}
-          options={{ title: 'Tela Editar Nota' }}
-        />
-        <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar' }} />
+          <Stack.Screen name="TelaDiario" component={TelaDiario} options={{ title: 'Diário' }} />
+          <Stack.Screen name="TelaEditarNota" component={TelaEditarNota} options={{ title: 'Editar Nota' }} />
+          <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar' }} />
+          <Stack.Screen name="TelaConsultas" component={TelaConsultas} options={{ title: 'Consultas' }} />
           {/* <Stack.Screen name='TelaInicio' component={TelaInicio} options={{ headerShown: false }} /> */}
 
             {/* Menu Global com as abas principais */}

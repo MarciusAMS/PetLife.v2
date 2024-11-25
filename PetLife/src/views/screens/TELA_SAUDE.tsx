@@ -12,6 +12,7 @@ export type RootStackParamList = {
     TelaPet: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
     AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
     TelaRemedio: { pet?: { petId: string } };
+    TelaConsultas: {pet:{petId: string}} | undefined;
 };
 
 interface Pet {
@@ -59,7 +60,7 @@ export default function TelaSaude({ pet }: TelaSaudeProps) {
             <View style={styles.buttonContainerSaude}>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigator.navigate('TelaPet')} // Navegar para a tela de Consultas
+                    onPress={() => navigator.navigate('TelaConsultas')} // Navegar para a tela de Consultas
                 >
                     <Image source={require('../../../assets/consulta.png')} style={styles.buttonImage} />
                 </TouchableOpacity>

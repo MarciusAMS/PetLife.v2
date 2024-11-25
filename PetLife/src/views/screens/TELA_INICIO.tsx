@@ -78,6 +78,8 @@ export default function TelaInicio({ pet }: TelaInicioProps) {
         </TouchableOpacity>
       </View>
 
+      <View style={styles.separator} />
+
       <View style={{ marginTop: 180 }}>
         <CustomCarousel />
       </View>
