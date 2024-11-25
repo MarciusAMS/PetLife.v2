@@ -11,13 +11,17 @@ import TelaCadastroPet2 from './src/views/screens/TELA_CADASTRO_PET2';
 import TelaPet from './src/views/screens/TELA_PET';
 import TelaVacinacao from './src/views/screens/TELA_VACINACAO';
 import TelaSaude from './src/views/screens/TELA_SAUDE';
+import TelaDiario from './src/views/screens/TELA_DIARIO';
+import TelaEditarNota from './src/views/screens/TELA_EDITAR_NOTA';
+import TelaRemedio from './src/views/screens/TELA_REMEDIO'
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PetProvider } from "./src/contextos/PetContext";
+import { Icon } from 'react-native-elements';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements'; 
-import TelaDiario from './src/views/screens/TELA_DIARIO';
-import TelaEditarNota from './src/views/screens/TELA_EDITAR_NOTA';
+
 
 export type AppRootParamList = {
   TelaEntrar: undefined;
@@ -33,7 +37,6 @@ export type AppRootParamList = {
   AppMenu: undefined;
   TelaInicio: undefined;
 };
-
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -139,9 +142,10 @@ function App() {
   }, []);
 
   return (
-    <PetProvider> {/* Envolvendo a aplicação com PetProvider */}
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="TelaEntrar">
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PetProvider> {/* Envolvendo a aplicação com PetProvider */}
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="TelaEntrar">
 
           {/* Telas de autenticação que não devem exibir o Menu Global */}
           <Stack.Screen name="TelaEntrar" component={TelaEntrar} options={{ headerShown: false }} />
@@ -157,14 +161,16 @@ function App() {
           component={TelaEditarNota}
           options={{ title: 'Tela Editar Nota' }}
         />
+        <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar' }} />
           {/* <Stack.Screen name='TelaInicio' component={TelaInicio} options={{ headerShown: false }} /> */}
 
-          {/* Menu Global com as abas principais */}
-          <Stack.Screen name="AppMenu" component={AppMenu} options={{ headerShown: false }} />
+            {/* Menu Global com as abas principais */}
+            <Stack.Screen name="AppMenu" component={AppMenu} options={{ headerShown: false }} />
 
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PetProvider>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PetProvider>
+    </GestureHandlerRootView>
   );
 }
 

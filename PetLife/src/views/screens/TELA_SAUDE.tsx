@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, Linking, Dimensions, ImageBackground } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Linking, Dimensions, ImageBackground, Alert } from 'react-native';
 import { styles } from '../../../styles';
 import { auth } from '../../../firebaseService';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -11,6 +11,7 @@ export type RootStackParamList = {
     TelaInicio: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
     TelaPet: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
     AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
+    TelaRemedio: { pet?: { petId: string } };
 };
 
 interface Pet {
@@ -65,7 +66,15 @@ export default function TelaSaude({ pet }: TelaSaudeProps) {
 
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigator.navigate('TelaPet')} // Navegar para a tela de Remédios
+                    onPress={() => {
+                        const pet = {
+                            nome: 'Nome do Pet',
+                            imagemUrl: 'URL da Imagem',
+                            userUID: 'UID do Usuário',
+                            petId: 'ID do Pet',
+                        };
+                        navigator.navigate('TelaRemedio', { pet }); // Passa o objeto completo
+                    }}
                 >
                     <Image source={require('../../../assets/remedios.png')} style={styles.buttonImage} />
                 </TouchableOpacity>
