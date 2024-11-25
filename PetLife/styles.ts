@@ -988,6 +988,45 @@ selectedDaysText: {
     fontSize: 16,
     color: '#333',
 },
+modalContainer: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+},
+modalContentConsultas: {
+  backgroundColor: 'white',
+  padding: 20,
+  borderRadius: 10,
+  width: '80%',
+},
+modalTitleConsultas: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  marginBottom: 10,
+},
+inputConsultas: {
+  borderWidth: 1,
+  borderColor: '#ccc',
+  padding: 10,
+  borderRadius: 5,
+  marginVertical: 10,
+},
+modalButtons: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginTop: 10,
+},
+confirmButton: {
+  backgroundColor: '#007bff',
+  padding: 10,
+  borderRadius: 5,
+  marginTop: 20,
+},
+confirmButtonText: {
+  color: 'white',
+  textAlign: 'center',
+},
 
   // --------------------------------------------------------------------------------- IMPORTANTE
   separatorTelaFora: {

@@ -1,10 +1,8 @@
-import React, { useEffect, useState} from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, Linking, Dimensions, ImageBackground, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, Modal, Alert, TextInput, Button } from 'react-native';
 import { styles } from '../../../styles';
-import { auth } from '../../../firebaseService';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import CustomCarousel from '../../global/carousel';
-import { useNavigation } from '@react-navigation/native';
+import { auth, firestore } from '../../../firebaseService';
+import { collection, addDoc } from 'firebase/firestore';
 
 export type RootStackParamList = {
     TelaSaude: { pet: { petId: string } } | undefined;
@@ -32,6 +30,9 @@ export default function TelaConsultas({ pet }: TelaConsultasProps) {
     const [diasDoMes, setDiasDoMes] = useState<number[]>([]);
     const [diaHoje, setDiaHoje] = useState<number>(new Date().getDate());
     const [diasSelecionados, setDiasSelecionados] = useState<number[]>([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [horario, setHorario] = useState('');
+    const [observacoes, setObservacoes] = useState('');
 
     useEffect(() => {
         const dataAtual = new Date();
@@ -43,16 +44,61 @@ export default function TelaConsultas({ pet }: TelaConsultasProps) {
         setMesAtual(nomeMeses[dataAtual.getMonth()]);
         setAnoAtual(dataAtual.getFullYear());
 
-        // Calcular os dias do mês atual
+        // Calcula os dias do mês atual
         const ultimoDia = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + 1, 0).getDate();
         setDiasDoMes(Array.from({ length: ultimoDia }, (_, i) => i + 1));
     }, []);
 
-    const handleDiaPress = (dia: number) => {
-        if (diasSelecionados.includes(dia)) {
-            setDiasSelecionados(diasSelecionados.filter(d => d !== dia));
+    const handleConfirmarDias = () => {
+        if (diasSelecionados.length > 0) {
+            setModalVisible(true);
         } else {
-            setDiasSelecionados([...diasSelecionados, dia]);
+            Alert.alert('Aviso', 'Por favor, selecione pelo menos um dia!');
+        }
+    };
+
+    const handleDiaPress = (dia: number) => {
+        // Atualiza corretamente o estado dos dias selecionados
+        setDiasSelecionados(prevDias => {
+            const newDias = prevDias.includes(dia)
+                ? prevDias.filter(d => d !== dia) 
+                : [...prevDias, dia];
+            
+            // Debug para verificar o estado após a atualização
+            console.log('Dias selecionados atualizados:', newDias);
+            return newDias;
+        });
+    };
+
+    const handleSalvarNoFirebase = async () => {
+        if (!pet) {
+            Alert.alert('Erro', 'Nenhum pet selecionado.');
+            return;
+        }
+
+        try {
+            await addDoc(collection(firestore, 'consultas'), {
+                petId: pet.petId,
+                userUID: auth.currentUser?.uid,
+                diasSelecionados,
+                horario,
+                observacoes,
+                createdAt: new Date(),
+            });
+
+            Alert.alert('Sucesso', 'Consulta salva com sucesso!');
+            setModalVisible(false);
+            setDiasSelecionados([]);
+            setHorario('');
+            setObservacoes('');
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error('Erro ao salvar no Firebase:', error.message);
+                Alert.alert('Erro', 'Não foi possível salvar os dados.');
+            } else {
+                console.error('Erro desconhecido:', error);
+                Alert.alert('Erro', 'Ocorreu um erro inesperado.');
+            }
         }
     };
 
@@ -82,7 +128,6 @@ export default function TelaConsultas({ pet }: TelaConsultasProps) {
         );
     };
 
-
     return (
         <View style={styles.container}>
             {/* Cabeçalho */}
@@ -93,7 +138,6 @@ export default function TelaConsultas({ pet }: TelaConsultasProps) {
             </View>
             {/* Separador */}
             <View style={styles.separator} />
-
 
             {/* Calendário */}
             <View style={styles.calendarContainer}>
@@ -108,11 +152,46 @@ export default function TelaConsultas({ pet }: TelaConsultasProps) {
                 </View>
             </View>
 
-            {/* Notificações */}
-            <View style={styles.notificationsContainer}>
-                <Text style={styles.notificationsText}>Notificações ativadas ✅</Text>
-                <Text style={styles.selectedDaysText}>Dia: {diasSelecionados.join(' e ')}</Text>
-            </View>
+            {/* Botão para confirmar dias */}
+            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmarDias}>
+                <Text style={styles.confirmButtonText}>Confirmar Dias</Text>
+            </TouchableOpacity>
+
+            {/* Modal */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContentConsultas}>
+                        <Text style={styles.modalTitleConsultas}>Confirme os detalhes</Text>
+                        
+                        <Text>Horário:</Text>
+                        <TextInput
+                            style={styles.inputConsultas}
+                            placeholder="Ex: 14:00"
+                            value={horario}
+                            onChangeText={setHorario}
+                        />
+
+                        <Text>Observações:</Text>
+                        <TextInput
+                            style={[styles.input, { height: 100 }]}
+                            placeholder="Ex: Consulta de rotina"
+                            value={observacoes}
+                            onChangeText={setObservacoes}
+                            multiline
+                        />
+
+                        <View style={styles.modalButtons}>
+                            <Button title="Cancelar" onPress={() => setModalVisible(false)} />
+                            <Button title="Salvar" onPress={handleSalvarNoFirebase} />
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }

@@ -83,8 +83,8 @@ export default function TelaInicio({ pet }: TelaInicioProps) {
       <View style={{ marginTop: 180 }}>
         <CustomCarousel />
       </View>
-      <TouchableOpacity onPress={OpenMapsButton} style={{ position: 'absolute', bottom: 60 }}>
-        <View style={{ width: width * 0.9, height: 400, borderRadius: 10, overflow: 'hidden' }}>
+      <TouchableOpacity onPress={OpenMapsButton} style={{ position: 'absolute', bottom: 120 }}>
+        <View style={{ width: width * 0.9, height: 200, borderRadius: 10, overflow: 'hidden' }}>
           <ImageBackground
             source={require('../../../assets/pertoDeVoce.png')}
             style={{ width: '100%', height: '100%' }}
