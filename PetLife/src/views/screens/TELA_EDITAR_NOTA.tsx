@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, TextInput, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { firestore } from '../../../firebaseService';
 import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-type Notas = { id: string; title: string; content: string };
+type Note = { id: string; title: string; content: string };
 
 type RootStackParamList = {
-    TelaDiario: { pet: { petId: string; name?: string }; newNote?: Notas } | undefined;
+    TelaDiario: { pet: { petId: string; name?: string }; newNote?: Note } | undefined;
     AppMenu: undefined;
     TelaEditarNota: { petId: string; noteId?: string } | undefined;
 };
@@ -20,8 +20,8 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
     const [content, setContent] = useState('');
     const [userUid, setUserUid] = useState<string | null>(null);
 
-    const petId = route.params?.petId;
-    const noteId = route.params?.noteId;
+    const petId = route.params?.petId; // Recebe o petId
+    const noteId = route.params?.noteId; // Recebe o noteId (se estiver editando)
 
     useEffect(() => {
         const auth = getAuth();
@@ -34,8 +34,8 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             }
         });
 
-        return unsubscribe;
-    }, []);
+        return unsubscribe; // Remove listener ao desmontar
+    }, [navigation]);
 
     useEffect(() => {
         if (noteId && userUid && petId) {
@@ -60,7 +60,7 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
 
             loadNote();
         }
-    }, [noteId, petId, userUid]);
+    }, [noteId, petId, userUid, navigation]);
 
     const handleSave = async () => {
         if (!title.trim() || !content.trim()) {
@@ -68,22 +68,26 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             return;
         }
 
-        if (!petId) {
-            Alert.alert('Erro', 'Pet não selecionado.');
+        if (!petId || !userUid) {
+            Alert.alert('Erro', 'Dados do pet ou do usuário ausentes.');
             return;
         }
 
-        const newNoteId = noteId || Date.now().toString();
-        const newNote: Notas = { id: newNoteId, title, content };
+        const newNote: Note = {
+            id: noteId || Date.now().toString(),
+            title: title.trim(),
+            content: content.trim(),
+        };
 
         try {
-            const noteRef = doc(firestore, `pets/${petId}/notes`, newNoteId);
-            const noteData: any = {
+            const noteRef = doc(firestore, `pets/${petId}/notes/${newNote.id}`);
+
+            const noteData: Record<string, any> = {
                 id: newNote.id,
-                title: newNote.title.trim(),
-                content: newNote.content.trim(),
+                title: newNote.title,
+                content: newNote.content,
                 userUID: userUid,
-                petId: petId,
+                petId,
             };
 
             if (!noteId) {
@@ -93,13 +97,10 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             await setDoc(noteRef, noteData, { merge: true });
 
             Alert.alert('Sucesso', 'Nota salva com sucesso!');
-            navigation.navigate('TelaDiario', {
-                pet: { petId },
-                newNote,
-            });
+            navigation.navigate('TelaDiario', { pet: { petId }, newNote });
         } catch (error) {
             console.error('Erro ao salvar a nota:', error);
-            Alert.alert('Erro', 'Não foi possível salvar a nota. Por favor, tente novamente.');
+            Alert.alert('Erro', 'Não foi possível salvar a nota. Tente novamente.');
         }
     };
 
@@ -110,36 +111,29 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
         }
 
         if (!petId) {
-            Alert.alert('Erro', 'Pet não selecionado.');
+            Alert.alert('Erro', 'Pet não encontrado.');
             return;
         }
 
         try {
-            const noteRef = doc(firestore, `pets/${petId}/notes`, noteId);
+            const noteRef = doc(firestore, `pets/${petId}/notes/${noteId}`);
             await deleteDoc(noteRef);
 
             Alert.alert('Sucesso', 'Nota excluída com sucesso!');
             navigation.goBack();
         } catch (error) {
             console.error('Erro ao excluir a nota:', error);
-            Alert.alert('Erro', 'Não foi possível excluir a nota. Por favor, tente novamente.');
+            Alert.alert('Erro', 'Não foi possível excluir a nota. Tente novamente.');
         }
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        >
+        <View style={styles.container}>
             <TextInput
-                style={styles.input}
+                style={[styles.input, styles.largeInput]}
                 placeholder="Título"
                 value={title}
                 onChangeText={setTitle}
-                returnKeyType="next"
-                onSubmitEditing={() => {
-                    // Implementa navegação para o próximo campo, se necessário
-                }}
             />
             <TextInput
                 style={[styles.input, styles.textarea]}
@@ -148,20 +142,21 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
                 onChangeText={setContent}
                 multiline
             />
-            <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleSave}>
+            <TouchableOpacity style={[styles.button, styles.largeButton]} onPress={handleSave}>
                 <Text style={styles.buttonText}>Salvar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.deleteButton} activeOpacity={0.8} onPress={handleDelete}>
-                <Text style={styles.deleteButtonText}>Excluir</Text>
-            </TouchableOpacity>
-        </KeyboardAvoidingView>
+            {noteId && (
+                <TouchableOpacity style={[styles.deleteButton, styles.largeButton]} onPress={handleDelete}>
+                    <Text style={styles.deleteButtonText}>Excluir</Text>
+                </TouchableOpacity>
+            )}
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         padding: 16,
         backgroundColor: '#f9dcc4',
     },
@@ -174,11 +169,13 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         fontSize: 16,
         color: '#5a4035',
-        height: 80,
-        textAlignVertical: 'top',
+    },
+    largeInput: {
+        height: 100,
+        fontSize: 18,
     },
     textarea: {
-        height: 120,
+        height: 150,
         textAlignVertical: 'top',
     },
     button: {
@@ -187,24 +184,27 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         alignItems: 'center',
         marginBottom: 12,
-        elevation: 4,
+    },
+    largeButton: {
+        paddingVertical: 20,
     },
     buttonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 50,
         fontWeight: 'bold',
     },
     deleteButton: {
         backgroundColor: '#d35445',
-        padding: 12,
         borderRadius: 25,
         alignItems: 'center',
     },
     deleteButtonText: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold',
     },
 });
 
 export default TelaEditarNota;
+
+

@@ -1,4 +1,4 @@
-export interface Remedios {
+export interface Remedio {
      nome: string;
      horario: string;
      frequencia: string;

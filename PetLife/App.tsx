@@ -14,6 +14,7 @@ import TelaSaude from './src/views/screens/TELA_SAUDE';
 import TelaDiario from './src/views/screens/TELA_DIARIO';
 import TelaEditarNota from './src/views/screens/TELA_EDITAR_NOTA';
 import TelaRemedio from './src/views/screens/TELA_REMEDIO'
+import TelaConsultas from './src/views/screens/TELA_CONSULTAS';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -180,6 +181,17 @@ function AppMenu({ route }) {
       >
         {() => <TelaDiario pet={pet} />}
       </Tab.Screen>
+
+      {/* Tela Remédio - não visível no menu */}
+      <Tab.Screen
+        name="TelaRemedio"
+        options={{
+          headerShown: false,
+          tabBarButton: () => null, // Remove o botão da barra de navegação
+        }}
+      >
+        {() => <TelaRemedio pet={pet} />}
+      </Tab.Screen>
     </Tab.Navigator >
   );
 }
@@ -205,7 +217,9 @@ function App() {
             <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
             <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
             <Stack.Screen name="TelaEditarNota" component={TelaEditarNota} options={{ title: 'Voltar' }} />
-            <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar' }} />
+            <Stack.Screen name="TelaDiario" component={TelaDiario} options={{ title: 'Voltar' }} />
+            {/* <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar' }} /> */}
+            <Stack.Screen name="TelaConsultas" component={TelaConsultas} options={{ title: 'Voltar' }} />
             {/* <Stack.Screen name='TelaInicio' component={TelaInicio} options={{ headerShown: false }} /> */}
 
             {/* Menu Global com as abas principais */}
