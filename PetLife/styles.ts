@@ -504,22 +504,27 @@ export const styles = StyleSheet.create({
   
 // Tela Diario
 
-logoDiario: {
-  width: '30%',
-  height: 300,
-  aspectRatio: 1, // Mantém a proporção da imagem
-  marginBottom: -30,
-  left: 10,
+headerContainerDiario: {
+  flexDirection: 'row', // Alinha os itens na horizontal
+  alignItems: 'center', // Alinha os itens no centro verticalmente
+  justifyContent: 'space-between', // Espaço entre os elementos
+  padding: 10, // Espaçamento interno
 },
+
+logoDiario: {
+    width: '40%',
+    height: 450,
+    aspectRatio: 1, // Mantém a proporção da imagem
+    marginBottom: 10,
+    left: -10,
+    marginTop: 30,
+  },
 titleDiario: {
-  fontSize: 60,
-  marginBottom: 30,
-  fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
-  fontFamily: themas.fonts.fontLetras2,
-  color: themas.colors.black,
-  textAlign: 'center', // Centraliza o texto dentro do círculo
-  marginTop: 40,
-  left: 10,
+  fontSize: 24, // Tamanho adequado para o título
+  fontWeight: 'bold', // Deixe o texto em negrito para maior visibilidade
+  color: '#000', // Certifique-se de que a cor não se mistura com o fundo
+  textAlign: 'center', // Centraliza o texto
+  marginHorizontal: 10, // Adiciona espaçamento lateral, se necessário
 },
 pawDiarioIcon: {
   width: 45,
@@ -573,11 +578,8 @@ fixedHeader: {
   left: 0,
   right: 0,
   zIndex: 10,
-  backgroundColor: '#fff',
-},
-
-  },  
-
+  backgroundColor: themas.colors.background,
+},  
   // Tela Saude
   headerContainerSaude: {
     alignItems: 'center',

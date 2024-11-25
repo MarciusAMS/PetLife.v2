@@ -152,60 +152,6 @@ export default function TelaRemedio() {
         }
     };
 
-    // const enviarArquivo = async () => {
-
-    //     if (!documentUri) {
-    //         Alert.alert("Nenhum arquivo selecionado", "Por favor, escolha um arquivo antes de enviar.");
-    //         console.log('Documento:', documentUri);
-    //         return;
-    //     }
-
-    //     if (!user) {
-    //         Alert.alert("Erro", "Usuário não autenticado.");
-    //         return;
-    //     }
-
-    //     setLoading(true); // Ativar um indicador de carregamento
-    //     const storage = getStorage();
-
-    //     try {
-    //         const fileRef = ref(storage, `documentos_vacina/${fileName}`);
-    //         const response = await fetch(documentUri);
-    //         const blob = await response.blob();
-
-    //         // Upload do arquivo
-    //         await uploadBytes(fileRef, blob);
-    //         const downloadURL = await getDownloadURL(fileRef);
-
-    //         // Salvar o registro no Firestore
-    //         if (user && pet) {
-    //             await addDoc(collection(db, "registrosVacina"), {
-    //                 nome: fileName,
-    //                 data: new Date().toISOString(),
-    //                 userUID: user.uid,
-    //                 fileURL: downloadURL,
-    //                 petId: pet.petId,  // Adicionando o petId ao documento
-    //             });
-
-    //             await fetchRegistros();
-
-    //             Alert.alert("Sucesso", "Arquivo enviado e salvo com sucesso!");
-    //             setFileName("Nenhum arquivo escolhido");
-    //             setDocumentUri(null);
-    //             setModalVisible(false);
-    //         } else {
-    //             Alert.alert("Erro", "Usuário não autenticado.");
-    //         }
-    //     } catch (error) {
-    //         console.error("Erro ao enviar arquivo:", error);
-    //         console.log("user:", user?.uid);
-    //         console.log("URI do documento:", documentUri);
-    //         Alert.alert("Erro", "Não foi possível enviar o arquivo.");
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
     const fetchRegistros = async () => {
         if (!user) {
             Alert.alert("Erro", "Usuário não autenticado ou Pet não selecionado.");

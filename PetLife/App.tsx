@@ -20,23 +20,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PetProvider } from "./src/contextos/PetContext";
 import { Icon } from 'react-native-elements';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Icon } from 'react-native-elements'; 
 
-
-export type AppRootParamList = {
-  TelaEntrar: undefined;
-  TelaLogin: undefined;
-  TelaCadastro: undefined;
-  TelaCadastroPet: undefined;
-  TelaCadastroPet2: undefined;
-  telaEsqueciSenha: undefined;
-  TelaPet: undefined;
-  TelaVacinacao: undefined;
-  TelaDiario: undefined;
-  TelaEditarNota: { noteId?: string; noteContent?: string };
-  AppMenu: undefined;
-  TelaInicio: undefined;
-};
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -108,30 +92,21 @@ function AppMenu({ route }) {
       >
         {() => <TelaVacinacao pet={pet} />}
       </Tab.Screen>
+
+      {/* Tela Anotação */}
+      <Tab.Screen
+        name="TelaDiario"
+        options={{
+          headerShown: false,
+          tabBarLabel: 'diário',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="diary" color={color} size={36} />
+          ),
+        }}
+      >
+        {() => <TelaDiario pet={pet} />}
+      </Tab.Screen>
     </Tab.Navigator >
-  );
-}
-
-// export type AppRootParamList = {
-//   TelaEntrar: undefined;
-//   TelaLogin: undefined;
-//   TelaCadastro: undefined;
-//   TelaCadastroPet: undefined;
-//   TelaCadastroPet2: undefined;
-//   telaEsqueciSenha: undefined;
-//   TelaPet: undefined;
-//   TelaVacinacao: string | undefined;
-// };
-
-const Stack = createNativeStackNavigator<AppRootParamList>(); // Declaração correta do tipo
-const Tab = createBottomTabNavigator();
-
-function AppMenu() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="TelaInicio" component={TelaInicio} options={{ title: 'Tela Inicial' }} />
-      <Tab.Screen name="TelaVacinacao" component={TelaVacinacao} options={{ headerShown: false }} />
-    </Tab.Navigator>
   );
 }
 
@@ -147,22 +122,17 @@ function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="TelaEntrar">
 
-          {/* Telas de autenticação que não devem exibir o Menu Global */}
-          <Stack.Screen name="TelaEntrar" component={TelaEntrar} options={{ headerShown: false }} />
-          <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ title: 'Login' }} />
-          <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
-          <Stack.Screen name="TelaCadastroPet" component={TelaCadastroPet} options={{ title: 'Cadastro do pet' }} />
-          <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
-          <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
-          <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
-          <Stack.Screen name="TelaDiario" component={TelaDiario} options={{ title: 'Tela Diário' }} />
-        <Stack.Screen
-          name="TelaEditarNota"
-          component={TelaEditarNota}
-          options={{ title: 'Tela Editar Nota' }}
-        />
-        <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar' }} />
-          {/* <Stack.Screen name='TelaInicio' component={TelaInicio} options={{ headerShown: false }} /> */}
+            {/* Telas de autenticação que não devem exibir o Menu Global */}
+            <Stack.Screen name="TelaEntrar" component={TelaEntrar} options={{ headerShown: false }} />
+            <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ title: 'Login' }} />
+            <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
+            <Stack.Screen name="TelaCadastroPet" component={TelaCadastroPet} options={{ title: 'Cadastro do pet' }} />
+            <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
+            <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
+            <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
+            <Stack.Screen name="TelaEditarNota" component={TelaEditarNota} options={{ title: 'Voltar' }} />
+            <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar' }} />
+            {/* <Stack.Screen name='TelaInicio' component={TelaInicio} options={{ headerShown: false }} /> */}
 
             {/* Menu Global com as abas principais */}
             <Stack.Screen name="AppMenu" component={AppMenu} options={{ headerShown: false }} />

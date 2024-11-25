@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { firestore } from '../../../firebaseService';
 import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-type Note = { id: string; title: string; content: string };
+type Notas = { id: string; title: string; content: string };
 
 type RootStackParamList = {
-    TelaDiario: { pet: { petId: string; name?: string }; newNote?: Note } | undefined;
+    TelaDiario: { pet: { petId: string; name?: string }; newNote?: Notas } | undefined;
     AppMenu: undefined;
     TelaEditarNota: { petId: string; noteId?: string } | undefined;
 };
@@ -20,8 +20,8 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
     const [content, setContent] = useState('');
     const [userUid, setUserUid] = useState<string | null>(null);
 
-    const petId = route.params?.petId; // Recebe o petId
-    const noteId = route.params?.noteId; // Recebe o noteId (se estiver editando)
+    const petId = route.params?.petId;
+    const noteId = route.params?.noteId;
 
     useEffect(() => {
         const auth = getAuth();
@@ -34,7 +34,7 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             }
         });
 
-        return unsubscribe; // Remove listener ao desmontar
+        return unsubscribe;
     }, []);
 
     useEffect(() => {
@@ -73,21 +73,19 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             return;
         }
 
-        const newNote: Note = { id: noteId || Date.now().toString(), title, content };
+        const newNoteId = noteId || Date.now().toString();
+        const newNote: Notas = { id: newNoteId, title, content };
 
         try {
-            const noteRef = doc(firestore, `pets/${petId}/notes/${newNote.id}`);
-
-            // Montar o objeto de dados, excluindo campos com valores inválidos
+            const noteRef = doc(firestore, `pets/${petId}/notes`, newNoteId);
             const noteData: any = {
                 id: newNote.id,
-                title: newNote.title,
-                content: newNote.content,
+                title: newNote.title.trim(),
+                content: newNote.content.trim(),
                 userUID: userUid,
                 petId: petId,
             };
 
-            // Adicionar `createdAt` apenas se for uma nova nota
             if (!noteId) {
                 noteData.createdAt = new Date().toISOString();
             }
@@ -101,36 +99,47 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             });
         } catch (error) {
             console.error('Erro ao salvar a nota:', error);
-            Alert.alert('Erro', 'Não foi possível salvar a nota. Tente novamente.');
+            Alert.alert('Erro', 'Não foi possível salvar a nota. Por favor, tente novamente.');
         }
     };
 
-    // Função para excluir a nota
     const handleDelete = async () => {
-        if (!noteId || !petId) {
+        if (!noteId) {
             Alert.alert('Erro', 'Nota não encontrada para exclusão.');
             return;
         }
 
+        if (!petId) {
+            Alert.alert('Erro', 'Pet não selecionado.');
+            return;
+        }
+
         try {
-            const noteRef = doc(firestore, `pets/${petId}/notes/${noteId}`);
+            const noteRef = doc(firestore, `pets/${petId}/notes`, noteId);
             await deleteDoc(noteRef);
 
             Alert.alert('Sucesso', 'Nota excluída com sucesso!');
-            navigation.goBack(); // Volta para a tela anterior
+            navigation.goBack();
         } catch (error) {
             console.error('Erro ao excluir a nota:', error);
-            Alert.alert('Erro', 'Não foi possível excluir a nota. Tente novamente.');
+            Alert.alert('Erro', 'Não foi possível excluir a nota. Por favor, tente novamente.');
         }
     };
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
             <TextInput
                 style={styles.input}
                 placeholder="Título"
                 value={title}
                 onChangeText={setTitle}
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                    // Implementa navegação para o próximo campo, se necessário
+                }}
             />
             <TextInput
                 style={[styles.input, styles.textarea]}
@@ -139,61 +148,60 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
                 onChangeText={setContent}
                 multiline
             />
-            <TouchableOpacity style={styles.button} onPress={handleSave}>
-    <Text style={styles.buttonText}>Salvar</Text>
-</TouchableOpacity>
-<TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-    <Text style={styles.deleteButtonText}>Excluir</Text>
-</TouchableOpacity>
-        </View>
+            <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleSave}>
+                <Text style={styles.buttonText}>Salvar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.deleteButton} activeOpacity={0.8} onPress={handleDelete}>
+                <Text style={styles.deleteButtonText}>Excluir</Text>
+            </TouchableOpacity>
+        </KeyboardAvoidingView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
         padding: 16,
-        backgroundColor: '#f9dcc4', // Fundo pêssego claro
+        backgroundColor: '#f9dcc4',
     },
     input: {
         borderWidth: 1,
-        borderColor: '#8a4f37', // Marrom escuro para as bordas
-        backgroundColor: '#fef6ec', // Fundo bege claro
+        borderColor: '#8a4f37',
+        backgroundColor: '#fef6ec',
         padding: 12,
         marginBottom: 12,
         borderRadius: 8,
         fontSize: 16,
-        color: '#5a4035', // Texto em marrom escuro
+        color: '#5a4035',
+        height: 80,
+        textAlignVertical: 'top',
     },
     textarea: {
         height: 120,
         textAlignVertical: 'top',
     },
     button: {
-        backgroundColor: '#f39c63', // Laranja pastel para os botões
+        backgroundColor: '#f39c63',
         padding: 12,
-        borderRadius: 25, // Bordas arredondadas, semelhante ao botão na imagem
+        borderRadius: 25,
         alignItems: 'center',
         marginBottom: 12,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
         elevation: 4,
     },
     buttonText: {
-        color: '#fff', // Texto branco para contraste
+        color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
     },
     deleteButton: {
-        backgroundColor: '#d35445', // Vermelho queimado para o botão de exclusão
+        backgroundColor: '#d35445',
         padding: 12,
-        borderRadius: 25, // Bordas arredondadas
+        borderRadius: 25,
         alignItems: 'center',
     },
     deleteButtonText: {
-        color: '#fff', // Texto branco
+        color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
     },
