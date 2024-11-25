@@ -596,7 +596,8 @@ fixedHeader: {
   pawIconSaude: {
     width: 60,
     height: 60,
-    marginLeft: 1,
+    //marginLeft: 1,
+    left: -10,
   },
   titlePetSaude: {
     fontSize: 60,
@@ -690,7 +691,7 @@ fixedHeader: {
     height: undefined, // Permite que a altura seja ajustada pela proporção
     aspectRatio: 1, // Mantém a proporção da imagem
     marginBottom: 10, // Espaçamento inferior
-    marginLeft: 0, // Remove deslocamento lateral
+    marginLeft: -10, // Remove deslocamento lateral
     marginTop: 60, // Remove o deslocamento superior
     alignSelf: 'flex-start', // Alinha ao topo e à esquerda do container
   },
@@ -701,14 +702,14 @@ fixedHeader: {
     fontFamily: themas.fonts.fontLetras2, // Fonte personalizada
     color: themas.colors.black, // Cor do texto
     textAlign: 'left', // Alinha o texto à esquerda
-    marginTop: 60, // Remove o deslocamento superior
+    marginTop: 65, // Remove o deslocamento superior
     marginLeft: 10, // Espaçamento lateral esquerdo para ajustar a posição
   },
   pawIconRemedio: {
     width: 60,
     height: 60,
-    marginLeft: 1,
-    marginTop: 60,
+    top: 30,
+    marginLeft: 10,
   },
   headerContainerRemedio: {
     position: 'absolute',

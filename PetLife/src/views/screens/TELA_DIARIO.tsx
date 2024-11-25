@@ -124,9 +124,9 @@ const TelaDiario: React.FC<TelaDiarioProps> = ({ pet }) => {
     <View style={styles.container}>
 
         <View style={styles.headerContainerDiario}>
-          <Image source={require('../../../assets/diario.png')} style={styles.logoVacina} />
-          <Text style={styles.titlePetSaude}>DIÁRIO</Text>
-          <Image source={require('../../../assets/patas.png')} style={styles.pawIconSaude} />
+          <Image source={require('../../../assets/diario.png')} style={styles.logoPetRemedio} />
+          <Text style={styles.titlePetRemedio}>DIÁRIO</Text>
+          <Image source={require('../../../assets/patas.png')} style={styles.pawIconRemedio} />
         </View>
         <View style={styles.separator} />
 

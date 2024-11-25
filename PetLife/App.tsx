@@ -20,6 +20,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PetProvider } from "./src/contextos/PetContext";
 import { Icon } from 'react-native-elements';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Image, Text } from 'react-native';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -42,23 +44,41 @@ function AppMenu({ route }) {
           fontSize: 20,
           fontFamily: themas.fonts.fontLetras,
           fontWeight: 'bold',
-          color: '#000', // Cor do texto
+          color: '#000',
         },
-        tabBarActiveTintColor: '#000', // Cor para a aba ativa
-        tabBarInactiveTintColor: '#444', // Cor para abas inativas
+        tabBarActiveTintColor: '#000',
+        tabBarInactiveTintColor: '#444',
         tabBarIconStyle: {
-          marginTop: 5, // Ajusta o espaçamento dos ícones
+          marginTop: 5,
         },
       }}
     >
-      {/* Tela Início */}
+      {/* Tela inicio */}
       <Tab.Screen
         name="TelaInicio"
         options={{
           headerShown: false,
-          tabBarLabel: 'inicio',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={36} />
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontSize: 20, // Tamanho do texto
+                fontWeight: focused ? 'bold' : 'normal', // Negrito se selecionado
+                color: focused ? '#000' : '#aaa', // Cor diferente para selecionado e não-selecionado
+              }}
+            >
+              Inicio
+            </Text>
+          ),
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require('./assets/homePet.png')}
+              style={{
+                width: 36,
+                height: 36,
+                tintColor: color, // Aplica a cor baseada no estado (ativo/inativo)
+              }}
+              resizeMode="contain"
+            />
           ),
         }}
       >
@@ -70,9 +90,27 @@ function AppMenu({ route }) {
         name="TelaSaude"
         options={{
           headerShown: false,
-          tabBarLabel: 'saude',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="hospital" color={color} size={36} />
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontSize: 20, // Tamanho do texto
+                fontWeight: focused ? 'bold' : 'normal', // Negrito se selecionado
+                color: focused ? '#000' : '#aaa', // Cor diferente para selecionado e não-selecionado
+              }}
+            >
+              Saúde
+            </Text>
+          ),
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require('./assets/saudePet.png')}
+              style={{
+                width: 36,
+                height: 36,
+                tintColor: color, // Aplica a cor baseada no estado (ativo/inativo)
+              }}
+              resizeMode="contain"
+            />
           ),
         }}
       >
@@ -84,9 +122,27 @@ function AppMenu({ route }) {
         name="TelaVacinacao"
         options={{
           headerShown: false,
-          tabBarLabel: 'vacinação',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="calendar" color={color} size={36} />
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontSize: 20, // Tamanho do texto
+                fontWeight: focused ? 'bold' : 'normal', // Negrito se selecionado
+                color: focused ? '#000' : '#aaa', // Cor diferente para selecionado e não-selecionado
+              }}
+            >
+              Vacinação
+            </Text>
+          ),
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require('./assets/vacinaPet.png')}
+              style={{
+                width: 36,
+                height: 36,
+                tintColor: color, // Aplica a cor baseada no estado (ativo/inativo)
+              }}
+              resizeMode="contain"
+            />
           ),
         }}
       >
@@ -98,9 +154,27 @@ function AppMenu({ route }) {
         name="TelaDiario"
         options={{
           headerShown: false,
-          tabBarLabel: 'diário',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="diary" color={color} size={36} />
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontSize: 20, // Tamanho do texto
+                fontWeight: focused ? 'bold' : 'normal', // Negrito se selecionado
+                color: focused ? '#000' : '#aaa', // Cor diferente para selecionado e não-selecionado
+              }}
+            >
+              Diário
+            </Text>
+          ),
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require('./assets/diarioPet.png')}
+              style={{
+                width: 36,
+                height: 36,
+                tintColor: color, // Aplica a cor baseada no estado (ativo/inativo)
+              }}
+              resizeMode="contain"
+            />
           ),
         }}
       >
