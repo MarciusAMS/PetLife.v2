@@ -14,19 +14,30 @@ import TelaSaude from './src/views/screens/TELA_SAUDE';
 import TelaDiario from './src/views/screens/TELA_DIARIO';
 import TelaEditarNota from './src/views/screens/TELA_EDITAR_NOTA';
 import TelaRemedio from './src/views/screens/TELA_REMEDIO'
-import TelaConsultas from './src/views/screens/TELA_CONSULTAS';
 import { themas } from './src/global/themes';
 import GlobalFont from 'react-native-global-font';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { PetProvider } from "./src/contextos/PetContext";
 import { Icon } from 'react-native-elements';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Image, Text } from 'react-native';
 
 
+export type AppRootParamList = {
+  TelaEntrar: undefined;
+  TelaLogin: undefined;
+  TelaCadastro: undefined;
+  TelaCadastroPet: undefined;
+  TelaCadastroPet2: undefined;
+  telaEsqueciSenha: undefined;
+  TelaPet: undefined;
+  TelaVacinacao: undefined;
+  TelaDiario: undefined;
+  TelaEditarNota: { noteId?: string; noteContent?: string };
+  AppMenu: undefined;
+  TelaInicio: undefined;
+};
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+
 
 function AppMenu({ route }) {
   const { pet } = route.params; // Pegando os parâmetros da navegação para o AppMenu
@@ -45,41 +56,23 @@ function AppMenu({ route }) {
           fontSize: 20,
           fontFamily: themas.fonts.fontLetras,
           fontWeight: 'bold',
-          color: '#000',
+          color: '#000', // Cor do texto
         },
-        tabBarActiveTintColor: '#000',
-        tabBarInactiveTintColor: '#444',
+        tabBarActiveTintColor: '#000', // Cor para a aba ativa
+        tabBarInactiveTintColor: '#444', // Cor para abas inativas
         tabBarIconStyle: {
-          marginTop: 5,
+          marginTop: 5, // Ajusta o espaçamento dos ícones
         },
       }}
     >
-      {/* Tela inicio */}
+      {/* Tela Início */}
       <Tab.Screen
         name="TelaInicio"
         options={{
           headerShown: false,
-          tabBarLabel: ({ focused }) => (
-            <Text
-              style={{
-                fontSize: 20, // Tamanho do texto
-                fontWeight: focused ? 'bold' : 'normal', // Negrito se selecionado
-                color: focused ? '#000' : '#aaa', // Cor diferente para selecionado e não-selecionado
-              }}
-            >
-              Inicio
-            </Text>
-          ),
-          tabBarIcon: ({ color }) => (
-            <Image
-              source={require('./assets/homePet.png')}
-              style={{
-                width: 36,
-                height: 36,
-                tintColor: color, // Aplica a cor baseada no estado (ativo/inativo)
-              }}
-              resizeMode="contain"
-            />
+          tabBarLabel: 'inicio',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" color={color} size={36} />
           ),
         }}
       >
@@ -91,27 +84,9 @@ function AppMenu({ route }) {
         name="TelaSaude"
         options={{
           headerShown: false,
-          tabBarLabel: ({ focused }) => (
-            <Text
-              style={{
-                fontSize: 20, // Tamanho do texto
-                fontWeight: focused ? 'bold' : 'normal', // Negrito se selecionado
-                color: focused ? '#000' : '#aaa', // Cor diferente para selecionado e não-selecionado
-              }}
-            >
-              Saúde
-            </Text>
-          ),
-          tabBarIcon: ({ color }) => (
-            <Image
-              source={require('./assets/saudePet.png')}
-              style={{
-                width: 36,
-                height: 36,
-                tintColor: color, // Aplica a cor baseada no estado (ativo/inativo)
-              }}
-              resizeMode="contain"
-            />
+          tabBarLabel: 'saude',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="hospital" color={color} size={36} />
           ),
         }}
       >
@@ -123,78 +98,32 @@ function AppMenu({ route }) {
         name="TelaVacinacao"
         options={{
           headerShown: false,
-          tabBarLabel: ({ focused }) => (
-            <Text
-              style={{
-                fontSize: 20, // Tamanho do texto
-                fontWeight: focused ? 'bold' : 'normal', // Negrito se selecionado
-                color: focused ? '#000' : '#aaa', // Cor diferente para selecionado e não-selecionado
-              }}
-            >
-              Vacinação
-            </Text>
-          ),
-          tabBarIcon: ({ color }) => (
-            <Image
-              source={require('./assets/vacinaPet.png')}
-              style={{
-                width: 36,
-                height: 36,
-                tintColor: color, // Aplica a cor baseada no estado (ativo/inativo)
-              }}
-              resizeMode="contain"
-            />
+          tabBarLabel: 'vacinação',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="calendar" color={color} size={36} />
           ),
         }}
       >
         {() => <TelaVacinacao pet={pet} />}
       </Tab.Screen>
-
-      {/* Tela Anotação */}
-      <Tab.Screen
-        name="TelaDiario"
-        options={{
-          headerShown: false,
-          tabBarLabel: ({ focused }) => (
-            <Text
-              style={{
-                fontSize: 20, // Tamanho do texto
-                fontWeight: focused ? 'bold' : 'normal', // Negrito se selecionado
-                color: focused ? '#000' : '#aaa', // Cor diferente para selecionado e não-selecionado
-              }}
-            >
-              Diário
-            </Text>
-          ),
-          tabBarIcon: ({ color }) => (
-            <Image
-              source={require('./assets/diarioPet.png')}
-              style={{
-                width: 36,
-                height: 36,
-                tintColor: color, // Aplica a cor baseada no estado (ativo/inativo)
-              }}
-              resizeMode="contain"
-            />
-          ),
-        }}
-      >
-        {() => <TelaDiario pet={pet} />}
-      </Tab.Screen>
-
-      {/* Tela Remédio - não visível no menu */}
-      <Tab.Screen
-        name="TelaRemedio"
-        options={{
-          headerShown: false,
-          tabBarButton: () => null, // Remove o botão da barra de navegação
-        }}
-      >
-        {() => <TelaRemedio pet={pet} />}
-      </Tab.Screen>
     </Tab.Navigator >
   );
 }
+
+// export type AppRootParamList = {
+//   TelaEntrar: undefined;
+//   TelaLogin: undefined;
+//   TelaCadastro: undefined;
+//   TelaCadastroPet: undefined;
+//   TelaCadastroPet2: undefined;
+//   telaEsqueciSenha: undefined;
+//   TelaPet: undefined;
+//   TelaVacinacao: string | undefined;
+// };
+
+const Stack = createNativeStackNavigator<AppRootParamList>(); // Declaração correta do tipo
+const Tab = createBottomTabNavigator();
+
 
 function App() {
   useEffect(() => {
@@ -208,19 +137,22 @@ function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="TelaEntrar">
 
-            {/* Telas de autenticação que não devem exibir o Menu Global */}
-            <Stack.Screen name="TelaEntrar" component={TelaEntrar} options={{ headerShown: false }} />
-            <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ title: 'Login' }} />
-            <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
-            <Stack.Screen name="TelaCadastroPet" component={TelaCadastroPet} options={{ title: 'Cadastro do pet' }} />
-            <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
-            <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
-            <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
-            <Stack.Screen name="TelaEditarNota" component={TelaEditarNota} options={{ title: 'Voltar' }} />
-            <Stack.Screen name="TelaDiario" component={TelaDiario} options={{ title: 'Voltar' }} />
-            {/* <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar' }} /> */}
-            <Stack.Screen name="TelaConsultas" component={TelaConsultas} options={{ title: 'Voltar' }} />
-            {/* <Stack.Screen name='TelaInicio' component={TelaInicio} options={{ headerShown: false }} /> */}
+          {/* Telas de autenticação que não devem exibir o Menu Global */}
+          <Stack.Screen name="TelaEntrar" component={TelaEntrar} options={{ headerShown: false }} />
+          <Stack.Screen name="TelaLogin" component={TelaLogin} options={{ title: 'Login' }} />
+          <Stack.Screen name="TelaCadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
+          <Stack.Screen name="TelaCadastroPet" component={TelaCadastroPet} options={{ title: 'Cadastro do pet' }} />
+          <Stack.Screen name="TelaCadastroPet2" component={TelaCadastroPet2} options={{ title: 'Cadastro do pet' }} />
+          <Stack.Screen name="telaEsqueciSenha" component={TelaEsqueciSenha} options={{ title: 'Esqueci a Senha' }} />
+          <Stack.Screen name="TelaPet" component={TelaPet} options={{ title: 'Pet' }} />
+          <Stack.Screen name="TelaDiario" component={TelaDiario} options={{ title: 'Tela Diário' }} />
+        <Stack.Screen
+          name="TelaEditarNota"
+          component={TelaEditarNota}
+          options={{ title: 'Tela Editar Nota' }}
+        />
+        <Stack.Screen name="TelaRemedio" component={TelaRemedio} options={{ title: 'Voltar' }} />
+          {/* <Stack.Screen name='TelaInicio' component={TelaInicio} options={{ headerShown: false }} /> */}
 
             {/* Menu Global com as abas principais */}
             <Stack.Screen name="AppMenu" component={AppMenu} options={{ headerShown: false }} />
