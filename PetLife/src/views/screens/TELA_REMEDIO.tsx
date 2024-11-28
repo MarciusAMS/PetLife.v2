@@ -1,17 +1,18 @@
 import { useEffect, useState, useCallback } from 'react';
 import { View, Text, Image, TouchableOpacity, Dimensions, Alert, Modal, TextInput, FlatList } from 'react-native';
 import { styles } from '../../../styles';
-import { auth } from '../../../firebaseService';
+import { auth, firestore } from '../../../firebaseService';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation, useRoute, RouteProp, useFocusEffect } from '@react-navigation/native';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getFirestore, collection, query, where, getDocs, addDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { Remedios } from '../../models/Remedio';
+import { getFirestore, collection, query, where, getDocs, addDoc, doc, deleteDoc, updateDoc, Firestore } from "firebase/firestore";
+import { Remedio } from '../../models/Remedio';
 import { ScrollView } from 'react-native-gesture-handler';
 import { TextInputMask } from 'react-native-masked-text';
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 
 export type RootStackParamList = {
-    TelaRemedio: { pet: Pet };
+    TelaRemedio: { pet?: Pet };
     TelaSaude: { pet: { petId: string } } | undefined;
     TelaPet: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
     AppMenu: { pet: { nome: string; imagemUrl: string; petId: string } } | undefined;
@@ -31,13 +32,17 @@ interface Alarme {
     frequencia: string;
 }
 
-type TelaRemedioProp = RouteProp<RootStackParamList, 'TelaRemedio'>;
+type TelaRemedioProp = {
+    //navigation: NativeStackNavigationProp<RootStackParamList, 'TelaVacinacao'>;
+    pet?: Pet;
+  };
 
-export default function TelaRemedio() {
-    const route = useRoute<TelaRemedioProp>();
-    const pet = route.params?.pet;
+
+export default function TelaRemedio({ pet }: TelaRemedioProp) {
     const navigator = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-    const user = auth.currentUser;
+   // const { pet } = route.params;
+    const petId = pet?.petId;
+    //const user = auth.currentUser;
     // const userId = user?.uid;
     const { width } = Dimensions.get('window');
     const [modalVisible, setModalVisible] = useState(false);
@@ -52,159 +57,51 @@ export default function TelaRemedio() {
     const [listaAlarmes, setListaAlarmes] = useState<Alarme[]>([]);
     const [registroSelecionado, setRegistroSelecionado] = useState<Alarme | null>(null);
     const [modalOpcoesVisible, setModalOpcoesVisible] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
 
 
     useEffect(() => {
-        const carregarRegistros = async () => {
-            setLoading(true);
-            try {
-                const firestore = getFirestore();
-                const querySnapshot = await getDocs(collection(firestore, 'remedios')); // Confirme se o nome da coleção está correto
-
-                // Debug: Verifique o conteúdo do snapshot
-                if (querySnapshot.empty) {
-                    Alert.alert('Aviso', 'Nenhum registro encontrado na coleção.');
-                }
-
-                const registrosList: Alarme[] = querySnapshot.docs.map((doc) => {
-                    const data = doc.data() as Remedios; // Inspeciona os dados retornados
-                    console.log('Documento:', data);
-                    return {
-                        id: doc.id, // ID do documento
-                        nome: data.nome ?? 'Sem Nome',
-                        horario: data.horario ?? 'Sem Horário',
-                        frequencia: data.frequencia ?? 'Sem Frequência',
-                    };
-                });
-
-                setRegistros(registrosList); // Atualiza o estado com os registros
-            } catch (error) {
-                console.error('Erro ao carregar registros:', error);
-                Alert.alert('Erro', 'Não foi possível carregar os registros.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        carregarRegistros();
-    }, []);
-
-    // const handleAdicionarAlarme = () => {
-    //     if (!horario || horario.length < 5) {
-    //         alert('Por favor, insira um horário válido no formato HH:MM.');
-    //         return;
-    //     }
-    //     // Lógica para adicionar o alarme
-    //     console.log('Horário do Alarme:', horario);
-    // };
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+          setUser(currentUser);
+    
+          if (!pet) {
+            Alert.alert("Erro", "Nenhum pet selecionado. Redirecionando...");
+            navigator.navigate('TelaPet');
+          }
+        });
+    
+        return unsubscribe;
+      }, [auth, pet, navigator]);
 
 
     const adicionarAlarme = async () => {
-        if (alarmeNome && horario && frequencia) {
-            try {
-                const firestore = getFirestore();
-                const userUID = auth.currentUser?.uid; // ID do usuário logado
-                const petId = route.params?.pet?.petId; // ID do pet selecionado
-
-                if (!userUID || !petId) {
-                    Alert.alert("Erro", "Não foi possível identificar o usuário ou o pet.");
-                    return;
-                }
-                if (!horario || horario.length < 5) {
-                    alert('Por favor, insira um horário válido no formato HH:MM.');
-                    return;
-                }
-                // Lógica para adicionar o alarme
-                console.log('Horário do Alarme:', horario);
-
-                // Criação do objeto alarme
-                const novoAlarme: Alarme = {
-                    id: "", // O Firestore gerará automaticamente o ID
-                    nome: alarmeNome,
-                    horario,
-                    frequencia,
-                };
-
-                // Enviar para Firestore
-                const docRef = await addDoc(collection(firestore, "remedios"), {
-                    ...novoAlarme,
-                    userUID, // Relaciona o registro ao usuário logado
-                    petId,   // Relaciona o registro ao pet selecionado
-                });
-
-                await fetchRegistros();
-
-                Alert.alert("Sucesso", "Alarme adicionado com sucesso!");
-                setListaAlarmes((prevLista) => [
-                    ...prevLista,
-                    { ...novoAlarme, id: docRef.id }, // Atualiza localmente com o ID do documento
-                ]);
-                setModalVisible(false);
-                setAlarmeNome("");
-                setHorario("");
-                setFrequencia("");
-            } catch (error) {
-                console.error("Erro ao adicionar alarme:", error);
-                Alert.alert("Erro", "Não foi possível adicionar o alarme.");
-            }
-        } else {
+        if (!alarmeNome || !horario || !frequencia) {
             Alert.alert("Atenção", "Preencha todos os campos antes de salvar o alarme.");
+            return;
+        }
+
+        try {
+            const novoAlarme = {
+                nome: alarmeNome,
+                horario,
+                frequencia,
+                userUID: user?.uid,
+                petId: pet?.petId,
+            };
+
+            await addDoc(collection(db, "remedios"), novoAlarme);
+            Alert.alert("Sucesso", "Alarme adicionado com sucesso!");
+            setModalVisible(false);
+            setAlarmeNome('');
+            setHorario('');
+            setFrequencia('');
+            fetchRegistros();
+        } catch (error) {
+            console.error("Erro ao adicionar alarme:", error);
+            Alert.alert("Erro", "Não foi possível adicionar o alarme.");
         }
     };
 
-    // const enviarArquivo = async () => {
-
-    //     if (!documentUri) {
-    //         Alert.alert("Nenhum arquivo selecionado", "Por favor, escolha um arquivo antes de enviar.");
-    //         console.log('Documento:', documentUri);
-    //         return;
-    //     }
-
-    //     if (!user) {
-    //         Alert.alert("Erro", "Usuário não autenticado.");
-    //         return;
-    //     }
-
-    //     setLoading(true); // Ativar um indicador de carregamento
-    //     const storage = getStorage();
-
-    //     try {
-    //         const fileRef = ref(storage, `documentos_vacina/${fileName}`);
-    //         const response = await fetch(documentUri);
-    //         const blob = await response.blob();
-
-    //         // Upload do arquivo
-    //         await uploadBytes(fileRef, blob);
-    //         const downloadURL = await getDownloadURL(fileRef);
-
-    //         // Salvar o registro no Firestore
-    //         if (user && pet) {
-    //             await addDoc(collection(db, "registrosVacina"), {
-    //                 nome: fileName,
-    //                 data: new Date().toISOString(),
-    //                 userUID: user.uid,
-    //                 fileURL: downloadURL,
-    //                 petId: pet.petId,  // Adicionando o petId ao documento
-    //             });
-
-    //             await fetchRegistros();
-
-    //             Alert.alert("Sucesso", "Arquivo enviado e salvo com sucesso!");
-    //             setFileName("Nenhum arquivo escolhido");
-    //             setDocumentUri(null);
-    //             setModalVisible(false);
-    //         } else {
-    //             Alert.alert("Erro", "Usuário não autenticado.");
-    //         }
-    //     } catch (error) {
-    //         console.error("Erro ao enviar arquivo:", error);
-    //         console.log("user:", user?.uid);
-    //         console.log("URI do documento:", documentUri);
-    //         Alert.alert("Erro", "Não foi possível enviar o arquivo.");
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
 
     const fetchRegistros = async () => {
         if (!user) {
@@ -212,7 +109,7 @@ export default function TelaRemedio() {
             return;
         }
 
-        if (!pet?.petId) {  // Verifique se o petId está disponível
+        if (!pet?.petId) {
             Alert.alert("Erro", "Pet não selecionado.");
             return;
         }
@@ -220,32 +117,37 @@ export default function TelaRemedio() {
         setLoading(true);
 
         try {
-            // Agora, além do filtro pelo userUID, adicionamos o filtro para o petId
             const q = query(
-                collection(db, "remedios"),
-                where("userUID", "==", user.uid),
-                where("petId", "==", pet.petId)  // Filtra pelo petId
+                collection(db, 'remedios'),
+                where('userUID', '==', user.uid), // Filtra registros pelo usuário logado
+                where('petId', '==', pet.petId)  // Filtra registros pelo pet selecionado
             );
+            Alert.alert('ID pet:', pet.petId)
+            Alert.alert('ID pet:', user.uid)
             const querySnapshot = await getDocs(q);
 
+            if (querySnapshot.empty) {
+                Alert.alert("Nenhum registro", "Você não tem registros de remédios para este pet.");
+            }
+
             const registrosList: Alarme[] = querySnapshot.docs.map((doc) => {
-                const data = doc.data() as Remedios; // Converte explicitamente para Remedios
+                const data = doc.data() as Remedio;
                 return {
-                    id: doc.id, // Inclui o ID do documento
-                    nome: data.nome ?? 'Sem Nome', // Garante que o campo "nome" exista
-                    horario: data.horario ?? 'Sem Horário', // Garante que o campo "horario" exista
-                    frequencia: data.frequencia ?? 'Sem Frequência', // Garante que o campo "frequencia" exista
+                    id: doc.id,
+                    nome: data.nome ?? 'Sem Nome',
+                    horario: data.horario ?? 'Sem Horário',
+                    frequencia: data.frequencia ?? 'Sem Frequência',
                 };
             });
 
             setRegistros(registrosList);
 
-            if (registrosList.length === 0) {
-                Alert.alert("Nenhum registro", "Você não tem registros de remedio para este pet.");
-            }
+            // if (registrosList.length === 0) {
+            //     Alert.alert("Nenhum registro", "Você não tem registros de remédio para este pet.");
+            // }
         } catch (error) {
-            console.error("Erro ao buscar registros de remedio:", error);
-            Alert.alert("Erro", "Erro ao buscar registros de remedio.");
+            console.error("Erro ao buscar registros de remédio:", error);
+            Alert.alert("Erro", "Erro ao buscar registros de remédio.");
         } finally {
             setLoading(false);
         }

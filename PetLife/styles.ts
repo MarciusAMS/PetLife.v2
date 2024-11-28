@@ -501,56 +501,61 @@ export const styles = StyleSheet.create({
     marginBottom: 20, // margem inferior para o botão flutuante
     left: 10,
   },
-  
-// Tela Diario
 
-logoDiario: {
-  width: '30%',
-  height: 300,
-  aspectRatio: 1, // Mantém a proporção da imagem
-  marginBottom: -30,
-  left: 10,
-},
-titleDiario: {
-  fontSize: 60,
-  marginBottom: 30,
-  fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
-  fontFamily: themas.fonts.fontLetras2,
-  color: themas.colors.black,
-  textAlign: 'center', // Centraliza o texto dentro do círculo
-  marginTop: 40,
-  left: 10,
-},
-pawDiarioIcon: {
-  width: 45,
-  height: 45,
-  marginLeft: 10,
-},
-notesContainer: {
+  // Tela Diario
+
+  headerContainerDiario: {
+    flexDirection: 'row', // Alinha os itens na horizontal
+    alignItems: 'center', // Alinha os itens no centro verticalmente
+    justifyContent: 'space-between', // Espaço entre os elementos
+    padding: 10, // Espaçamento interno
+  },
+
+  logoDiario: {
+    width: '40%',
+    height: 450,
+    aspectRatio: 1, // Mantém a proporção da imagem
+    marginBottom: 10,
+    left: -10,
+    marginTop: 30,
+  },
+  titleDiario: {
+    fontSize: 24, // Tamanho adequado para o título
+    fontWeight: 'bold', // Deixe o texto em negrito para maior visibilidade
+    color: '#000', // Certifique-se de que a cor não se mistura com o fundo
+    textAlign: 'center', // Centraliza o texto
+    marginHorizontal: 10, // Adiciona espaçamento lateral, se necessário
+  },
+  pawDiarioIcon: {
+    width: 45,
+    height: 45,
+    marginLeft: 10,
+  },
+  notesContainer: {
     paddingHorizontal: 10,
     paddingTop: '40%',
-},
-note: {
-  flexBasis: '48%', // Cada item ocupa ~48% do espaço horizontal (ajuste para o layout)
-  margin: '1%', // Espaço entre os itens
-  height: 150,
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 10,
-},
-noteImage: {
-  width: '100%',
-  height: '50%',
-  aspectRatio: 1, // Mantém proporção 1:1
-  resizeMode: 'contain',
-},
-noteText: {
-  fontSize: 16,
-  color: '#4a3f35',
-  marginTop: 5,
-},
-addDiarioButton: {
-  position: 'absolute',
+  },
+  note: {
+    flexBasis: '48%', // Cada item ocupa ~48% do espaço horizontal (ajuste para o layout)
+    margin: '1%', // Espaço entre os itens
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  noteImage: {
+    width: '100%',
+    height: '50%',
+    aspectRatio: 1, // Mantém proporção 1:1
+    resizeMode: 'contain',
+  },
+  noteText: {
+    fontSize: 16,
+    color: '#4a3f35',
+    marginTop: 5,
+  },
+  addDiarioButton: {
+    position: 'absolute',
     bottom: 20,
     right: 20, // Ajuste para posicioná-lo no canto inferior
     backgroundColor: '#f08a5d',
@@ -561,23 +566,20 @@ addDiarioButton: {
     justifyContent: 'center',
     elevation: 20, // Para destacar o botão
     zIndex: 40, // Garante que o botão esteja acima do FlatList
-},
-addDiarioButtonText: {
-  fontSize: 30,
-  color: '#fff',
-  fontWeight: 'bold',
-},
-fixedHeader: {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: 10,
-  backgroundColor: '#fff',
-},
-
-  },  
-
+  },
+  addDiarioButtonText: {
+    fontSize: 30,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  fixedHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    backgroundColor: themas.colors.background,
+  },
   // Tela Saude
   headerContainerSaude: {
     alignItems: 'center',
@@ -594,7 +596,8 @@ fixedHeader: {
   pawIconSaude: {
     width: 60,
     height: 60,
-    marginLeft: 1,
+    //marginLeft: 1,
+    left: -10,
   },
   titlePetSaude: {
     fontSize: 60,
@@ -688,7 +691,7 @@ fixedHeader: {
     height: undefined, // Permite que a altura seja ajustada pela proporção
     aspectRatio: 1, // Mantém a proporção da imagem
     marginBottom: 10, // Espaçamento inferior
-    marginLeft: 0, // Remove deslocamento lateral
+    marginLeft: -10, // Remove deslocamento lateral
     marginTop: 60, // Remove o deslocamento superior
     alignSelf: 'flex-start', // Alinha ao topo e à esquerda do container
   },
@@ -699,18 +702,18 @@ fixedHeader: {
     fontFamily: themas.fonts.fontLetras2, // Fonte personalizada
     color: themas.colors.black, // Cor do texto
     textAlign: 'left', // Alinha o texto à esquerda
-    marginTop: 60, // Remove o deslocamento superior
+    marginTop: 65, // Remove o deslocamento superior
     marginLeft: 10, // Espaçamento lateral esquerdo para ajustar a posição
   },
   pawIconRemedio: {
     width: 60,
     height: 60,
-    marginLeft: 1,
-    marginTop: 60,
+    top: 30,
+    marginLeft: 10,
   },
   headerContainerRemedio: {
     position: 'absolute',
-    top: -40,                // Fixa no topo da tela
+    top: -10,                // Fixa no topo da tela
     left: 5,               // Alinha à esquerda da tela
     right: 0,              // Alinha à direita da tela para ocupar a largura completa
     flexDirection: 'row',
@@ -787,6 +790,7 @@ fixedHeader: {
     marginBottom: 120,
     marginLeft: 10,
     marginRight: 10,
+    top: 100,
   },
   modalOverlayRemedio: {
     flex: 1,
@@ -841,7 +845,7 @@ fixedHeader: {
     textAlign: 'center',
     fontSize: 16,
     color: '#aaa', // Cor cinza clara
-    marginTop: 20, // Espaço superior
+    marginTop: 300, // Espaço superior
     fontStyle: 'italic', // Faz o texto parecer uma mensagem de placeholder
   },
   buttonsContainer: {
@@ -894,6 +898,139 @@ fixedHeader: {
     fontWeight: 'bold',
     color: '#FFF',
   },
+
+ // Tela de consultas
+ todayButton: {
+  borderWidth: 2,
+  borderColor: '#FF914D',
+},
+todayText: {
+  color: '#FF914D',
+  fontWeight: 'bold',
+},
+logoPetConsultas: {
+  width: '40%',
+  height: 450,
+  aspectRatio: 1, // Mantém a proporção da imagem
+  marginBottom: 10,
+  left: -10,
+  marginTop: 10,
+},
+pawIconConsultas: {
+  width: 60,
+  height: 60,
+  marginLeft: -35,
+},
+titlePetConsultas: {
+  fontSize: 40,
+  marginBottom: 30,
+  fontWeight: 'bold', // Se precisar, pode adicionar estilo aqui
+  fontFamily: themas.fonts.fontLetras2,
+  color: themas.colors.black,
+  textAlign: 'center', // Centraliza o texto dentro do círculo
+  marginTop: 30,
+  left: -30,
+  marginHorizontal: 10,
+},
+calendarContainer: {
+  backgroundColor: '#FCD2AF',
+  borderRadius: 10,
+  padding: 20,
+  marginBottom: 20,
+},
+monthText: {
+  fontSize: 20,
+  fontWeight: 'bold',
+  color: '#333',
+  textAlign: 'center',
+  marginBottom: 10,
+},
+weekHeader: {
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+},
+weekDayText: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  color: '#555',
+},
+daysContainer: {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  justifyContent: 'space-around',
+},
+dayButton: {
+  width: 40,
+  height: 40,
+  justifyContent: 'center',
+  alignItems: 'center',
+  margin: 5,
+  borderRadius: 20,
+  backgroundColor: '#FFF',
+},
+selectedDayButton: {
+  backgroundColor: '#FF914D',
+},
+dayText: {
+  fontSize: 16,
+  color: '#333',
+},
+selectedDayText: {
+  color: '#FFF',
+  fontWeight: 'bold',
+},
+notificationsContainer: {
+  alignItems: 'center',
+  marginTop: 20,
+},
+notificationsText: {
+  fontSize: 16,
+  color: '#FF914D',
+  marginBottom: 10,
+},
+selectedDaysText: {
+  fontSize: 16,
+  color: '#333',
+},
+modalContainer: {
+flex: 1,
+justifyContent: 'center',
+alignItems: 'center',
+backgroundColor: 'rgba(0, 0, 0, 0.5)',
+},
+modalContentConsultas: {
+backgroundColor: 'white',
+padding: 20,
+borderRadius: 10,
+width: '80%',
+},
+modalTitleConsultas: {
+fontSize: 18,
+fontWeight: 'bold',
+marginBottom: 10,
+},
+inputConsultas: {
+borderWidth: 1,
+borderColor: '#ccc',
+padding: 10,
+borderRadius: 5,
+marginVertical: 10,
+},
+modalButtons: {
+flexDirection: 'row',
+justifyContent: 'space-between',
+marginTop: 10,
+},
+confirmButton: {
+backgroundColor: '#007bff',
+padding: 10,
+borderRadius: 5,
+marginTop: 20,
+},
+confirmButtonText: {
+color: 'white',
+textAlign: 'center',
+},
 
   // --------------------------------------------------------------------------------- IMPORTANTE
   separatorTelaFora: {

@@ -54,10 +54,10 @@ export default function TelaVacinacao({ pet }: TelaVacinaProps) {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
-      if (!pet) {
-        Alert.alert("Erro", "Nenhum pet selecionado. Redirecionando...");
-        navigator.navigate('TelaPet');
-      }
+      // if (!pet) {
+      //   Alert.alert("Erro", "Nenhum pet selecionado. Redirecionando...");
+      //   navigator.navigate('TelaPet');
+      // }
     });
 
     return unsubscribe;
