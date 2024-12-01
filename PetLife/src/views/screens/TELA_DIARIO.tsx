@@ -25,6 +25,7 @@ type Note = { id: string; title: string; content: string };
 
 type TelaDiarioProps = {
   pet?: Pet; // `pet` pode ser opcional
+  note?: Note;
 };
 
 export default function TelaDiario({ pet }: TelaDiarioProps) {

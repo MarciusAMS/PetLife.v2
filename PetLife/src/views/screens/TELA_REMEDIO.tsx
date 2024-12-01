@@ -122,13 +122,13 @@ export default function TelaRemedio({ pet }: TelaRemedioProp) {
                 where('userUID', '==', user.uid), // Filtra registros pelo usuário logado
                 where('petId', '==', pet.petId)  // Filtra registros pelo pet selecionado
             );
-            Alert.alert('ID pet:', pet.petId)
-            Alert.alert('ID pet:', user.uid)
+            // Alert.alert('ID pet:', pet.petId)
+            // Alert.alert('ID pet:', user.uid)
             const querySnapshot = await getDocs(q);
 
-            if (querySnapshot.empty) {
-                Alert.alert("Nenhum registro", "Você não tem registros de remédios para este pet.");
-            }
+            // if (querySnapshot.empty) {
+            //     Alert.alert("Nenhum registro", "Você não tem registros de remédios para este pet.");
+            // }
 
             const registrosList: Alarme[] = querySnapshot.docs.map((doc) => {
                 const data = doc.data() as Remedio;

@@ -2,26 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { firestore } from '../../../firebaseService';
-import { doc, setDoc, getDoc, deleteDoc } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { doc, setDoc, getDoc, deleteDoc, getFirestore } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type Note = { id: string; title: string; content: string };
 
+// Adicionando o tipo pet à definição do RootStackParamList
 type RootStackParamList = {
     TelaDiario: { pet: { petId: string; name?: string }; newNote?: Note } | undefined;
     AppMenu: undefined;
-    TelaEditarNota: { petId: string; noteId?: string } | undefined;
+    TelaEditarNota: { petId: string; noteId?: string; pet?: Pet } | undefined; // Agora 'pet' está incluído aqui
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TelaEditarNota'>;
+
+// Tipo de Pet
+interface Pet {
+    nome: string;
+    imagemUrl: string;
+    userUID: string;
+    petId: string;
+}
 
 const TelaEditarNota = ({ navigation, route }: Props) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [userUid, setUserUid] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    const petId = route.params?.petId; // Recebe o petId
     const noteId = route.params?.noteId; // Recebe o noteId (se estiver editando)
+    const pet = route.params?.pet; // Aqui é onde pegamos o pet do parâmetro da navegação
 
     useEffect(() => {
         const auth = getAuth();
@@ -38,10 +49,10 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
     }, [navigation]);
 
     useEffect(() => {
-        if (noteId && userUid && petId) {
+        if (noteId && userUid && pet?.petId) {
             const loadNote = async () => {
                 try {
-                    const noteRef = doc(firestore, `pets/${petId}/notes/${noteId}`);
+                    const noteRef = doc(firestore, `pets/${pet.petId}/notes/${noteId}`);
                     const noteSnap = await getDoc(noteRef);
 
                     if (noteSnap.exists()) {
@@ -60,7 +71,7 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
 
             loadNote();
         }
-    }, [noteId, petId, userUid, navigation]);
+    }, [noteId, pet?.petId, userUid, navigation]);
 
     const handleSave = async () => {
         if (!title.trim() || !content.trim()) {
@@ -68,7 +79,7 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             return;
         }
 
-        if (!petId || !userUid) {
+        if (!pet?.petId || !userUid) {
             Alert.alert('Erro', 'Dados do pet ou do usuário ausentes.');
             return;
         }
@@ -80,14 +91,14 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
         };
 
         try {
-            const noteRef = doc(firestore, `pets/${petId}/notes/${newNote.id}`);
+            const noteRef = doc(firestore, `pets/${pet.petId}/notes/${newNote.id}`);
 
             const noteData: Record<string, any> = {
                 id: newNote.id,
                 title: newNote.title,
                 content: newNote.content,
                 userUID: userUid,
-                petId,
+                petId: pet.petId,
             };
 
             if (!noteId) {
@@ -97,7 +108,7 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             await setDoc(noteRef, noteData, { merge: true });
 
             Alert.alert('Sucesso', 'Nota salva com sucesso!');
-            navigation.navigate('TelaDiario', { pet: { petId }, newNote });
+            navigation.navigate('TelaDiario', { pet, newNote });
         } catch (error) {
             console.error('Erro ao salvar a nota:', error);
             Alert.alert('Erro', 'Não foi possível salvar a nota. Tente novamente.');
@@ -110,13 +121,13 @@ const TelaEditarNota = ({ navigation, route }: Props) => {
             return;
         }
 
-        if (!petId) {
+        if (!pet?.petId) {
             Alert.alert('Erro', 'Pet não encontrado.');
             return;
         }
 
         try {
-            const noteRef = doc(firestore, `pets/${petId}/notes/${noteId}`);
+            const noteRef = doc(firestore, `pets/${pet.petId}/notes/${noteId}`);
             await deleteDoc(noteRef);
 
             Alert.alert('Sucesso', 'Nota excluída com sucesso!');
@@ -190,7 +201,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#fff',
-        fontSize: 50,
+        fontSize: 16,
         fontWeight: 'bold',
     },
     deleteButton: {
@@ -200,11 +211,9 @@ const styles = StyleSheet.create({
     },
     deleteButtonText: {
         color: '#fff',
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 'bold',
     },
 });
 
 export default TelaEditarNota;
-
-
